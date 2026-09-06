@@ -1,0 +1,894 @@
+{
+  "version": 1,
+  "mode": "comparison",
+  "current": {
+    "version": 1,
+    "mode": "current",
+    "title": "Текущая картина заявки",
+    "subtitle": "Синтетический пример маршрутов и условий",
+    "actor": "Автор заявки и его представитель",
+    "goal": "Получить понятное решение по своей заявке",
+    "disclaimer": "Авторский регрессионный пример. Это целевое описание, а не работающий сервис и не исследование клиентов.",
+    "scope": {
+      "scenario": "Разбор заявки",
+      "asOf": "2026-09-06",
+      "start": "Подать заявку",
+      "end": "Получить решение или вернуть на подготовку"
+    },
+    "sources": [
+      {
+        "id": "brief",
+        "label": "Авторское требование",
+        "kind": "requirement",
+        "text": "Сервис должен принимать заявки, запрашивать уточнения и передавать решение получателю. Сценарий вымышленный."
+      },
+      {
+        "id": "research",
+        "label": "Синтетический журнал наблюдения",
+        "kind": "research",
+        "text": "Искусственный источник для проверки маркировки, не реальное исследование."
+      }
+    ],
+    "stages": [
+      {
+        "id": "s0",
+        "title": "Этап 1",
+        "goal": {
+          "text": "Получить понятный результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выполнить действие",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Личный кабинет",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "experience": {
+          "text": "Не исследовано",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "frontstage": {
+          "text": "Объяснить следующий шаг",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Подготовить результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Запись о запросе",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Подтверждение",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "barrierIds": [
+          "b-unknown"
+        ]
+      },
+      {
+        "id": "s1",
+        "title": "Этап 2",
+        "goal": {
+          "text": "Получить понятный результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выполнить действие",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Личный кабинет",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "experience": {
+          "text": "Не исследовано",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "frontstage": {
+          "text": "Объяснить следующий шаг",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Подготовить результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Запись о запросе",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Подтверждение",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "barrierIds": [
+          "b-observed"
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Этап 3",
+        "goal": {
+          "text": "Получить понятный результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выполнить действие",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Личный кабинет",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "experience": {
+          "text": "Не исследовано",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "frontstage": {
+          "text": "Объяснить следующий шаг",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Подготовить результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Запись о запросе",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Подтверждение",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      }
+    ],
+    "process": {
+      "lanes": [
+        {
+          "id": "l0",
+          "title": "Автор заявки",
+          "participantId": "person"
+        },
+        {
+          "id": "l1",
+          "title": "Представитель",
+          "participantId": "person"
+        },
+        {
+          "id": "l2",
+          "title": "Сервис"
+        },
+        {
+          "id": "l3",
+          "title": "Исполнитель"
+        },
+        {
+          "id": "l4",
+          "title": "Координатор"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n0",
+          "stageId": "s0",
+          "laneId": "l0",
+          "title": "Действие 1",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n1",
+          "stageId": "s0",
+          "laneId": "l1",
+          "title": "Действие 2",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n2",
+          "stageId": "s0",
+          "laneId": "l2",
+          "title": "Кому передать решение?",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага",
+          "kind": "decision",
+          "barrierIds": [
+            "b-unknown"
+          ]
+        },
+        {
+          "id": "n3",
+          "stageId": "s0",
+          "laneId": "l3",
+          "title": "Действие 4",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n4",
+          "stageId": "s0",
+          "laneId": "l4",
+          "title": "Действие 5",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n5",
+          "stageId": "s1",
+          "laneId": "l0",
+          "title": "Действие 6",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага",
+          "barrierIds": [
+            "b-observed"
+          ]
+        },
+        {
+          "id": "n6",
+          "stageId": "s1",
+          "laneId": "l4",
+          "title": "Действие 7",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n7",
+          "stageId": "s2",
+          "laneId": "l2",
+          "title": "Действие 8",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n4",
+          "to": "n0",
+          "kind": "handoff",
+          "label": "Длинная передача вверх"
+        },
+        {
+          "from": "n0",
+          "to": "n4",
+          "kind": "handoff",
+          "label": "Длинная передача вниз"
+        },
+        {
+          "from": "n2",
+          "to": "n5",
+          "kind": "handoff",
+          "label": "Да: автор / представитель"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "kind": "handoff",
+          "label": "Да: общая по заявке"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "kind": "exception",
+          "label": "Нет > 24 ч"
+        },
+        {
+          "from": "n6",
+          "to": "n7",
+          "kind": "flow",
+          "label": "Не готов: продолжить подготовку"
+        },
+        {
+          "from": "n7",
+          "to": "n1",
+          "kind": "exception",
+          "label": "Ошибка сохранения: повторить"
+        }
+      ]
+    },
+    "barriers": [
+      {
+        "id": "b-unknown",
+        "text": "Полномочия представителя не определены",
+        "status": "unknown",
+        "stageIds": [
+          "s0"
+        ],
+        "consequence": {
+          "text": "Неясно, кому доступен результат",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "improvement": {
+          "text": "Согласовать полномочия",
+          "status": "proposal",
+          "sourceIds": []
+        },
+        "question": {
+          "text": "Кто подтверждает связь?",
+          "status": "unknown",
+          "sourceIds": []
+        }
+      },
+      {
+        "id": "b-observed",
+        "text": "В журнале не указан получатель",
+        "status": "observed",
+        "sourceIds": [
+          "research"
+        ],
+        "stageIds": [
+          "s1"
+        ],
+        "consequence": {
+          "text": "Доставка может потребовать уточнения",
+          "status": "hypothesis",
+          "sourceIds": []
+        },
+        "improvement": {
+          "text": "Показывать получателя до отправки",
+          "status": "proposal",
+          "sourceIds": []
+        }
+      }
+    ],
+    "participants": [
+      {
+        "id": "person",
+        "title": "Один человек",
+        "roles": [
+          "Автор своей заявки",
+          "Представитель другого автора"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "id": "q-role",
+        "text": "На каком основании подтверждается представительство?",
+        "status": "unknown",
+        "stageIds": [
+          "s0"
+        ],
+        "impact": "Может изменить доступ к результату другого человека."
+      }
+    ]
+  },
+  "target": {
+    "version": 1,
+    "mode": "target",
+    "title": "Целевая картина заявки",
+    "subtitle": "Синтетический пример маршрутов и условий",
+    "actor": "Автор заявки и его представитель",
+    "goal": "Получить понятное решение по своей заявке",
+    "disclaimer": "Авторский регрессионный пример. Это целевое описание, а не работающий сервис и не исследование клиентов.",
+    "scope": {
+      "scenario": "Разбор заявки",
+      "asOf": "2026-09-06",
+      "start": "Подать заявку",
+      "end": "Получить решение или вернуть на подготовку"
+    },
+    "sources": [
+      {
+        "id": "brief",
+        "label": "Авторское требование",
+        "kind": "requirement",
+        "text": "Сервис должен принимать заявки, запрашивать уточнения и передавать решение получателю. Сценарий вымышленный."
+      },
+      {
+        "id": "research",
+        "label": "Синтетический журнал наблюдения",
+        "kind": "research",
+        "text": "Искусственный источник для проверки маркировки, не реальное исследование."
+      }
+    ],
+    "stages": [
+      {
+        "id": "s0",
+        "title": "Этап 1",
+        "goal": {
+          "text": "Получить понятный результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выполнить действие",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Личный кабинет",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "experience": {
+          "text": "Не исследовано",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "frontstage": {
+          "text": "Объяснить следующий шаг",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Подготовить результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Запись о запросе",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Подтверждение",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "barrierIds": [
+          "b-unknown"
+        ]
+      },
+      {
+        "id": "s1",
+        "title": "Этап 2",
+        "goal": {
+          "text": "Получить понятный результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выполнить действие",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Личный кабинет",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "experience": {
+          "text": "Не исследовано",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "frontstage": {
+          "text": "Объяснить следующий шаг",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Подготовить результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Запись о запросе",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Подтверждение",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "barrierIds": [
+          "b-observed"
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Этап 3",
+        "goal": {
+          "text": "Получить понятный результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выполнить действие",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Личный кабинет",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "experience": {
+          "text": "Не исследовано",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "frontstage": {
+          "text": "Объяснить следующий шаг",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Подготовить результат",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Запись о запросе",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Подтверждение",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      }
+    ],
+    "process": {
+      "lanes": [
+        {
+          "id": "l0",
+          "title": "Автор заявки",
+          "participantId": "person"
+        },
+        {
+          "id": "l1",
+          "title": "Представитель",
+          "participantId": "person"
+        },
+        {
+          "id": "l2",
+          "title": "Сервис"
+        },
+        {
+          "id": "l3",
+          "title": "Исполнитель"
+        },
+        {
+          "id": "l4",
+          "title": "Координатор"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n0",
+          "stageId": "s0",
+          "laneId": "l0",
+          "title": "Действие 1",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n1",
+          "stageId": "s0",
+          "laneId": "l1",
+          "title": "Действие 2",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n2",
+          "stageId": "s0",
+          "laneId": "l2",
+          "title": "Кому передать решение?",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага",
+          "kind": "decision",
+          "barrierIds": [
+            "b-unknown"
+          ]
+        },
+        {
+          "id": "n3",
+          "stageId": "s0",
+          "laneId": "l3",
+          "title": "Действие 4",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n4",
+          "stageId": "s0",
+          "laneId": "l4",
+          "title": "Действие 5",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n5",
+          "stageId": "s1",
+          "laneId": "l0",
+          "title": "Действие 6",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага",
+          "barrierIds": [
+            "b-observed"
+          ]
+        },
+        {
+          "id": "n6",
+          "stageId": "s1",
+          "laneId": "l4",
+          "title": "Действие 7",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        },
+        {
+          "id": "n7",
+          "stageId": "s2",
+          "laneId": "l2",
+          "title": "Действие 8",
+          "status": "requirement",
+          "sourceIds": [
+            "brief"
+          ],
+          "artifact": "Результат шага"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n4",
+          "to": "n0",
+          "kind": "handoff",
+          "label": "Длинная передача вверх"
+        },
+        {
+          "from": "n0",
+          "to": "n4",
+          "kind": "handoff",
+          "label": "Длинная передача вниз"
+        },
+        {
+          "from": "n2",
+          "to": "n5",
+          "kind": "handoff",
+          "label": "Да: автор / представитель"
+        },
+        {
+          "from": "n2",
+          "to": "n6",
+          "kind": "handoff",
+          "label": "Да: общая по заявке"
+        },
+        {
+          "from": "n2",
+          "to": "n4",
+          "kind": "exception",
+          "label": "Нет > 24 ч"
+        },
+        {
+          "from": "n6",
+          "to": "n7",
+          "kind": "flow",
+          "label": "Не готов: продолжить подготовку"
+        },
+        {
+          "from": "n7",
+          "to": "n1",
+          "kind": "exception",
+          "label": "Ошибка сохранения: повторить"
+        }
+      ]
+    },
+    "barriers": [
+      {
+        "id": "b-unknown",
+        "text": "Полномочия представителя не определены",
+        "status": "unknown",
+        "stageIds": [
+          "s0"
+        ],
+        "consequence": {
+          "text": "Неясно, кому доступен результат",
+          "status": "unknown",
+          "sourceIds": []
+        },
+        "improvement": {
+          "text": "Согласовать полномочия",
+          "status": "proposal",
+          "sourceIds": []
+        },
+        "question": {
+          "text": "Кто подтверждает связь?",
+          "status": "unknown",
+          "sourceIds": []
+        }
+      },
+      {
+        "id": "b-observed",
+        "text": "В журнале не указан получатель",
+        "status": "observed",
+        "sourceIds": [
+          "research"
+        ],
+        "stageIds": [
+          "s1"
+        ],
+        "consequence": {
+          "text": "Доставка может потребовать уточнения",
+          "status": "hypothesis",
+          "sourceIds": []
+        },
+        "improvement": {
+          "text": "Показывать получателя до отправки",
+          "status": "proposal",
+          "sourceIds": []
+        }
+      }
+    ],
+    "participants": [
+      {
+        "id": "person",
+        "title": "Один человек",
+        "roles": [
+          "Автор своей заявки",
+          "Представитель другого автора"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "id": "q-role",
+        "text": "На каком основании подтверждается представительство?",
+        "status": "unknown",
+        "stageIds": [
+          "s0"
+        ],
+        "impact": "Может изменить доступ к результату другого человека."
+      }
+    ]
+  }
+}

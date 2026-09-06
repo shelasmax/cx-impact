@@ -1,0 +1,34 @@
+name: Bug report / Ошибка
+description: Report a reproducible mapping, layout or export problem.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Please use a synthetic or permission-cleared example. Do not include private project data, credentials or raw agent logs. English and Russian are welcome."
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: What did you try, what happened, and what should happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Steps and a small fictional JSON example or safe attachment. Keep full branch conditions when reporting layout issues.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Release, agent, Node version, browser, OS and viewport size where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Checks and screenshots
+      description: Include what was checked and any limits. Remove sensitive information before sharing.

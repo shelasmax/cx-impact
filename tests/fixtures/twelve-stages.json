@@ -1,0 +1,953 @@
+{
+  "version": 1,
+  "mode": "target",
+  "title": "Двенадцать этапов с длинными русскими формулировками",
+  "subtitle": "Синтетический пример маршрутов и условий",
+  "actor": "Автор заявки и его представитель",
+  "goal": "Получить понятное решение по своей заявке",
+  "disclaimer": "Авторский регрессионный пример. Это целевое описание, а не работающий сервис и не исследование клиентов.",
+  "scope": {
+    "scenario": "Разбор заявки",
+    "asOf": "2026-09-06",
+    "start": "Подать заявку",
+    "end": "Получить решение или вернуть на подготовку"
+  },
+  "sources": [
+    {
+      "id": "brief",
+      "label": "Авторское требование",
+      "kind": "requirement",
+      "text": "Сервис должен принимать заявки, запрашивать уточнения и передавать решение получателю. Сценарий вымышленный."
+    },
+    {
+      "id": "research",
+      "label": "Синтетический журнал наблюдения",
+      "kind": "research",
+      "text": "Искусственный источник для проверки маркировки, не реальное исследование."
+    }
+  ],
+  "stages": [
+    {
+      "id": "s0",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s1",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s2",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s3",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s4",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s5",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s6",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s7",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s8",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s9",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s10",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    },
+    {
+      "id": "s11",
+      "title": "Подготовка подробного объяснения принятого решения",
+      "goal": {
+        "text": "Получить понятный результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "action": {
+        "text": "Проверить подробное объяснение принятого решения и передать необходимые уточнения ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "channel": {
+        "text": "Личный кабинет с историей переписки и уведомлением о следующем действии",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "experience": {
+        "text": "Не исследовано",
+        "status": "unknown",
+        "sourceIds": []
+      },
+      "frontstage": {
+        "text": "Объяснить следующий шаг",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "backstage": {
+        "text": "Подготовить результат",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "support": {
+        "text": "Запись о запросе",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      },
+      "evidence": {
+        "text": "Подтверждение",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ]
+      }
+    }
+  ],
+  "process": {
+    "lanes": [
+      {
+        "id": "l0",
+        "title": "Автор заявки"
+      },
+      {
+        "id": "l1",
+        "title": "Представитель"
+      },
+      {
+        "id": "l2",
+        "title": "Сервис"
+      },
+      {
+        "id": "l3",
+        "title": "Исполнитель"
+      },
+      {
+        "id": "l4",
+        "title": "Координатор"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "n0",
+        "stageId": "s0",
+        "laneId": "l0",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n1",
+        "stageId": "s1",
+        "laneId": "l1",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n2",
+        "stageId": "s2",
+        "laneId": "l2",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n3",
+        "stageId": "s3",
+        "laneId": "l3",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n4",
+        "stageId": "s4",
+        "laneId": "l4",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n5",
+        "stageId": "s5",
+        "laneId": "l0",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n6",
+        "stageId": "s6",
+        "laneId": "l1",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n7",
+        "stageId": "s7",
+        "laneId": "l2",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n8",
+        "stageId": "s8",
+        "laneId": "l3",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n9",
+        "stageId": "s9",
+        "laneId": "l4",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n10",
+        "stageId": "s10",
+        "laneId": "l0",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      },
+      {
+        "id": "n11",
+        "stageId": "s11",
+        "laneId": "l1",
+        "title": "Проверить все необходимые уточнения и передать ответственному участнику",
+        "status": "requirement",
+        "sourceIds": [
+          "brief"
+        ],
+        "artifact": "Подробное объяснение принятого решения и перечень необходимых последующих действий"
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n1",
+        "to": "n2",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n2",
+        "to": "n3",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n3",
+        "to": "n4",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n4",
+        "to": "n5",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n5",
+        "to": "n6",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n6",
+        "to": "n7",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n7",
+        "to": "n8",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n8",
+        "to": "n9",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n9",
+        "to": "n10",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      },
+      {
+        "from": "n10",
+        "to": "n11",
+        "kind": "handoff",
+        "label": "При наличии всех необходимых сведений передать результат следующему участнику"
+      }
+    ]
+  }
+}

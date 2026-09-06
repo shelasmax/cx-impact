@@ -1,0 +1,15 @@
+{
+  "rendererVersion": "0.2.0",
+  "templateCustom": false,
+  "files": {
+    "scripts/render-map.mjs": "207ee488bb643f16d7c8d4eefb8e49c3e9b504e7bed4ce4675f13e71a3d03352",
+    "assets/map.html": "016f3f79d50272095baa5801dd35b6837fb01acae0d750b83b5ab6d65aa605d9",
+    "assets/map-core.js": "1f1f45e5e9dc4fe00b3f0d6ef3776d031fb71657507265628e726b5bc26d788c",
+    "assets/map-viewer.js": "2694a82f17fed98f2c39a1e0c2b7d5ebddf30964cfcb5c55a982733ce2837dc1",
+    "rebuild.mjs": "2fc9e7549e990ac111830c3f5cc5592328425b7d2a7bfbc267fe0e300767ceda"
+  },
+  "source": "routing.json",
+  "sourceSha256": "0cb05e7eafe3f407f24172d5bbe8c91cf13c4bb0e3deb7a2d9b3e064371a1265",
+  "htmlSha256": "26a32603561f78c0516cf4f19bd3e9fb8c10f2670929932c499fa2a666f4f781",
+  "rebuild": "node \"routing.source/rebuild.mjs\""
+}

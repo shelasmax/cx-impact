@@ -1,0 +1,23 @@
+name: Improvement / Улучшение
+description: Explain a user need and a concrete improvement.
+title: "[Idea] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What are you trying to understand or do?
+      description: Describe the user task and the part of the map that makes it difficult.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested improvement
+      description: A small example is useful. Synthetic or permission-cleared material only.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or current workaround

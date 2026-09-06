@@ -1,0 +1,459 @@
+<!doctype html>
+<!--
+MIT License
+
+Copyright (c) 2026 CX Impact contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CX Impact · Карта опыта</title>
+<style>
+:root{--paper:#f5f4ef;--ink:#203a34;--muted:#6c7871;--line:#dce1d9;--teal:#24695a;--mint:#e6efe7;--amber:#9b601d;--red:#a04c3d}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Avenir Next","Trebuchet MS",sans-serif}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #ce9944;outline-offset:4px}button:disabled{cursor:default;opacity:.4}.shell{max-width:1920px;padding:0 34px;margin:auto}.masthead{height:76px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);gap:16px}.brand{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:750;letter-spacing:.07em}.mark{width:30px;height:30px;border:1px solid var(--teal);border-radius:50%;position:relative}.mark:before,.mark:after{content:"";position:absolute;border:1px solid var(--teal);border-radius:50%;width:15px;height:15px;top:6px;left:3px}.mark:after{left:10px}.edition{font-size:12px;color:var(--muted);letter-spacing:.06em}.header{display:flex;justify-content:space-between;align-items:flex-start;padding:28px 0 24px;gap:36px}.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--teal);font-weight:700;text-transform:uppercase;margin:0 0 9px}h1{font-size:clamp(26px,2.55vw,43px);line-height:1.12;font-weight:600;letter-spacing:-.035em;margin:0}.subtitle{margin:10px 0 0;font-size:14px;color:var(--muted);max-width:740px;line-height:1.5}.actor{border-left:1px solid #bfcfc3;padding-left:20px;max-width:340px;min-width:230px;font-size:13px;line-height:1.5}.actor small{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 5px}.actor p{margin:0}.actor strong{font-weight:600}.actor .goal{margin-top:7px;color:var(--muted)}.controls{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;flex-wrap:wrap}.tabs{display:flex;gap:5px;background:#e9ece5;padding:5px;border-radius:10px}.tab{border:0;padding:10px 17px;background:transparent;border-radius:7px;font-size:13px;white-space:nowrap}.tab[aria-selected=true]{background:var(--ink);color:white;box-shadow:0 2px 4px #203a3414}.tab span{opacity:.6;font-size:10px;margin-right:9px}.tools{display:flex;gap:7px;align-items:center}.tool{border:1px solid #d1d9d0;border-radius:7px;background:#fbfcf8;padding:10px 12px;min-height:40px;font-size:12px}.tool:hover{background:#e6efe7}.tool.icon{min-width:34px;padding:8px}.scale{width:45px;text-align:center;font-size:11px;color:var(--muted)}.board{border:1px solid #d3dbd0;background:#fdfefa;border-radius:12px;box-shadow:0 6px 24px #203a3407;overflow:hidden}.boardhead{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e4e9df;gap:20px;font-size:12px}.boardhead strong{font-weight:600}.boardhead small{font-size:11px;color:var(--muted)}.viewport{overflow:auto;padding:14px 16px 6px;max-height:75vh;scrollbar-color:#afc2b5 #f5f6f0}.viewport svg{display:block;max-width:none;height:auto}.boardfoot{display:flex;justify-content:space-between;gap:20px;padding:12px 20px;border-top:1px solid #e4e9df;color:var(--muted);font-size:11px}.legend{display:flex;gap:14px;flex-wrap:wrap}.legend span{display:inline-flex;gap:5px;align-items:center}.dot{height:6px;width:6px;border-radius:50%;background:var(--teal)}.dot.hypothesis{background:#b47a28}.dot.proposal{background:#506caf}.dot.unknown{background:#98a19b}.footer{padding:15px 2px 20px;display:flex;justify-content:space-between;gap:24px;font-size:11px;line-height:1.5;color:var(--muted)}.footer p{margin:0;max-width:1080px}.footer .signature{white-space:nowrap;font-size:10px;letter-spacing:.07em}.drawer{position:fixed;right:18px;top:18px;bottom:18px;width:370px;max-width:calc(100vw - 36px);background:#fffef9;border:1px solid #ccd7c9;border-radius:14px;box-shadow:0 16px 80px #183b3429;z-index:20;padding:25px;overflow:auto}.drawer[hidden]{display:none}.close{float:right;background:#eef1e8;border:0;border-radius:50%;width:30px;height:30px}.drawer .eyebrow{padding-top:8px}.drawer h2{font-size:24px;line-height:1.2;font-weight:600;margin:25px 0 16px;letter-spacing:-.02em}.drawer p{font-size:14px;line-height:1.6}.drawer .badge{display:inline-block;padding:5px 9px;border-radius:5px;background:#f1ead7;color:#765c2a;font-size:11px}.detailsection{margin:25px 0 0;border-top:1px solid #e0e5da;padding-top:14px}.detailsection h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.detailsection p{font-size:12px}.status{min-height:18px;font-size:12px;color:var(--muted);margin:8px 0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:820px){.shell{padding:0 15px}.masthead{height:60px}.edition{display:none}.header{display:block;padding:22px 0 18px}.actor{margin-top:18px;max-width:none;min-width:0}.tabs{max-width:100%;overflow:auto}.tab{padding:10px}.tab span{display:none}.controls{gap:12px}.boardhead{display:block}.boardhead small{display:block;margin-top:6px}.boardfoot,.footer{display:block}.footer .signature{margin-top:8px}.viewport{padding:8px;max-height:70vh}.legend{gap:10px}}
+@media print{.masthead,.controls,.actor,.boardhead small,.drawer,.status{display:none!important}.shell{max-width:none;padding:0}.viewport{overflow:visible;max-height:none;padding:0}.viewport svg{width:100%!important;min-width:0}.board{box-shadow:none;border:0}.header{padding:10px 0}.footer{font-size:9px}body{background:white}}
+
+.scope{font-size:12px}.viewport:focus-visible{outline:3px solid #ce9944;outline-offset:-3px}.tools{flex-wrap:wrap}.legend-item{display:inline-flex;align-items:center;gap:6px}.legend-item svg{width:24px;height:14px}.source-kind{color:#6c7871;font-size:11px!important}.claim-block{border-top:1px solid #e0e5da;padding-top:12px;margin-top:18px}.claim-block h3{font-size:14px;margin:0 0 6px}.claim-block .badge{margin-bottom:5px}#geometry-note{padding:14px 20px;background:#f8edda;font-size:13px;line-height:1.5}#export-links{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;line-height:1.6;margin:8px 0}#export-links a{color:#24695a}#comparison-switch{display:flex;gap:8px;margin:0 0 14px}#comparison-switch[hidden]{display:none}.comparison-choice{border:1px solid #bacbbb;background:#edf3e9;border-radius:6px;padding:8px 12px}.comparison-choice[aria-pressed=true]{background:#203a34;color:white}.empty-slot{pointer-events:none}.drawer p{white-space:pre-line;overflow-wrap:anywhere}.tool,.tab{min-height:40px}.board{min-width:0}.header>div{min-width:0}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="masthead"><div class="brand"><span class="mark" aria-hidden="true"></span>CX IMPACT</div><div class="edition">АТЛАС ПОЛЬЗОВАТЕЛЬСКОГО ОПЫТА · 01</div></header>
+<section class="header"><div><p class="eyebrow" id="map-mode"></p><div id="comparison-switch" hidden></div><h1 id="title"></h1><p class="subtitle" id="subtitle"></p><p class="subtitle scope" id="scope"></p></div><div class="actor"><small>Для кого строим карту</small><p><strong id="actor"></strong></p><p class="goal" id="goal"></p></div></section>
+<nav class="controls" aria-label="Управление картой"><div class="tabs" role="tablist" aria-label="Вид карты"><button class="tab" id="tab-cjm" role="tab" data-view="cjm"><span>01</span>CJM</button><button class="tab" id="tab-blueprint" role="tab" data-view="blueprint"><span>02</span>Service blueprint</button><button class="tab" id="tab-process" role="tab" data-view="process"><span>03</span>Процесс и опыт</button></div><div class="tools"><button class="tool icon" id="minus" aria-label="Уменьшить">−</button><span class="scale" id="scale">100%</span><button class="tool icon" id="plus" aria-label="Увеличить">+</button><button class="tool" id="natural">100%</button><button class="tool" id="fit">Вписать</button><button class="tool" id="questions">Основания и вопросы</button><button class="tool" id="export">↓ SVG</button><button class="tool" id="source">↓ Исходник</button></div></nav>
+<main class="board" id="map-panel" role="tabpanel" aria-labelledby="tab-cjm"><div class="boardhead"><strong id="view-title"></strong><small>Нажмите на карточку, чтобы увидеть детали и источник</small></div><div id="geometry-note" role="status" hidden></div><div class="viewport" id="viewport" tabindex="0" role="region" aria-label="Полотно карты. Прокрутка стрелками; 100 процентов для чтения, Вписать для обзора"></div><div class="boardfoot"><div class="legend" id="legend"></div><span id="stage-count"></span></div></main>
+<div class="status" role="status" aria-live="polite" id="status"></div><div id="export-links"></div>
+<footer class="footer"><p id="disclaimer"></p><p class="signature">CX IMPACT / VISUAL DRAFT</p></footer>
+</div>
+<aside class="drawer" id="drawer" role="dialog" aria-label="Детали карты" hidden><button class="close" id="close" aria-label="Закрыть детали">×</button><p class="eyebrow" id="detail-stage"></p><h2 id="detail-title"></h2><span class="badge" id="detail-status"></span><p id="detail-text"></p><div id="detail-related"></div><div class="detailsection"><h3>Основание</h3><div id="detail-sources"></div></div></aside>
+<script id="map-data" type="application/json">{"version":1,"mode":"target","title":"Заявка и решение","subtitle":"Синтетический пример маршрутов и условий","actor":"Автор заявки и его представитель","goal":"Получить понятное решение по своей заявке","disclaimer":"Авторский регрессионный пример. Это целевое описание, а не работающий сервис и не исследование клиентов.","scope":{"scenario":"Разбор заявки","asOf":"2026-09-06","start":"Подать заявку","end":"Получить решение или вернуть на подготовку"},"sources":[{"id":"brief","label":"Авторское требование","kind":"requirement","text":"Сервис должен принимать заявки, запрашивать уточнения и передавать решение получателю. Сценарий вымышленный."},{"id":"research","label":"Синтетический журнал наблюдения","kind":"research","text":"Искусственный источник для проверки маркировки, не реальное исследование."}],"stages":[{"id":"s0","title":"Этап 1","goal":{"text":"Получить понятный результат","status":"requirement","sourceIds":["brief"]},"action":{"text":"Выполнить действие","status":"requirement","sourceIds":["brief"]},"channel":{"text":"Личный кабинет","status":"requirement","sourceIds":["brief"]},"experience":{"text":"Не исследовано","status":"unknown","sourceIds":[]},"frontstage":{"text":"Объяснить следующий шаг","status":"requirement","sourceIds":["brief"]},"backstage":{"text":"Подготовить результат","status":"requirement","sourceIds":["brief"]},"support":{"text":"Запись о запросе","status":"requirement","sourceIds":["brief"]},"evidence":{"text":"Подтверждение","status":"requirement","sourceIds":["brief"]},"barrierIds":["b-unknown"]},{"id":"s1","title":"Этап 2","goal":{"text":"Получить понятный результат","status":"requirement","sourceIds":["brief"]},"action":{"text":"Выполнить действие","status":"requirement","sourceIds":["brief"]},"channel":{"text":"Личный кабинет","status":"requirement","sourceIds":["brief"]},"experience":{"text":"Не исследовано","status":"unknown","sourceIds":[]},"frontstage":{"text":"Объяснить следующий шаг","status":"requirement","sourceIds":["brief"]},"backstage":{"text":"Подготовить результат","status":"requirement","sourceIds":["brief"]},"support":{"text":"Запись о запросе","status":"requirement","sourceIds":["brief"]},"evidence":{"text":"Подтверждение","status":"requirement","sourceIds":["brief"]},"barrierIds":["b-observed"]},{"id":"s2","title":"Этап 3","goal":{"text":"Получить понятный результат","status":"requirement","sourceIds":["brief"]},"action":{"text":"Выполнить действие","status":"requirement","sourceIds":["brief"]},"channel":{"text":"Личный кабинет","status":"requirement","sourceIds":["brief"]},"experience":{"text":"Не исследовано","status":"unknown","sourceIds":[]},"frontstage":{"text":"Объяснить следующий шаг","status":"requirement","sourceIds":["brief"]},"backstage":{"text":"Подготовить результат","status":"requirement","sourceIds":["brief"]},"support":{"text":"Запись о запросе","status":"requirement","sourceIds":["brief"]},"evidence":{"text":"Подтверждение","status":"requirement","sourceIds":["brief"]}}],"process":{"lanes":[{"id":"l0","title":"Автор заявки","participantId":"person"},{"id":"l1","title":"Представитель","participantId":"person"},{"id":"l2","title":"Сервис"},{"id":"l3","title":"Исполнитель"},{"id":"l4","title":"Координатор"}],"nodes":[{"id":"n0","stageId":"s0","laneId":"l0","title":"Действие 1","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага"},{"id":"n1","stageId":"s0","laneId":"l1","title":"Действие 2","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага"},{"id":"n2","stageId":"s0","laneId":"l2","title":"Кому передать решение?","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага","kind":"decision","barrierIds":["b-unknown"]},{"id":"n3","stageId":"s0","laneId":"l3","title":"Действие 4","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага"},{"id":"n4","stageId":"s0","laneId":"l4","title":"Действие 5","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага"},{"id":"n5","stageId":"s1","laneId":"l0","title":"Действие 6","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага","barrierIds":["b-observed"]},{"id":"n6","stageId":"s1","laneId":"l4","title":"Действие 7","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага"},{"id":"n7","stageId":"s2","laneId":"l2","title":"Действие 8","status":"requirement","sourceIds":["brief"],"artifact":"Результат шага"}],"edges":[{"from":"n4","to":"n0","kind":"handoff","label":"Длинная передача вверх"},{"from":"n0","to":"n4","kind":"handoff","label":"Длинная передача вниз"},{"from":"n2","to":"n5","kind":"handoff","label":"Да: автор / представитель"},{"from":"n2","to":"n6","kind":"handoff","label":"Да: общая по заявке"},{"from":"n2","to":"n4","kind":"exception","label":"Нет > 24 ч"},{"from":"n6","to":"n7","kind":"flow","label":"Не готов: продолжить подготовку"},{"from":"n7","to":"n1","kind":"exception","label":"Ошибка сохранения: повторить"}]},"barriers":[{"id":"b-unknown","text":"Полномочия представителя не определены","status":"unknown","stageIds":["s0"],"consequence":{"text":"Неясно, кому доступен результат","status":"unknown","sourceIds":[]},"improvement":{"text":"Согласовать полномочия","status":"proposal","sourceIds":[]},"question":{"text":"Кто подтверждает связь?","status":"unknown","sourceIds":[]}},{"id":"b-observed","text":"В журнале не указан получатель","status":"observed","sourceIds":["research"],"stageIds":["s1"],"consequence":{"text":"Доставка может потребовать уточнения","status":"hypothesis","sourceIds":[]},"improvement":{"text":"Показывать получателя до отправки","status":"proposal","sourceIds":[]}}],"participants":[{"id":"person","title":"Один человек","roles":["Автор своей заявки","Представитель другого автора"]}],"questions":[{"id":"q-role","text":"На каком основании подтверждается представительство?","status":"unknown","stageIds":["s0"],"impact":"Может изменить доступ к результату другого человека."}]}</script>
+<script>/* Shared deterministic geometry. No DOM, network or external packages. */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.CXMap = factory();
+})(globalThis, function () {
+  'use strict';
+  const VERSION = '0.2.0';
+  const statusLabels = {
+    observed: 'Наблюдение', declared: 'Заявлено в источнике', requirement: 'Требование / намерение',
+    user_fact: 'Факт из задания', code: 'Наблюдение в коде', hypothesis: 'Гипотеза',
+    unknown: 'Не установлено', proposal: 'Предложение'
+  };
+  const modeLabels = { current:'Текущая картина · AS-IS', target:'Целевая картина · TO-BE', comparison:'Сравнение AS-IS / TO-BE', unspecified:'Режим не указан' };
+  const edgeStyles = {
+    flow: {label:'Последовательность / обычная ветвь', color:'#527368', dash:'', marker:'flow'},
+    handoff: {label:'Передача между участниками', color:'#476e83', dash:'8 4', marker:'handoff'},
+    exception: {label:'Исключение / восстановление', color:'#a36249', dash:'2 4', marker:'exception'}
+  };
+  function labelFor(claim, map) {
+    const status = claim?.status || 'unknown';
+    if (status === 'declared' && map.mode === 'target') return 'Требование / намерение';
+    return statusLabels[status] || statusLabels.unknown;
+  }
+  function scenarios(data) { return data.mode === 'comparison' ? [data.current, data.target] : [data]; }
+  function barriersFor(map, item) {
+    const refs = item?.barrierIds || [];
+    const result = refs.map(id => (map.barriers || []).find(b => b.id === id)).filter(Boolean);
+    if (item?.barrier) result.push(typeof item.barrier === 'string' ? {text:item.barrier,status:'unknown',detail:'Старая строковая аннотация. Тип основания и источник не заданы.'} : item.barrier);
+    return result;
+  }
+  function cell(map, stage, key) {
+    if (key === 'barrier') return barriersFor(map, stage)[0] || {text:'Не установлено',status:'unknown'};
+    if (key === 'opportunity') return stage.opportunity || barriersFor(map, stage)[0]?.improvement || {text:'Не установлено',status:'unknown'};
+    return stage[key] || {text:'Не установлено',status:'unknown'};
+  }
+  function measure(text, size=16) {
+    return Array.from(String(text)).reduce((sum,c) => sum + size * (/\s/.test(c) ? .35 : /[ЖШЩЮМЫW@%]/.test(c) ? 1 : /[ilI1.,:;!|’']/ .test(c) ? .34 : .67), 0);
+  }
+  function wrap(text, width, size=16) {
+    const lines=[]; let line='';
+    for (const word of String(text).split(/\s+/)) {
+      if (line && measure(line+' '+word,size)>width) {lines.push(line);line='';}
+      if (measure(word,size)>width) {
+        for (const c of word) {if(measure(line+c,size)>width){lines.push(line);line='';}line+=c;}
+      } else line += (line?' ':'')+word;
+    }
+    if(line) lines.push(line);
+    return lines.length?lines:[''];
+  }
+  function overlap(a,b,pad=0) { return a.x < b.x+b.w+pad && a.x+a.w+pad > b.x && a.y < b.y+b.h+pad && a.y+a.h+pad > b.y; }
+  function hitSegment(a,b,r,pad=0) {
+    const x=r.x-pad,y=r.y-pad,w=r.w+2*pad,h=r.h+2*pad;
+    if(a.x===b.x) return a.x>x+.01&&a.x<x+w-.01&&Math.max(Math.min(a.y,b.y),y)<Math.min(Math.max(a.y,b.y),y+h)-.01;
+    if(a.y===b.y) return a.y>y+.01&&a.y<y+h-.01&&Math.max(Math.min(a.x,b.x),x)<Math.min(Math.max(a.x,b.x),x+w)-.01;
+    throw new Error('Expected an orthogonal segment');
+  }
+  function segments(points) { return points.slice(1).map((p,i)=>[points[i],p]); }
+  function simplify(points) {
+    const out=[];
+    for(const p of points){const a=out.at(-2),b=out.at(-1);if(b&&p.x===b.x&&p.y===b.y)continue;if(a&&((a.x===b.x&&b.x===p.x)||(a.y===b.y&&b.y===p.y)))out.pop();out.push(p);}
+    return out;
+  }
+  function pathD(points) {return points.map((p,i)=>i===0?`M${p.x} ${p.y}`:p.x===points[i-1].x?`V${p.y}`:`H${p.x}`).join(' ');}
+  class Heap {
+    constructor(){this.a=[];}
+    push(v){const a=this.a;let i=a.length;a.push(v);while(i){const p=(i-1)>>1;if(a[p].cost<=v.cost)break;a[i]=a[p];i=p;}a[i]=v;}
+    pop(){const a=this.a,first=a[0],last=a.pop();if(a.length){let i=0;while(i*2+1<a.length){let c=i*2+1;if(c+1<a.length&&a[c+1].cost<a[c].cost)c++;if(a[c].cost>=last.cost)break;a[i]=a[c];i=c;}a[i]=last;}return first;}
+  }
+  function ports(rect, rank, count) {
+    const f=(rank+1)/(count+1),x=rect.x+22+(rect.w-44)*f,y=rect.y+20+(rect.h-40)*f,m=14;
+    return [
+      {p:{x,y:rect.y},q:{x,y:rect.y-m},dir:2}, {p:{x,y:rect.y+rect.h},q:{x,y:rect.y+rect.h+m},dir:2},
+      {p:{x:rect.x,y},q:{x:rect.x-m,y},dir:1}, {p:{x:rect.x+rect.w,y},q:{x:rect.x+rect.w+m,y},dir:1}
+    ];
+  }
+  function sharedLength(a,b,c,d) {
+    if(a.y===b.y&&c.y===d.y&&Math.abs(a.y-c.y)<.1)return Math.max(0,Math.min(Math.max(a.x,b.x),Math.max(c.x,d.x))-Math.max(Math.min(a.x,b.x),Math.min(c.x,d.x)));
+    if(a.x===b.x&&c.x===d.x&&Math.abs(a.x-c.x)<.1)return Math.max(0,Math.min(Math.max(a.y,b.y),Math.max(c.y,d.y))-Math.max(Math.min(a.y,b.y),Math.min(c.y,d.y)));
+    return 0;
+  }
+  function route(source,target,rects,labels,previous,rankA,countA,rankB,countB) {
+    const starts=ports(source,rankA,countA),ends=ports(target,rankB,countB);
+    const obstacles=[...rects.map(r=>({...r,x:r.x-8,y:r.y-8,w:r.w+16,h:r.h+16})),...labels.map(r=>({...r,x:r.x-6,y:r.y-6,w:r.w+12,h:r.h+12}))];
+    const xs=new Set(),ys=new Set();
+    for(const r of obstacles){xs.add(r.x-4);xs.add(r.x+r.w+4);ys.add(r.y-4);ys.add(r.y+r.h+4);}
+    for(const t of [...starts,...ends]){xs.add(t.q.x);ys.add(t.q.y);}
+    xs.add(Math.min(...rects.map(r=>r.x))-38);xs.add(Math.max(...rects.map(r=>r.x+r.w))+38);
+    ys.add(Math.min(...rects.map(r=>r.y))-38);ys.add(Math.max(...rects.map(r=>r.y+r.h))+38);
+    const X=[...xs].sort((a,b)=>a-b),Y=[...ys].sort((a,b)=>a-b),W=X.length,points=[];
+    for(let j=0;j<Y.length;j++)for(let i=0;i<X.length;i++)points.push({x:X[i],y:Y[j]});
+    const index=p=>Y.indexOf(p.y)*W+X.indexOf(p.x), blocked=new Set();
+    points.forEach((p,i)=>{if(obstacles.some(r=>p.x>r.x+.01&&p.x<r.x+r.w-.01&&p.y>r.y+.01&&p.y<r.y+r.h-.01))blocked.add(i);});
+    const heap=new Heap(),dist=new Map(),back=new Map(),roots=new Map(),goals=new Map();
+    starts.forEach((t,k)=>{if(blocked.has(index(t.q))||rects.some(r=>r.id!==source.id&&hitSegment(t.p,t.q,r,8))||labels.some(r=>hitSegment(t.p,t.q,r,6)))return;const state=index(t.q)*3+t.dir;dist.set(state,14);roots.set(state,k);heap.push({state,cost:14});});
+    ends.forEach((t,k)=>{if(!blocked.has(index(t.q))&&!labels.some(r=>hitSegment(t.q,t.p,r,6)))goals.set(index(t.q),k);});
+    const cache=new Map();
+    while(heap.a.length){const {state,cost}=heap.pop();if(cost!==dist.get(state))continue;const idx=Math.floor(state/3),dir=state%3,a=points[idx];
+      if(goals.has(idx)){let s=state,chain=[a];while(back.has(s)){s=back.get(s);chain.push(points[Math.floor(s/3)]);}chain.reverse();return simplify([starts[roots.get(s)].p,...chain,ends[goals.get(idx)].p]);}
+      const col=idx%W,row=Math.floor(idx/W),neighbors=[];
+      if(col)neighbors.push(idx-1);if(col<W-1)neighbors.push(idx+1);if(row)neighbors.push(idx-W);if(row<Y.length-1)neighbors.push(idx+W);
+      for(const next of neighbors){if(blocked.has(next))continue;const b=points[next],key=Math.min(idx,next)+':'+Math.max(idx,next);let edgeCost=cache.get(key);
+        if(edgeCost===undefined){edgeCost=obstacles.some(r=>hitSegment(a,b,r))?Infinity:Math.abs(a.x-b.x)+Math.abs(a.y-b.y)+previous.reduce((sum,[c,d])=>sum+sharedLength(a,b,c,d)*2,0);cache.set(key,edgeCost);}
+        if(!Number.isFinite(edgeCost))continue;const ndir=a.x===b.x?2:1,nstate=next*3+ndir,ncost=cost+edgeCost+(dir!==ndir?22:0);
+        if(ncost<(dist.get(nstate)??Infinity)){dist.set(nstate,ncost);back.set(nstate,state);heap.push({state:nstate,cost:ncost});}
+      }
+    }
+    return null;
+  }
+  function placeLabel(edge,points,rects,labels,otherSegments,minY=120) {
+    if(!edge.label)return null;
+    const lines=wrap(edge.label,184,12),w=Math.max(...lines.map(s=>measure(s,12)))+16,h=lines.length*17+10;
+    const candidates=[];
+    for(const[a,b]of segments(points)){
+      const length=Math.abs(a.x-b.x)+Math.abs(a.y-b.y);if(length<22)continue;
+      for(const f of [.5,.3,.7]){const x=a.x+(b.x-a.x)*f,y=a.y+(b.y-a.y)*f;
+        for(const offset of [0,-(h/2+8),h/2+8,-(h+20),h+20]){
+          const horizontal=a.y===b.y;
+          const r={x:x-w/2+(horizontal?0:offset?Math.sign(offset)*(w/2+12):0),y:y-h/2+(horizontal?offset:0),w,h,lines};
+          if(r.y<minY||r.x<194)continue;
+          const nearest={x,y};
+          if(rects.some(n=>overlap(r,n,7))||labels.some(l=>overlap(r,l,7))||otherSegments.some(([c,d])=>hitSegment(c,d,r,5)))continue;
+          // Keep an adjacent annotation close to its own authored route.
+          candidates.push({...r,anchor:nearest,score:Math.abs(offset)+(horizontal?0:15)+(length<w?25:0)});
+        }
+      }
+    }
+    return candidates.sort((a,b)=>a.score-b.score)[0]||null;
+  }
+  function checkGeometry(layout) {
+    const errors=[],warnings=[...(layout.warnings||[])],rects=layout.nodes||[],edges=layout.edges||[];
+    for(const edge of edges){if(edge.unrouted)errors.push({code:'ROUTE_UNAVAILABLE',edge:edge.id});for(const[a,b]of segments(edge.points))for(const n of rects){if(n.id!==edge.from&&n.id!==edge.to&&hitSegment(a,b,n,1))errors.push({code:'EDGE_NODE_COLLISION',edge:edge.id,node:n.id});}}
+    const labels=edges.filter(e=>e.labelBox);
+    labels.forEach((e,i)=>{for(const n of rects)if(overlap(e.labelBox,n,2))errors.push({code:'LABEL_NODE_COLLISION',edge:e.id,node:n.id});for(const b of labels.slice(i+1))if(overlap(e.labelBox,b.labelBox,2))errors.push({code:'LABEL_LABEL_COLLISION',edge:e.id,other:b.id});});
+    return {status:errors.length?'failed':'checked',errors,warnings};
+  }
+  function layoutProcess(map) {
+    const p=map.process;if(!p)return null;
+    const left=194,colWidth=245,nodeWidth=197,top=Math.max(120,...map.stages.map(s=>wrap(s.title,203,17).length*24+66))+26;
+    const heights=p.lanes.map(lane=>Math.max(106,...p.nodes.filter(n=>n.laneId===lane.id).map(n=>wrap(n.title,nodeWidth-28,16).length*22+(n.artifact?wrap(n.artifact,nodeWidth-28,12).length*17:0)+49)));
+    const ys=[];let cursor=top;for(const h of heights){ys.push(cursor);cursor+=h+100;}
+    const nodes=p.nodes.map(n=>{const row=p.lanes.findIndex(l=>l.id===n.laneId),col=map.stages.findIndex(s=>s.id===n.stageId);return {...n,x:left+col*colWidth+18,y:ys[row]+24,w:nodeWidth,h:heights[row],row,col};});
+    const index=new Map(nodes.map(n=>[n.id,n])),edges=[],labelRects=[],oldSegments=[],warnings=[];
+    const incident=new Map(nodes.map(n=>[n.id,p.edges.map((e,i)=>({e,i})).filter(({e})=>e.from===n.id||e.to===n.id).map(({i})=>i)]));
+    let calloutY=cursor+40;
+    p.edges.forEach((originalEdge,i)=>{
+      const fromNode=index.get(originalEdge.from);
+      const condition=originalEdge.label&&originalEdge.condition&&originalEdge.label!==originalEdge.condition?originalEdge.label+' · '+originalEdge.condition:originalEdge.label||originalEdge.condition;
+      const edge={...originalEdge,label:condition||(fromNode.kind==='decision'?'Условие не задано':undefined)};
+      const id=edge.id||`edge-${i+1}`,a=index.get(edge.from),b=index.get(edge.to),aInc=incident.get(a.id),bInc=incident.get(b.id);
+      const points=route(a,b,nodes,labelRects,oldSegments,aInc.indexOf(i),aInc.length,bInc.indexOf(i),bInc.length);
+      if(!points){warnings.push({code:'ROUTE_UNAVAILABLE',edge:id,message:'Не удалось проложить переход. Добавьте свободное пространство или разделите карту.'});edges.push({...edge,id,points:[],unrouted:true});return;}
+      let labelBox=placeLabel(edge,points,nodes,labelRects,oldSegments,top-24);
+      if(edge.label&&!labelBox){const lines=wrap(id+': '+edge.label,260,12);labelBox={x:left,y:calloutY,w:Math.max(...lines.map(s=>measure(s,12)))+16,h:lines.length*17+10,lines,callout:true};calloutY+=labelBox.h+18;warnings.push({code:'LABEL_CALLOUT',edge:id,message:'Условие показано в нумерованном списке под картой; текст сохранён полностью.'});}
+      if(labelBox)labelRects.push(labelBox);
+      edges.push({...edge,id,points,labelBox});oldSegments.push(...segments(points));
+    });
+    const width=Math.max(left+colWidth*map.stages.length+32,...labelRects.map(r=>r.x+r.w+24),...edges.flatMap(e=>e.points.map(p=>p.x+24)));
+    const height=Math.max(cursor+30,...labelRects.map(r=>r.y+r.h+30),...edges.flatMap(e=>e.points.map(p=>p.y+24)));
+    const result={left,colWidth,top,width,height,nodes,edges,lanes:p.lanes.map((l,i)=>({...l,y:ys[i],h:heights[i]+94})),warnings};result.geometry=checkGeometry(result);return result;
+  }
+  return {VERSION,statusLabels,modeLabels,edgeStyles,labelFor,scenarios,barriersFor,cell,measure,wrap,overlap,hitSegment,segments,pathD,checkGeometry,layoutProcess};
+});
+</script>
+<script>'use strict';
+const originalData=JSON.parse(document.getElementById('map-data').textContent);
+const Core=globalThis.CXMap, $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
+let data=originalData.mode==='comparison'?originalData.current:originalData;
+let view=data.defaultView||'cjm',zoom=1,fitMode=false,focusReturn=null,layout=null;
+const palette={observed:'#276756',declared:'#52685d',requirement:'#24695a',user_fact:'#596c2f',code:'#526c80',hypothesis:'#a06a24',unknown:'#89938a',proposal:'#4c67a0'};
+const viewNames={cjm:'Путь клиента',blueprint:'Как сервис обеспечивает этот путь',process:'Участники, передачи и условия продолжения'};
+const sourceKinds={'user-input':'Задание пользователя',requirement:'Требования',research:'Пользовательское исследование',runtime:'Результат выполнения',code:'Исходный код',other:'Другой источник'};
+const font='"Avenir Next", "Trebuchet MS", sans-serif';
+const LEFT=194,COL=245,GAP=12;
+let TOP=120;
+const wrap=Core.wrap;
+const claimLabel=c=>Core.labelFor(c,data);
+const cell=(stage,key)=>Core.cell(data,stage,key);
+function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(parent)parent.append(n);return n;}
+function rect(parent,x,y,w,h,fill,stroke='none',radius=8){return el('rect',{x,y,width:w,height:h,rx:radius,fill,stroke},parent);}
+function txt(parent,text,x,y,opts={}){
+  const size=opts.size||16,lh=opts.lh||size*1.4,lines=opts.lines||wrap(text,opts.width||180,size);
+  const node=el('text',{x,y,fill:opts.fill||'#263e35','font-size':size,'font-weight':opts.weight||500,'font-family':font,...(opts.class?{class:opts.class}:{})},parent);
+  lines.forEach((line,i)=>{const t=el('tspan',{x,dy:i?lh:0},node);t.textContent=line;});return lines.length*lh;
+}
+function line(parent,x1,y1,x2,y2,color='#dce3d8',dash){return el('line',{x1,y1,x2,y2,stroke:color,'stroke-width':1,...(dash?{'stroke-dasharray':dash}:{})},parent);}
+function paragraph(parent,text,cls){const p=document.createElement('p');p.textContent=text;if(cls)p.className=cls;parent.append(p);return p;}
+function activate(node,handler,label){node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label',label);node.style.cursor='pointer';const call=()=>{focusReturn=node;handler();};node.addEventListener('click',call);node.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();call();}});}
+function sourceBlocks(parent,claim){
+  if(!claim.sourceIds?.length){paragraph(parent,claim.status==='proposal'?'Предложение автора; не согласованное правило.':claim.status==='hypothesis'?'Гипотеза автора; подтверждение не представлено.':'Источник не указан.','source-kind');return;}
+  for(const id of claim.sourceIds){const source=(data.sources||[]).find(s=>s.id===id);paragraph(parent,source.label);paragraph(parent,sourceKinds[source.kind]||'Тип источника не указан','source-kind');paragraph(parent,source.text);}
+}
+function claimBlock(parent,title,claim){
+  const block=document.createElement('section');block.className='claim-block';const h=document.createElement('h3');h.textContent=title;block.append(h);
+  const badge=document.createElement('span');badge.className='badge';badge.textContent=claimLabel(claim);block.append(badge);paragraph(block,claim.text||claim.title);if(claim.detail)paragraph(block,claim.detail);sourceBlocks(block,claim);parent.append(block);
+}
+function showBarrier(parent,b){
+  claimBlock(parent,`Барьер${b.id?' · '+b.id:''}`,b);
+  for(const[key,title]of [['consequence','Последствие'],['improvement','Связанное улучшение'],['question','Открытый вопрос']])if(b[key])claimBlock(parent,title,b[key]);
+}
+function openDrawer(stage,label,claim,related={}){
+  $('detail-stage').textContent=stage?`${String(data.stages.indexOf(stage)+1).padStart(2,'0')} / ${stage.title}`:Core.modeLabels[data.mode||'unspecified'];
+  $('detail-title').textContent=label;$('detail-status').textContent=claimLabel(claim);$('detail-text').textContent=claim.detail||claim.text||claim.title||'';
+  $('detail-related').replaceChildren();$('detail-sources').replaceChildren();sourceBlocks($('detail-sources'),claim);
+  if(related.channel)claimBlock($('detail-related'),'Канал',related.channel);
+  if(related.artifact)paragraph($('detail-related'),'Результат: '+related.artifact);
+  for(const b of related.barriers||[])showBarrier($('detail-related'),b);
+  for(const q of data.questions||[])if(!stage||q.stageIds?.includes(stage.id)){claimBlock($('detail-related'),'Допущение / вопрос',q);if(q.impact)paragraph($('detail-related'),'Влияние на сценарий: '+q.impact);}
+  $('drawer').hidden=false;$('close').focus();
+}
+function closeDrawer(restore=true){$('drawer').hidden=true;if(restore&&focusReturn?.isConnected)focusReturn.focus();}
+$('close').onclick=()=>closeDrawer();document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+function allStatuses(){
+  const set=new Set();const visit=x=>{if(!x||typeof x!=='object')return;if(typeof x.status==='string'&&Core.statusLabels[x.status])set.add(x.status);for(const value of Object.values(x))if(typeof value==='object')visit(value);};visit(data);
+  set.add('unknown');return [...set];
+}
+function legendEntries(){
+  const entries=allStatuses().map(status=>({text:claimLabel({status}),color:palette[status]}));
+  if(view==='process'){
+    for(const kind of Object.keys(Core.edgeStyles)){const style=Core.edgeStyles[kind];entries.push({text:style.label,color:style.color,dash:style.dash,edge:true,kind});}
+    entries.push({text:'Пустая ячейка: шаг не описан',color:palette.unknown});
+  }
+  return entries;
+}
+function renderLegend(){
+  $('legend').replaceChildren();for(const entry of legendEntries()){
+    const span=document.createElement('span');span.className='legend-item';
+    if(entry.edge){const svg=el('svg',{viewBox:'0 0 24 14'});line(svg,1,7,23,7,entry.color,entry.dash);span.append(svg);}
+    else{const dot=document.createElement('i');dot.className='dot';dot.style.background=entry.color;span.append(dot);}
+    span.append(document.createTextNode(entry.text));$('legend').append(span);
+  }
+}
+function scopeText(){return data.scope?`${data.scope.scenario} · ${data.scope.start} → ${data.scope.end} · Срез: ${data.scope.asOf}`:'Граница и дата среза не уточнены';}
+function svgFooterHeight(width){
+  let rows=1,x=8;for(const e of legendEntries()){const w=Core.measure(e.text,11)+40;if(x+w>width-20){rows++;x=8;}x+=w;}
+  return 64+wrap(`${data.title} · ${viewNames[view]} · ${Core.modeLabels[data.mode||'unspecified']}`,width-30,12).length*16.8+wrap(data.disclaimer,width-32,11).length*15.4+wrap(scopeText(),width-32,11).length*15.4+rows*24;
+}
+function createSvg(contentHeight,width=LEFT+COL*data.stages.length+32){
+  const height=contentHeight+svgFooterHeight(width),svg=el('svg',{xmlns:NS,viewBox:`0 0 ${width} ${height}`,width,height,'aria-label':`${data.title}. ${viewNames[view]}. ${Core.modeLabels[data.mode||'unspecified']}`});
+  const title=el('title',{},svg);title.textContent=`${data.title} — ${viewNames[view]} — ${Core.modeLabels[data.mode||'unspecified']}`;
+  const desc=el('desc',{},svg);desc.textContent=scopeText()+'. '+data.disclaimer;
+  rect(svg,0,0,width,height,'#fdfefa','none',0);
+  const style=el('style',{},svg);style.textContent='[role="button"]:focus-visible{outline:none;filter:drop-shadow(0 0 3px #b18d34)}';
+  const defs=el('defs',{},svg);
+  for(const[k,v]of Object.entries(Core.edgeStyles)){
+    const marker=el('marker',{id:k,markerWidth:9,markerHeight:9,refX:8,refY:4.5,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
+    el('path',{d:'M1,1 L8,4.5 L1,8',fill:k==='handoff'?'none':v.color,stroke:v.color,'stroke-width':1.4},marker);
+  }
+  txt(svg,view==='cjm'?'КЛИЕНТСКИЙ ПУТЬ':view==='blueprint'?'СЛОИ СЕРВИСА':'УЧАСТНИКИ',8,31,{size:11,weight:700,width:170,fill:'#78907e'});
+  txt(svg,Core.modeLabels[data.mode||'unspecified'],8,54,{size:10,width:175,fill:'#667e6d'});
+  data.stages.forEach((stage,i)=>{
+    const x=LEFT+i*COL,g=el('g',{'data-card':'stage'},svg);rect(g,x,10,COL-GAP,TOP-30,i===0?'#e4eee5':'#f0f3ec','#dce5d8');
+    txt(g,String(i+1).padStart(2,'0'),x+14,31,{size:11,fill:'#77937b'});txt(g,stage.title,x+14,55,{size:17,weight:600,width:COL-42});
+    activate(g,()=>openDrawer(stage,stage.title,cell(stage,'goal'),{barriers:Core.barriersFor(data,stage)}),stage.title);
+    if(i<data.stages.length-1)el('path',{d:`M${x+COL-GAP+2} 48 h8`,stroke:'#98ac9a','stroke-width':1.2,'marker-end':'url(#flow)'},svg);
+  });
+  return svg;
+}
+function footer(svg,y){
+  const width=svg.viewBox.baseVal.width;line(svg,8,y,width-12,y);
+  y+=24;y+=txt(svg,`${data.title} · ${viewNames[view]} · ${Core.modeLabels[data.mode||'unspecified']}`,8,y,{size:12,width:width-30,fill:'#526b59'});
+  y+=4;y+=txt(svg,scopeText(),8,y,{size:11,width:width-32,fill:'#6e806f'});
+  y+=4;y+=txt(svg,data.disclaimer,8,y,{size:11,width:width-32,fill:'#6e806f'});
+  y+=12;let x=8;
+  for(const e of legendEntries()){
+    const w=Core.measure(e.text,11)+40;if(x+w>width-20){x=8;y+=24;}
+    if(e.edge)el('path',{d:`M${x} ${y-4} h23`,stroke:e.color,'stroke-width':1.5,'stroke-dasharray':e.dash||'none','marker-end':`url(#${e.kind})`},svg);
+    else el('circle',{cx:x+5,cy:y-4,r:3,fill:e.color},svg);
+    txt(svg,e.text,x+(e.edge?30:14),y,{size:11,width:w-14,fill:e.color});x+=w;
+  }
+}
+function renderGrid(){
+  const rows=view==='cjm'?[
+    {key:'goal',label:'Цель клиента',sub:'Ради чего этот шаг',min:95},
+    {key:'action',label:'Действие и канал',sub:'Что делает клиент',min:125},
+    {key:'experience',label:'Переживание',sub:'Основание указано отдельно',min:105},
+    {key:'barrier',label:'Барьер',sub:'Препятствие или неизвестность',min:115,tone:'risk'},
+    {key:'opportunity',label:'Улучшение',sub:'Связанное предложение',min:115,tone:'proposal'}]:[
+    {key:'evidence',label:'Свидетельство',sub:'Что получает клиент',min:95},
+    {key:'action',label:'Клиент',sub:'Действие',min:105},
+    {key:'frontstage',label:'Видимая работа',sub:'Контакт с сервисом',min:110,boundary:'ЛИНИЯ ВЗАИМОДЕЙСТВИЯ'},
+    {key:'backstage',label:'Внутренняя работа',sub:'Скрыто от клиента',min:110,boundary:'ЛИНИЯ ВИДИМОСТИ'},
+    {key:'support',label:'Поддержка',sub:'Системы и ресурсы',min:100,boundary:'ВНУТРЕННЕЕ ВЗАИМОДЕЙСТВИЕ'}];
+  let cursor=TOP;
+  for(const row of rows){
+    if(row.boundary)cursor+=30;row.y=cursor;
+    row.height=Math.max(row.min,...data.stages.map(stage=>{
+      const main=wrap(cell(stage,row.key).text,COL-42,16).length*22.4;
+      const channel=row.key==='action'&&view==='cjm'?wrap(cell(stage,'channel').text,COL-42,12).length*17+29:0;
+      return main+channel+62;
+    }));cursor+=row.height;
+  }
+  const svg=createSvg(cursor+18);
+  for(const row of rows){
+    const y=row.y;
+    if(row.boundary){line(svg,5,y-13,LEFT+COL*data.stages.length-12,y-13,'#a3b7a3','5 5');rect(svg,8,y-23,Core.measure(row.boundary,10)+20,20,'#fdfefa','none',0);txt(svg,row.boundary,12,y-9,{size:10,weight:600,width:400,fill:'#758972'});}
+    txt(svg,row.label,8,y+26,{size:14,weight:600,width:175});txt(svg,row.sub,8,y+48,{size:11,width:170,fill:'#7f8c80'});
+    data.stages.forEach((stage,i)=>{
+      const claim=cell(stage,row.key),x=LEFT+i*COL,status=claim.status||'unknown',g=el('g',{'data-cell':`${stage.id}:${row.key}`,'data-card':'cell'},svg);
+      const fill=row.tone==='risk'?'#f8eee7':row.tone==='proposal'?'#edf1f8':i%2?'#f4f6ef':'#f9faf5';
+      rect(g,x,y+1,COL-GAP,row.height-9,fill,'none',7);
+      txt(g,claim.text,x+14,y+27,{size:16,width:COL-42,fill:row.tone==='risk'?'#7c4e3d':'#2e463a'});
+      if(row.key==='action'&&view==='cjm'){
+        const channel=cell(stage,'channel'),lines=wrap(channel.text,COL-42,12),cy=y+row.height-59-(lines.length-1)*17;
+        txt(g,channel.text,x+14,cy,{size:12,lh:17,width:COL-42});txt(g,claimLabel(channel),x+14,y+row.height-41,{size:10,width:COL-42,fill:palette[channel.status||'unknown']});
+      }
+      const by=y+row.height-22;el('circle',{cx:x+17,cy:by-4,r:2.5,fill:palette[status]},g);txt(g,claimLabel(claim),x+25,by,{size:10,width:COL-44,fill:palette[status]});
+      const barriers=Core.barriersFor(data,stage);
+      if(view==='blueprint'&&barriers.length)txt(g,'!',x+COL-29,y+20,{size:12,fill:'#986339'});
+      activate(g,()=>openDrawer(stage,row.label,claim,{channel:row.key==='action'?cell(stage,'channel'):null,barriers:row.key==='barrier'||view==='blueprint'?barriers:[]}),`${stage.title}. ${row.label}: ${claim.text}. ${claimLabel(claim)}`);
+    });
+  }
+  footer(svg,cursor+10);return svg;
+}
+function renderProcess(){
+  if(!data.process){const svg=createSvg(290);txt(svg,'Участники и переходы не описаны.',LEFT,TOP+45,{size:22,width:700});txt(svg,'Нужно уточнить: кто выполняет шаг, что передаёт и кому.',LEFT,TOP+85,{size:16,width:900});footer(svg,275);return svg;}
+  layout=Core.layoutProcess(data);const svg=createSvg(layout.height+20,layout.width);
+  for(const lane of layout.lanes){
+    rect(svg,0,lane.y,layout.width-8,lane.h,lane===layout.lanes[0]?'#f8faf4':'#f1f4ed','none',6);
+    txt(svg,lane.title,10,lane.y+35,{size:14,weight:600,width:166});
+    if(lane.role)txt(svg,lane.role,10,lane.y+88,{size:11,width:170,fill:'#7e8e79'});
+  }
+  const edges=el('g',{'data-layer':'edges'},svg);
+  for(const edge of layout.edges){
+    if(edge.unrouted)continue;const style=Core.edgeStyles[edge.kind||'flow'];
+    const path=el('path',{d:Core.pathD(edge.points),stroke:style.color,'stroke-width':1.6,fill:'none','stroke-dasharray':style.dash||'none','marker-end':`url(#${style.marker})`,'data-edge':edge.id,'data-from':edge.from,'data-to':edge.to,'data-kind':edge.kind||'flow'},edges);
+    const from=layout.nodes.find(n=>n.id===edge.from),to=layout.nodes.find(n=>n.id===edge.to),description=`${edge.id}: ${from.title} → ${to.title}. ${edge.label||style.label}`;
+    const title=el('title',{},path);title.textContent=description;
+    const show=()=>openDrawer(data.stages.find(s=>s.id===from.stageId),'Переход', {...edge,text:description,status:edge.status||'unknown'});
+    activate(path,show,description);
+    if(edge.labelBox){
+      const b=edge.labelBox,g=el('g',{'data-edge-label':edge.id},edges);rect(g,b.x,b.y,b.w,b.h,'#fffefa','#d7dfd0',4);
+      txt(g,(b.callout?edge.id+': ':'')+edge.label,b.x+8,b.y+19,{size:12,lh:17,lines:b.lines,width:b.w-16,fill:style.color});
+      activate(g,show,description);
+      for(const target of [g,path]){target.addEventListener('mouseenter',()=>path.setAttribute('stroke-width',4));target.addEventListener('mouseleave',()=>path.setAttribute('stroke-width',1.6));target.addEventListener('focus',()=>path.setAttribute('stroke-width',4));target.addEventListener('blur',()=>path.setAttribute('stroke-width',1.6));}
+    }
+  }
+  for(const node of layout.nodes){
+    const stage=data.stages.find(s=>s.id===node.stageId),g=el('g',{'data-node':node.id,'data-card':'node'},svg),status=node.status||'unknown';
+    rect(g,node.x,node.y,node.w,node.h,node.kind==='outcome'?'#dfeddf':node.kind==='decision'?'#f5edda':'#fffefa',node.kind==='decision'?'#c3ad77':'#c4d4c2',8);
+    txt(g,node.title,node.x+14,node.y+27,{size:16,weight:600,width:node.w-28,lh:22});
+    if(node.artifact){const lines=wrap(node.artifact,node.w-28,12);txt(g,node.artifact,node.x+14,node.y+node.h-39-(lines.length-1)*17,{size:12,lh:17,lines,width:node.w-28,fill:'#6b8167'});}
+    txt(g,claimLabel(node),node.x+14,node.y+node.h-16,{size:10,width:node.w-28,fill:palette[status]});
+    const barriers=Core.barriersFor(data,node);
+    if(barriers.length)el('circle',{cx:node.x+node.w-10,cy:node.y+12,r:4,fill:'#a77b42'},g);
+    activate(g,()=>openDrawer(stage,node.title,node,{artifact:node.artifact,barriers}),`${node.title}. ${claimLabel(node)}`);
+  }
+  footer(svg,layout.height+10);return svg;
+}
+function updateHeading(){
+  for(const key of ['title','subtitle','actor','goal','disclaimer'])$(key).textContent=data[key];
+  $('map-mode').textContent=Core.modeLabels[data.mode||'unspecified'];$('scope').textContent=scopeText();
+  $('stage-count').textContent=`${data.stages.length} этапов · 100% для чтения, «Вписать» для обзора`;
+  document.title=`${data.title} · ${Core.modeLabels[data.mode||'unspecified']} · CX Impact`;
+}
+function setScale(){
+  const svg=$('viewport').querySelector('svg');
+  if(fitMode){const css=getComputedStyle($('viewport'));zoom=Math.min(1,($('viewport').clientWidth-parseFloat(css.paddingLeft)-parseFloat(css.paddingRight))/svg.viewBox.baseVal.width);}
+  svg.style.width=`${svg.viewBox.baseVal.width*zoom}px`;$('scale').textContent=`${Math.round(zoom*100)}%`;$('minus').disabled=zoom<=.2;$('plus').disabled=zoom>=2;
+}
+function checkRenderedGeometry(){
+  const svg=$('viewport').querySelector('svg'),errors=[...(layout?.geometry.errors||[])];
+  for(const card of svg.querySelectorAll('[data-card], [data-edge-label]')){
+    const box=card.querySelector('rect').getBBox();
+    for(const text of card.querySelectorAll('text')){const b=text.getBBox();if(b.x<box.x-1||b.y<box.y-1||b.x+b.width>box.x+box.width+1||b.y+b.height>box.y+box.height+1)errors.push({code:'TEXT_OUTSIDE_CARD',card:card.dataset.node||card.dataset.cell||'stage',text:text.textContent});}
+  }
+  const warnings=[...(layout?.geometry.warnings||[])];
+  window.cxMapChecks={structure:{status:'checked',scope:'Validated during HTML generation'},geometry:{status:errors.length?'failed':'checked',errors,warnings},visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},mode:data.mode||'unspecified',view};
+  const note=$('geometry-note');note.hidden=!errors.length&&!warnings.length;note.textContent=[...errors.map(e=>`Проверьте размещение: ${e.code} (${e.card||e.edge||''})`),...(warnings.length?[`Условий, вынесенных в список под картой: ${warnings.length}. Наведите на подпись, чтобы выделить переход; нажмите для подробностей.`]:[])].join(' · ');
+  return window.cxMapChecks;
+}
+function render(){
+  closeDrawer(false);layout=null;updateHeading();$('view-title').textContent=viewNames[view];
+  TOP=Math.max(120,...data.stages.map(s=>wrap(s.title,COL-42,17).length*24+66));
+  document.querySelectorAll('[data-view]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.view===view));b.tabIndex=b.dataset.view===view?0:-1;b.setAttribute('aria-controls','map-panel');});
+  $('map-panel').setAttribute('aria-labelledby',`tab-${view}`);$('viewport').replaceChildren(view==='process'?renderProcess():renderGrid());renderLegend();setScale();$('viewport').scrollTo(0,0);checkRenderedGeometry();
+}
+for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>{view=b.dataset.view;render();};
+document.querySelector('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const keys=['cjm','blueprint','process'],i=keys.indexOf(view);view=keys[e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3];render();$(`tab-${view}`).focus();});
+$('plus').onclick=()=>{fitMode=false;zoom=Math.min(2,zoom+.25);setScale();};$('minus').onclick=()=>{fitMode=false;zoom=Math.max(.2,zoom-.25);setScale();};
+$('natural').onclick=()=>{fitMode=false;zoom=1;setScale();};$('fit').onclick=()=>{fitMode=true;setScale();$('viewport').scrollTo(0,0);};
+new ResizeObserver(()=>{if(fitMode)setScale();}).observe($('viewport'));
+$('questions').onclick=()=>{
+  focusReturn=$('questions');openDrawer(null,'Основания и открытые вопросы',{text:scopeText(),status:'unknown'});
+  for(const b of data.barriers||[])if(b.question)showBarrier($('detail-related'),b);
+  if(data.participants?.length)for(const p of data.participants)paragraph($('detail-related'),`${p.title}: ${p.roles.join(', ')}. Роль не равна отдельному человеку или аккаунту.`);
+  for(const source of data.sources||[])sourceBlocks($('detail-related'),{sourceIds:[source.id]});
+};
+if(originalData.mode==='comparison'){
+  $('comparison-switch').hidden=false;
+  for(const key of ['current','target']){const b=document.createElement('button');b.className='comparison-choice';b.textContent=Core.modeLabels[key];b.dataset.scenario=key;b.setAttribute('aria-pressed',String(key==='current'));b.onclick=()=>{data=originalData[key];document.querySelectorAll('[data-scenario]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();};$('comparison-switch').append(b);}
+}
+const exportURLs=new Map();
+function offerDownload(content,type,name){
+  if(exportURLs.has(type))URL.revokeObjectURL(exportURLs.get(type));const url=URL.createObjectURL(new Blob([content],{type}));exportURLs.set(type,url);
+  let box=document.querySelector(`[data-export-type="${type}"]`);if(!box){box=document.createElement('div');box.dataset.exportType=type;$('export-links').append(box);}box.replaceChildren();
+  const a=document.createElement('a');a.href=url;a.download=name;a.textContent=`Сохранить ${name} повторно`;box.append(a);a.click();
+  if(type==='image/svg+xml'){const open=document.createElement('a');open.href=url;open.target='_blank';open.rel='noopener';open.textContent='Открыть SVG отдельно';box.append(document.createTextNode(' · '),open);}
+  $('status').textContent='Файл сформирован. Сохранение на диск этим просмотрщиком не подтверждено; ссылка доступна для повторного действия.';
+}
+function exportedSVG(){
+  const svg=$('viewport').querySelector('svg').cloneNode(true);svg.removeAttribute('style');
+  for(const path of svg.querySelectorAll('[data-edge]'))path.setAttribute('stroke-width',1.6);
+  for(const n of svg.querySelectorAll('[tabindex]')){n.removeAttribute('tabindex');n.removeAttribute('role');n.removeAttribute('style');}
+  return new XMLSerializer().serializeToString(svg);
+}
+$('export').onclick=()=>offerDownload(exportedSVG(),'image/svg+xml',`cx-impact-${data.mode||'unspecified'}-${view}.svg`);
+$('source').onclick=()=>offerDownload(JSON.stringify(originalData,null,2),'application/json','cx-impact-map.json');
+window.addEventListener('unload',()=>{for(const url of exportURLs.values())URL.revokeObjectURL(url);});
+render();
+</script>
+</body></html>
