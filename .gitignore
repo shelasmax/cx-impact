@@ -19,6 +19,7 @@
 /docs/*
 !/docs/brand/
 !/docs/installation.md
+!/docs/installation.ru.md
 !/docs/verification.md
 !/docs/releases/
 !/examples/

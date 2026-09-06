@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="docs/brand/logo.png" alt="CX Impact" width="620">
+  <img src="docs/brand/hero.png" alt="CX Impact promotional illustration: light and dark service maps" width="1200">
 </p>
+<p align="center"><sub>Promotional illustration. Actual generated maps appear below.</sub></p>
 
 <h1 align="center">Turn a service description into a map you can discuss.</h1>
 
@@ -9,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.3.1"><img alt="Release v0.3.1" src="https://img.shields.io/badge/release-v0.3.1-24695a"></a>
+  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.4.0"><img alt="Release v0.4.0" src="https://img.shields.io/badge/release-v0.4.0-24695a"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-203a34"></a>
   <a href="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml"><img alt="Checks" src="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml/badge.svg"></a>
   <img alt="Experimental preview" src="https://img.shields.io/badge/status-experimental_preview-a06a24">
@@ -17,7 +18,7 @@
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
-  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo-en.html">Download interactive demo</a> ·
+  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo-en.html">Download interactive demo</a> ·
   <a href="docs/installation.md">Installation</a> ·
   <a href="README.ru.md">Русский</a>
 </p>
@@ -28,7 +29,7 @@ CX Impact helps product engineers, designers and service teams connect what a cu
 
 ## What you get
 
-Choose between the original green **Classic** design (default) and the new **Graphite Field Notes** design. Each supports Light, Dark and System modes, plus finite path walkthroughs with explicit branch choices. SVG exports preserve the selected appearance. See the [design specification](docs/brand/README.md#graphite-field-notes--map-viewer).
+Choose between the original green **Classic** design (default) and the new **Graphite Field Notes** design. Each supports Light, Dark and System modes, plus finite path walkthroughs with explicit branch choices. SVG exports preserve the selected appearance and embed the current CX Impact logo for offline use. JSON exports retain the original data. See the [design specification](docs/brand/README.md#graphite-field-notes--map-viewer).
 
 | View | The question it helps answer |
 |---|---|
@@ -60,15 +61,25 @@ Customer, service advisor and mechanic: handoffs, repair approval, and the alter
 
 ![Experience-process map — bicycle repair service, English](examples/bicycle-service-en/process-preview.png)
 
-[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
+[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
 
 ## Quick start
 
-**You need:** a local Codex environment and Node.js 18+ for rendering. The renderer uses only built-in Node APIs. The generated HTML needs only a browser.
+**You need:** a coding agent with file and shell access, and Node.js 18+ for rendering. The renderer uses only built-in Node APIs. Viewing the generated HTML needs only a browser.
 
-1. Download and extract [cx-impact-0.3.1.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/cx-impact-0.3.1.zip).
-2. Copy the extracted `cx-impact` directory into **your project's** `.agents/skills/` directory. Preserve an existing installation before upgrading.
-3. Start a new Codex session in that project and invoke the skill:
+From your project directory, install with the [open Skills CLI](https://github.com/vercel-labs/skills) and choose your agent:
+
+```sh
+npx skills add shelasmax/cx-impact --skill cx-impact
+```
+
+Or install project-local copies for Codex, Claude Code and OpenCode in one command:
+
+```sh
+npx skills add shelasmax/cx-impact --skill cx-impact --agent codex claude-code opencode --copy --yes
+```
+
+Start a fresh agent session. Use `$cx-impact` in Codex, `/cx-impact` in Claude Code, or ask OpenCode to use the `cx-impact` skill. For example, in Codex:
 
 ```text
 $cx-impact Create a target-state CJM, service blueprint and experience-process
@@ -85,11 +96,20 @@ Create a clearly labelled fictional example. Show the customer journey and
 how staff support it. Keep unknown experience claims explicit.
 ```
 
-[Installation, upgrades and troubleshooting →](docs/installation.md)
+Prefer a manual install? Extract [cx-impact-0.4.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/cx-impact-0.4.0.zip) and copy the whole skill directory to your agent's skill location. `npx` needs npm and network access to run the third-party installer; CX Impact does not need its own npm package.
+
+| Agent | Support scope |
+|---|---|
+| Codex | Tested local target; project installation via `.agents/skills/`. |
+| Claude Code | Installation and `/cx-impact` invocation follow the official documentation; no model-driven end-to-end test. |
+| OpenCode | Local skill discovery checked; no model-driven end-to-end test. |
+| DeepSeek Harness | Filesystem skill support documented; harness runtime not tested. |
+
+[Agent-specific installation, DeepSeek Harness, upgrades and troubleshooting →](docs/installation.md) · [Русская инструкция](docs/installation.ru.md)
 
 ## Try the output without an agent
 
-Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
+Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
 
 The viewer includes view switching, readable **100%** scale, **fit to width**, canvas scrolling, keyboard-accessible details, sources, open questions and full-view SVG export. Dense branch labels may move to a numbered list below the map; their full text is retained.
 
@@ -121,7 +141,7 @@ It also preserves missing information: an empty process cell means a step is not
 
 ## Status and limitations
 
-**v0.3.1 is an experimental public preview.** Local use is oriented toward Codex. Claude Code is a portability target and has not been tested.
+**v0.4.0 is an experimental public preview.** One portable skill package serves all four documented agent setups. Compatibility and verification scopes are listed above; they do not imply equal model performance.
 
 - Viewer labels support English and Russian (`locale: "en"` or `"ru"`). Authored map content is not automatically translated.
 - Maps support 2–12 stages and one process node per participant lane and stage. Complex journeys may need separate maps.

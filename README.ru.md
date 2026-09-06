@@ -1,10 +1,11 @@
-<p align="center"><img src="docs/brand/logo.png" alt="CX Impact" width="620"></p>
+<p align="center"><img src="docs/brand/hero.ru.png" alt="Промоиллюстрация CX Impact: светлые и тёмные карты сервиса" width="1200"></p>
+<p align="center"><sub>Промоиллюстрация. Реальные результаты рендерера показаны ниже.</sub></p>
 
 # Описать сервис → увидеть путь клиента и работу за ним
 
-**CX Impact** — open-source skill для Codex, который создаёт CJM, service blueprint и карту процесса-опыта по описанию продукта, документам, исследованиям и доступному коду.
+**CX Impact** — открытый скилл для Codex, Claude Code, OpenCode и DeepSeek Harness, который создаёт CJM, service blueprint и карту процесса-опыта по описанию продукта, документам, исследованиям и доступному коду.
 
-[English](README.md) · [Релиз v0.3.1](https://github.com/shelasmax/cx-impact/releases/tag/v0.3.1) · [Скачать интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo.html)
+[English](README.md) · [Релиз v0.4.0](https://github.com/shelasmax/cx-impact/releases/tag/v0.4.0) · [Скачать интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo.html)
 
 ## Три вида одного сценария
 
@@ -36,15 +37,25 @@
 
 ![Карта процесса-опыта — ремонт велосипеда, русский пример](examples/bicycle-service/process-preview.png)
 
-[Скачать русский интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo.html) · [Редактируемый JSON](examples/bicycle-service/map.json) · [English example](README.md#bicycle-workshop-one-scenario-three-maps)
+[Скачать русский интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo.html) · [Редактируемый JSON](examples/bicycle-service/map.json) · [English example](README.md#bicycle-workshop-one-scenario-three-maps)
 
 ## Начать
 
-Нужны локальный Codex и Node.js 18+. Внешние пакеты для рендерера не требуются.
+Нужны агент с доступом к файлам и командной строке и Node.js 18+. Внешние пакеты для рендерера не требуются.
 
-1. Скачайте [cx-impact-0.3.1.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/cx-impact-0.3.1.zip) и распакуйте архив.
-2. Скопируйте каталог `cx-impact` в `.agents/skills/` своего проекта. Если такая установка уже есть, сначала сохраните её локальные изменения.
-3. Начните новую сессию Codex в проекте и отправьте:
+В каталоге своего проекта запустите установку через [Skills CLI](https://github.com/vercel-labs/skills) и выберите агента:
+
+```sh
+npx skills add shelasmax/cx-impact --skill cx-impact
+```
+
+Для установки копий сразу в Codex, Claude Code и OpenCode:
+
+```sh
+npx skills add shelasmax/cx-impact --skill cx-impact --agent codex claude-code opencode --copy --yes
+```
+
+Начните новую сессию. В Codex используйте `$cx-impact`, в Claude Code — `/cx-impact`, в OpenCode попросите использовать скилл `cx-impact`. Пример для Codex:
 
 ```text
 $cx-impact Создай целевую CJM, service blueprint и карту процесса-опыта
@@ -53,24 +64,35 @@ $cx-impact Создай целевую CJM, service blueprint и карту пр
 Сохрани интерактивный HTML и комплект для пересборки.
 ```
 
+Для ручной установки скачайте [cx-impact-0.4.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/cx-impact-0.4.0.zip) и скопируйте весь каталог скилла в каталог навыков своего агента. Для `npx` нужны npm и интернет: он запускает сторонний установщик. Отдельный npm-пакет CX Impact не нужен.
+
+| Агент | Статус поддержки |
+|---|---|
+| Codex | Проверенная локальная среда; установка в `.agents/skills/`. |
+| Claude Code | Установка и вызов `/cx-impact` по официальной документации; полный запуск с моделью не проверялся. |
+| OpenCode | Обнаружение скилла проверено локально; полный запуск с моделью не проверялся. |
+| DeepSeek Harness | Подключение через файловую систему описано по документации; запуск в harness не проверялся. |
+
+[Установка для каждого агента, DeepSeek Harness и обновление →](docs/installation.ru.md)
+
 Можно начать с описания идеи; Git diff и исследования клиентов не обязательны. Недостаток данных нужно обозначать, а не заполнять выдуманными фактами.
 
 ## Что получится
 
-Выбирайте прежний зелёный дизайн **«Классическая»** (по умолчанию) или новый **Graphite Field Notes**. В каждом доступны светлый, тёмный и системный режимы, а также конечный анимированный обзор пути с выбором ветвей. SVG сохраняет выбранное оформление. [Правила дизайна](docs/brand/README.md#graphite-field-notes--map-viewer).
+Выбирайте прежний зелёный дизайн **«Классическая»** (по умолчанию) или новый **Graphite Field Notes**. В каждом доступны светлый, тёмный и системный режимы, а также конечный анимированный обзор пути с выбором ветвей. SVG сохраняет выбранное оформление и содержит актуальный логотип CX Impact, встроенный для автономного просмотра. JSON сохраняет исходные данные. [Правила дизайна](docs/brand/README.md#graphite-field-notes--map-viewer).
 
 Автономный HTML с переключением видов, масштабом 100%, настоящим «Вписать», прокруткой полотна, деталями и источниками. SVG содержит весь активный вид, включая режим и легенду. JSON остаётся редактируемым, а каталог `.source/` позволяет воспроизвести карту с тем же шаблоном.
 
-[Интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo.html) нужно скачать и открыть в браузере. GitHub показывает исходный HTML, а не работающий viewer. Пример вымышленный; он не описывает реальных клиентов.
+[Интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo.html) нужно скачать и открыть в браузере. GitHub показывает исходный HTML, а не работающий viewer. Пример вымышленный; он не описывает реальных клиентов.
 
 Сам HTML не делает сетевых запросов. Агент при создании карты использует настроенного провайдера модели.
 
-## Границы первой публичной версии
+## Статус и ограничения
 
-v0.3.1 — **экспериментальная версия**. Интерфейс поддерживает русский и английский: `locale: "ru"` или `"en"`. Текст самой карты задаёт автор. Проверки ориентированы на Codex; Claude не тестировался. В карте 2–12 этапов, один процессный узел на полосу и этап. Перетаскивание карточек, полный BPMN и полная нотация XP Mapping не реализованы.
+v0.4.0 — **экспериментальная версия**. Интерфейс поддерживает русский и английский: `locale: "ru"` или `"en"`. Текст самой карты задаёт автор. Используется один переносимый пакет; область проверки каждого агента указана выше. В карте 2–12 этапов, один процессный узел на полосу и этап. Перетаскивание карточек, полный BPMN и полная нотация XP Mapping не реализованы.
 
 На плотных схемах часть условий выносится под карту с предупреждением. Проверка схемы и геометрии не заменяет просмотр результата и проверку содержания. Преимущество skill перед коротким промптом пока не доказано.
 
-[Установка и обновление](docs/installation.md) · [Формат данных](skills/cx-impact/references/maps.md) · [Проверки](docs/verification.md) · [История изменений](CHANGELOG.md) · [Вклад в проект](CONTRIBUTING.md)
+[Установка и обновление](docs/installation.ru.md) · [Формат данных](skills/cx-impact/references/maps.md) · [Проверки](docs/verification.md) · [История изменений](CHANGELOG.md) · [Вклад в проект](CONTRIBUTING.md)
 
 Лицензия — [MIT](LICENSE). Визуальные ориентиры: [Archify](https://github.com/tt-a1i/archify) и [OpenDiagram](https://github.com/Itz-Agasta/OpenDiagram). Их код и шаблоны не включены в пакет.

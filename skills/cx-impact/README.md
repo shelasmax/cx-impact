@@ -1,12 +1,29 @@
 # CX Impact skill
 
-Create customer journey maps, service blueprints and experience-process maps with a coding agent. The primary output is a standalone interactive HTML map with editable JSON and SVG export. Choose the original green Classic design (default) or Graphite Field Notes. Each has independent light, dark and system color modes. Optional finite path walkthroughs explain stages or authored process transitions, pause at branches and support reduced-motion steps; exported SVG stays complete and static.
+Create customer journey maps, service blueprints and experience-process maps with a coding agent. The primary output is standalone interactive HTML with editable JSON and branded SVG export. Choose Classic (the original green design, default) or Graphite Field Notes, each with light, dark and system modes. Finite path walkthroughs pause at branches and support reduced motion; exported SVG stays complete and static.
 
-## Install in Codex
+## Install
 
-Copy this entire `cx-impact` directory into your project's `.agents/skills/` directory, then start a new Codex session in that project. Preserve an existing installation before upgrading.
+From your project, select your agent with the [Skills CLI](https://github.com/vercel-labs/skills):
 
-Invoke `$cx-impact` and describe the scenario, the requested current/target mode and the available sources. Node.js 18+ is required to render HTML; no external Node packages are needed. The viewer supports English and Russian labels; set `locale` to `"en"` or `"ru"`. Map content is authored separately in the requested language.
+```sh
+npx skills add shelasmax/cx-impact --skill cx-impact
+```
+
+Or copy this **entire** directory to the project location:
+
+| Agent | Directory | Invocation |
+|---|---|---|
+| Codex | `.agents/skills/cx-impact/` | `$cx-impact` |
+| Claude Code | `.claude/skills/cx-impact/` | `/cx-impact` |
+| OpenCode | `.agents/skills/cx-impact/` or `.opencode/skills/cx-impact/` | Ask to use the `cx-impact` skill |
+| DeepSeek Harness | `.agents/skills/cx-impact/` or `.dsh/skills/cx-impact/` | Ask to use the `cx-impact` skill |
+
+Start a fresh session after installation. Node.js 18+, file and shell access are required for rendering; no external Node packages are needed. Configure model access in your agent. Codex is the tested local target. OpenCode discovery is checked. Claude Code and DeepSeek Harness compatibility follows official documentation; no model-driven end-to-end tests are claimed for these three agents.
+
+[Full installation guide](https://github.com/shelasmax/cx-impact/blob/main/docs/installation.md) · [Установка на русском](https://github.com/shelasmax/cx-impact/blob/main/docs/installation.ru.md)
+
+## Create a map
 
 ```text
 $cx-impact Create a target-state customer journey map and service blueprint
@@ -14,16 +31,24 @@ from this project's product documents. Keep requirements, hypotheses and
 unknowns distinct. Save an interactive HTML map and its rebuildable sources.
 ```
 
-For already authored data:
+Use `/cx-impact` in Claude Code or ask OpenCode/DSH to load the skill. Describe the scenario and requested current/target mode. English and Russian are supported: set `locale` to `"en"` or `"ru"` for viewer labels and author content in the requested language.
+
+Пример для Claude Code:
+
+```text
+/cx-impact Создай целевую CJM и сервис-блюпринт по документам проекта.
+Разделяй требования, гипотезы и неизвестные. Сохрани интерактивный HTML
+и комплект для пересборки. Содержание карты и интерфейс — на русском.
+```
+
+For authored data, from this skill directory:
 
 ```sh
 node scripts/render-map.mjs path/to/map.json path/to/map.html
 ```
 
-Run that command from this skill directory; input and output paths are examples. Read [the data format](references/maps.md) before creating JSON.
+Paths above are examples. Read [the data format](references/maps.md) before authoring JSON. Resolve resources relative to this installed package.
 
-Do not overwrite a map's customized `.source/` directory when upgrading the skill. Its `rebuild.mjs` preserves that map's exact renderer and template. Removing this installed directory uninstalls the skill; your generated maps are separate files.
+Preserve an existing installation before upgrading and replace it as a unit. Do not overwrite a map's customized `.source/` directory: its `rebuild.mjs` preserves that map's exact renderer and template. Remove only the installed skill directory to uninstall; generated maps remain separate.
 
-Project and releases: https://github.com/shelasmax/cx-impact
-
-Experimental preview, licensed under [MIT](LICENSE). Claude Code portability is not tested.
+[Project and releases](https://github.com/shelasmax/cx-impact). Experimental preview, licensed under [MIT](LICENSE).

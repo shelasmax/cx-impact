@@ -46,6 +46,10 @@ if(process.env.CX_MAP_PRIVATE_CASE)cases.push(['private',process.env.CX_MAP_PRIV
        const download=page.waitForEvent('download');await page.locator('#export').click();const d=await download;const saved=path.join(out,`${prefix}-${mode}-${view}.svg`);await d.saveAs(saved);
        assert.equal(await page.locator('[data-export-type="image/svg+xml"] a').count(),2);
        const svgPage=await browser.newPage();await svgPage.goto(pathToFileURL(saved).href);
+       const logo=await svgPage.locator('image[data-brand]').getAttribute('href',{timeout:1500});
+       assert.ok(logo?.startsWith('data:image/png;base64,'),'export embeds the logo without an external URL');
+       assert.ok(Buffer.from(logo.split(',')[1],'base64').equals(fs.readFileSync(path.join(root,'docs/brand/logo.png'))),'export retains the current original logo');
+       assert.equal(await svgPage.locator('image[data-brand]').evaluate(n=>{const b=n.getBBox(),s=n.ownerSVGElement.viewBox.baseVal;return b.x>=0&&b.y>=0&&b.x+b.width<=s.width&&b.y+b.height<=s.height;}),true,'logo fits the standalone SVG bounds');
        const exported=await svgPage.locator('svg').evaluate(svg=>({width:+svg.getAttribute('width'),height:+svg.getAttribute('height'),viewBox:svg.getAttribute('viewBox'),text:[...svg.querySelectorAll('title,desc,text')].map(n=>n.textContent).join('\n'),nodeCount:svg.querySelectorAll('[data-node]').length,edges:[...svg.querySelectorAll('[data-edge]')].map(p=>({kind:p.dataset.kind,dash:p.getAttribute('stroke-dasharray')})),outside:[...svg.querySelectorAll('text')].filter(t=>{const b=t.getBBox();return b.x<0||b.y<0||b.x+b.width>svg.viewBox.baseVal.width+1||b.y+b.height>svg.viewBox.baseVal.height+1}).map(t=>t.textContent)}));
        assert.ok(Math.abs(exported.width-xmlBefore.width)<0.1);assert.ok(Math.abs(exported.height-xmlBefore.height)<0.1);assert.equal(exported.text,xmlBefore.text);assert.deepEqual(exported.outside,[],'standalone SVG text within full bounds');
        if(view==='process'){for(const e of exported.edges)assert.equal(e.dash,{flow:'none',handoff:'8 4',exception:'2 4'}[e.kind]);}

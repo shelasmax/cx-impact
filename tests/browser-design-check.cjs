@@ -56,6 +56,9 @@ const cases=['examples/bicycle-service/map','examples/bicycle-service-en/map',..
         const saved=path.join(out,label+'.svg');await d.saveAs(saved);
         const xml=fs.readFileSync(saved,'utf8');assert.doesNotMatch(xml,/data-walk=|data-active=|data-traced=|data-viewer-only=/);
         const svgPage=await browser.newPage();await svgPage.goto(pathToFileURL(saved).href);
+        const logo=await svgPage.locator('image[data-brand="cx-impact"]').getAttribute('href');
+        assert.ok(logo?.startsWith('data:image/png;base64,'),'each appearance exports an embedded logo');
+        assert.ok(Buffer.from(logo.split(',')[1],'base64').equals(fs.readFileSync(path.join(root,'docs/brand/logo.png'))),'each appearance preserves the original logo bytes');
         assert.equal(await svgPage.locator('text').first().getAttribute('font-family'),shownFont,'SVG preserves the selected design font');
         assert.equal(await svgPage.locator('svg>rect').first().getAttribute('fill'),shownSurface,'SVG preserves the selected design and light/dark surface');
         assert.equal(await svgPage.locator('[data-node]').count(),view==='process'?(input[mode]||input).process?.nodes.length||0:0);

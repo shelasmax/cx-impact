@@ -241,7 +241,7 @@ h1{font-family:var(--font-display);font-size:clamp(28px,2.3vw,42px);line-height:
   else root.CXMap = factory();
 })(globalThis, function () {
   'use strict';
-  const VERSION = '0.3.1';
+  const VERSION = '0.4.0';
   const statusLabels = {
     observed: 'Наблюдение', declared: 'Заявлено в источнике', requirement: 'Требование / намерение',
     user_fact: 'Факт из задания', code: 'Наблюдение в коде', hypothesis: 'Гипотеза',
@@ -612,7 +612,7 @@ function renderLegend(){
 function scopeText(){return data.scope?`${data.scope.scenario} · ${data.scope.start} → ${data.scope.end} · ${t('Срез:')} ${data.scope.asOf}`:t('Граница и дата среза не уточнены');}
 function svgFooterHeight(width){
   let rows=1,x=8;for(const e of legendEntries()){const w=Core.measure(e.text,11)+40;if(x+w>width-20){rows++;x=8;}x+=w;}
-  return 64+wrap(`${data.title} · ${t(viewNames[view])} · ${modeLabel(data.mode)}`,width-30,12).length*16.8+wrap(data.disclaimer,width-32,11).length*15.4+wrap(scopeText(),width-32,11).length*15.4+rows*24;
+  return 128+wrap(`${data.title} · ${t(viewNames[view])} · ${modeLabel(data.mode)}`,width-30,12).length*16.8+wrap(data.disclaimer,width-32,11).length*15.4+wrap(scopeText(),width-32,11).length*15.4+rows*24;
 }
 function createSvg(contentHeight,width=LEFT+COL*data.stages.length+32){
   const height=contentHeight+svgFooterHeight(width),svg=el('svg',{xmlns:NS,viewBox:`0 0 ${width} ${height}`,width,height,'aria-label':`${data.title}. ${t(viewNames[view])}. ${modeLabel(data.mode)}`});
@@ -638,6 +638,8 @@ function createSvg(contentHeight,width=LEFT+COL*data.stages.length+32){
 }
 function footer(svg,y){
   const width=svg.viewBox.baseVal.width;line(svg,8,y,width-12,y);
+  const brand=document.querySelector('.brand img');
+  if(brand?.src.startsWith('data:image/png;base64,'))el('image',{href:brand.src,x:8,y:svg.viewBox.baseVal.height-72,width:180,height:60,'data-brand':'cx-impact','aria-label':'CX Impact',preserveAspectRatio:'xMidYMid meet'},svg);
   y+=24;y+=txt(svg,`${data.title} · ${t(viewNames[view])} · ${modeLabel(data.mode)}`,8,y,{size:12,width:width-30,fill:colors.muted});
   y+=4;y+=txt(svg,scopeText(),8,y,{size:11,width:width-32,fill:colors.muted});
   y+=4;y+=txt(svg,data.disclaimer,8,y,{size:11,width:width-32,fill:colors.muted});

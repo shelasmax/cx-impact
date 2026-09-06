@@ -1,4 +1,4 @@
-# Visual maps · renderer 0.3.1
+# Visual maps · renderer 0.4.0
 
 Use a bounded scenario with shared stages across views. This is an original simplified authoring format, not full BPMN or a claim of complete XP Mapping conformance. Set `locale: "en"` for English interface labels or `locale: "ru"` for Russian. Omission preserves Russian for existing maps. Author the scenario content in the requested language; the renderer does not translate user content. Locale applies to buttons, accessibility labels, evidence/status labels, details, missing values and exported SVG. A comparison wrapper's locale is inherited unless a nested scenario explicitly overrides it.
 

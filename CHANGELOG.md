@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0] — 2026-09-06
+
+- Current CX Impact logo embedded unchanged in every SVG export, with reserved footer space and no external image request. HTML remains standalone and JSON exports retain the original data.
+- English and Russian README promotional artwork, with refreshed real output previews below it.
+- One-command installation through the existing Skills CLI; a single canonical skill package for Codex, Claude Code, OpenCode and DeepSeek Harness.
+- Agent-specific installation and upgrade guides in English and Russian, including an explicit verification matrix. Claude Code and DeepSeek Harness compatibility is based on official documentation; OpenCode discovery is checked locally. No model-driven end-to-end test is claimed for these three agents.
+- Both existing designs and light/dark/system modes are preserved; Classic remains the default. No runtime dependency or JSON schema change.
+
 ## [0.3.1] — 2026-09-06
 
 - Replaced the placeholder masthead symbols in Classic and Graphite with the current CX Impact release logo.
@@ -60,3 +68,5 @@ Earlier local experiments are not published releases and do not establish the qu
 [0.3.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.3.0
 
 [0.3.1]: https://github.com/shelasmax/cx-impact/releases/tag/v0.3.1
+
+[0.4.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.4.0

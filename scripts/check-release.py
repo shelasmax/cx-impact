@@ -10,7 +10,7 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_FILES = {'README.md','README.ru.md','LICENSE','VERSION','CHANGELOG.md','CONTRIBUTING.md','SECURITY.md','AGENTS.md','CLAUDE.md','.gitignore'}
-DOC_FILES = {'docs/installation.md','docs/verification.md'}
+DOC_FILES = {'docs/installation.md','docs/installation.ru.md','docs/verification.md'}
 PREFIXES = ('skills/cx-impact/','tests/','scripts/','.github/','docs/brand/','docs/releases/','examples/bicycle-service/','examples/bicycle-service-en/','examples/regressions/')
 SENSITIVE = re.compile(r'/Users/|/home/(?!runner\b)|(?:gh[pousr]_[A-Za-z0-9]{30,})|(?:github_pat_[A-Za-z0-9_]{30,})|(?:sk-[A-Za-z0-9_-]{32,})|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----')
 

@@ -9,6 +9,16 @@
 
 The connected paths represent the relationship between a customer's journey and the work behind a service. The logo is an original AI-assisted raster asset; no vector master or trademark registration is claimed. Project assets are distributed under the repository's MIT license to the extent rights apply.
 
+## README artwork and exported logo
+
+`hero.png` and `hero.ru.png` are English and Russian promotional illustrations for the READMEs. They were generated with the built-in OpenAI image-generation tool, using CX Impact brand assets and original synthetic bicycle examples, with the overlapping browser-window composition of Archify as a visual reference. They are illustrative marketing artwork, not pixel-exact renderer screenshots. Keep that distinction in the adjacent caption; the public example galleries below show actual generated output.
+
+The English headline is “Make the service visible.” with “Customer journeys. Service blueprints. Experience-process maps.” and “One scenario. Three views. Clear evidence.” The Russian headline is “Сделайте сервис понятным.” with “Карта пути клиента. Сервис-блюпринт. Карта процесса и опыта.” and “Один сценарий. Три карты. Явные допущения.” Both include HTML, SVG and JSON.
+
+Generation brief: create a wide CX Impact README banner with the project logo and headline on the left, overlapping light CJM and dark process-map browser windows on the right, a deep forest background and subtle connected paths. Use only synthetic product examples, preserve the CX Impact branding, and use Archify only as a composition reference. The localized variant retains the composition and replaces its copy with the Russian wording above. Final built-in edit: reduce the second Russian headline line so the complete word and period have clear space before the front window; retain the remaining artwork.
+
+SVG exports embed the same original `logo.png` data URI as the HTML masthead. The image has reserved space below the complete legend, preserving its proportions and original ivory backing in both designs and color modes. No remote logo fetch is made. Each SVG grows by about 1.2 MB; source JSON remains unchanged. The promotional PNGs are repository documentation assets and are not included in the installed skill.
+
 ## Graphite Field Notes · map viewer
 
 The generated maps offer two designs. **Classic**, the original green atlas, remains the default and uses the current brand above. **Graphite Field Notes** is an optional editorial design developed in an OpenDesign project and adapted to the existing deterministic renderer. OpenDesign is a design workspace, not a runtime dependency.

@@ -1,5 +1,21 @@
 # Verification scope
 
+## v0.4.0 · Branded exports and agent installation
+
+All 23 Node tests passed locally. Both browser suites passed in Chrome 152 on macOS: 42 baseline scenario/view/size combinations and 168 design/color-mode combinations at 1366×900 and 1920×1080. The checks cover native/fit scale, keyboard details, routes, appearance persistence, playback and reduced motion. 21 baseline and 84 themed SVG downloads were reopened; their embedded PNG bytes match the current `docs/brand/logo.png`. Baseline exports also check logo containment in the full SVG bounds. Export during an active path remains static, and downloaded JSON deep-equals the source. No viewer network requests were observed.
+
+All six public HTML examples and their snapshots were regenerated. Agent visual inspection covered the six complete English/Russian README previews and representative laptop/desktop Classic/Graphite screens; the footer logo fits below the legend. Promotional hero images were inspected separately and are explicitly labelled illustrations. They are not evidence of renderer output. Other browser engines and assistive technologies were not tested.
+
+| Installation layer | Result and limit |
+|---|---|
+| Skills CLI | `skills@1.5.23` installed the published repository in an isolated temporary project. The upcoming package was also installed from its local source for `codex claude-code opencode` and separately `universal`, using project-local copies and disabled telemetry. No global installation was changed. |
+| Resource integrity and rendering | All ten canonical package files matched in the installed `.agents/skills/`, `.claude/skills/` and Universal copies. Each copy rendered the synthetic English example and rebuilt identical HTML. This checks the installed renderer, not generation by a model. |
+| OpenCode | OpenCode 1.15.12, `debug skill --pure`, discovered exactly one `cx-impact` entry from the isolated project’s `.agents/skills/cx-impact/SKILL.md`. Compatible `.claude/skills/` discovery was also observed in the earlier combined install. No model-driven end-to-end run. |
+| Claude Code | Package format, resource layout and invocation documented against official skills documentation. The installed files and renderer were checked without a Claude model session. Documentation-only compatibility, not a model test. |
+| DeepSeek Harness | Filesystem discovery roots and bundled resources documented against the official skills subsystem. Universal installation produced the documented project directory; DSH itself was not installed or run. |
+
+The publication-integrity and release build scripts check the allowlisted archive, extracted-package rendering in both languages and byte-identical snapshot rebuilds. The hosted [Actions results](https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml) record CI outcomes. [English installation guide](installation.md) and [Russian installation guide](installation.ru.md) link the official provider documentation and state the same support boundaries.
+
 ## v0.3.1 · Current masthead logo
 
 The current release logo replaces placeholder CSS marks in both designs. The embedded PNG was compared byte-for-byte with `docs/brand/logo.png`. Chrome checks covered both languages, Classic/Graphite × light/dark at 1366×900 and 1920×1080 (16 combinations), image decoding, no network requests and a 390px overflow check. Masthead screenshots were visually inspected in light/dark and at narrow width.
