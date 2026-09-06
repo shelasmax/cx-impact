@@ -1,0 +1,447 @@
+{
+  "version": 1,
+  "locale": "en",
+  "mode": "current",
+  "scope": {
+    "scenario": "Reserve and use the shared audio studio",
+    "start": "Email a booking request",
+    "end": "Return the studio key",
+    "asOf": "2026-07-14"
+  },
+  "title": "Current audio studio booking",
+  "subtitle": "Existing map based on a fictional desk guide",
+  "actor": "Employee booking the shared audio studio",
+  "goal": "Reserve, use, and leave the shared audio studio",
+  "disclaimer": "Fictional current-state map based only on a supplied desk guide. Documented rules are declared, not observed behavior. Experience, frequency, and financial effects are unknown.",
+  "defaultView": "blueprint",
+  "sources": [
+    {
+      "id": "studio-desk-guide",
+      "kind": "other",
+      "label": "Media studio desk guide · 2026-07-14",
+      "text": "An employee emails the preferred recording date and programme name to the media desk. The studio coordinator records the request in the booking sheet and checks the studio calendar. If the slot is available, the coordinator emails a confirmation; if it is unavailable, the coordinator emails a decline and asks for another date. For a confirmed slot, the employee shows a staff card at reception. The receptionist checks the booking sheet and hands over the studio key. After the session, the employee must return the key to reception by 17:00, and the receptionist marks it returned in the booking sheet. The guide sets no response target and does not describe after-hours return."
+    }
+  ],
+  "stages": [
+    {
+      "id": "request",
+      "title": "Request studio",
+      "goal": {
+        "text": "Request a recording slot",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "action": {
+        "text": "Email preferred date and programme name",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "channel": {
+        "text": "Media desk email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "experience": {
+        "text": "Experience is not established",
+        "status": "unknown"
+      },
+      "evidence": {
+        "text": "Booking request email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "frontstage": {
+        "text": "Receive the request email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "backstage": {
+        "text": "Record the request in the booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "support": {
+        "text": "Email inbox and booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      }
+    },
+    {
+      "id": "review",
+      "title": "Receive decision",
+      "goal": {
+        "text": "Learn whether the slot is available",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "action": {
+        "text": "Read the confirmation or decline email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "channel": {
+        "text": "Email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "experience": {
+        "text": "Experience is not established",
+        "status": "unknown"
+      },
+      "opportunity": {
+        "text": "Define a response target",
+        "status": "proposal"
+      },
+      "evidence": {
+        "text": "Confirmation or decline email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "frontstage": {
+        "text": "Send confirmation or decline",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "backstage": {
+        "text": "Check the studio calendar",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "support": {
+        "text": "Studio calendar and booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "barrierIds": ["response-time"]
+    },
+    {
+      "id": "collect",
+      "title": "Collect key",
+      "goal": {
+        "text": "Enter the studio for the confirmed slot",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "action": {
+        "text": "Show staff card and receive studio key",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "channel": {
+        "text": "Reception desk",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "experience": {
+        "text": "Experience is not established",
+        "status": "unknown"
+      },
+      "evidence": {
+        "text": "Studio key",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "frontstage": {
+        "text": "Check staff card and hand over key",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "backstage": {
+        "text": "Check the confirmed booking entry",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "support": {
+        "text": "Staff card and booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      }
+    },
+    {
+      "id": "return",
+      "title": "Return key",
+      "goal": {
+        "text": "Complete the studio booking",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "action": {
+        "text": "Return the key to reception by 17:00",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "channel": {
+        "text": "Reception desk",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "experience": {
+        "text": "Experience is not established",
+        "status": "unknown"
+      },
+      "opportunity": {
+        "text": "Define an after-hours return path",
+        "status": "proposal"
+      },
+      "evidence": {
+        "text": "Returned key and updated booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "frontstage": {
+        "text": "Receive the key at reception",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "backstage": {
+        "text": "Mark the key returned in the booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "support": {
+        "text": "Reception desk and booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      "barrierIds": ["after-hours-return"]
+    }
+  ],
+  "barriers": [
+    {
+      "id": "response-time",
+      "text": "The guide sets no response target",
+      "status": "declared",
+      "sourceIds": ["studio-desk-guide"],
+      "stageIds": ["review"],
+      "consequence": {
+        "text": "Expected waiting time is unknown",
+        "status": "unknown"
+      },
+      "improvement": {
+        "text": "Agree and publish a response target",
+        "status": "proposal"
+      },
+      "question": {
+        "text": "When should a requester receive a decision?",
+        "status": "unknown"
+      }
+    },
+    {
+      "id": "after-hours-return",
+      "text": "The guide does not describe after-hours return",
+      "status": "declared",
+      "sourceIds": ["studio-desk-guide"],
+      "stageIds": ["return"],
+      "consequence": {
+        "text": "The path after 17:00 is unknown",
+        "status": "unknown"
+      },
+      "improvement": {
+        "text": "Define a secure after-hours return route",
+        "status": "proposal"
+      },
+      "question": {
+        "text": "What should an employee do after reception closes?",
+        "status": "unknown"
+      }
+    }
+  ],
+  "participants": [
+    {
+      "id": "employee",
+      "title": "Employee",
+      "roles": ["Requester", "Studio user"]
+    },
+    {
+      "id": "studio-coordinator",
+      "title": "Studio coordinator",
+      "roles": ["Request recorder", "Availability checker"]
+    },
+    {
+      "id": "receptionist",
+      "title": "Receptionist",
+      "roles": ["Identity checker", "Key custodian"]
+    }
+  ],
+  "questions": [
+    {
+      "id": "decision-timing",
+      "text": "When should a requester receive the availability decision?",
+      "status": "unknown",
+      "stageIds": ["review"],
+      "impact": "Changes the waiting period and any follow-up path."
+    },
+    {
+      "id": "return-after-closing",
+      "text": "How is the key returned after reception closes?",
+      "status": "unknown",
+      "stageIds": ["return"],
+      "impact": "Changes the return channel, receiving role, and completion record."
+    }
+  ],
+  "process": {
+    "lanes": [
+      {
+        "id": "employee-lane",
+        "title": "Employee",
+        "participantId": "employee",
+        "role": "Requester and studio user"
+      },
+      {
+        "id": "coordinator-lane",
+        "title": "Studio coordinator",
+        "participantId": "studio-coordinator",
+        "role": "Record and decide"
+      },
+      {
+        "id": "reception-lane",
+        "title": "Reception",
+        "participantId": "receptionist",
+        "role": "Issue and receive key"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "send-request",
+        "stageId": "request",
+        "laneId": "employee-lane",
+        "title": "Email booking request",
+        "artifact": "Request email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "record-request",
+        "stageId": "request",
+        "laneId": "coordinator-lane",
+        "title": "Record request",
+        "artifact": "Booking-sheet entry",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "check-calendar",
+        "stageId": "review",
+        "laneId": "coordinator-lane",
+        "title": "Check calendar and reply",
+        "kind": "decision",
+        "artifact": "Confirmation or decline email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"],
+        "barrierIds": ["response-time"]
+      },
+      {
+        "id": "receive-decline",
+        "stageId": "review",
+        "laneId": "employee-lane",
+        "title": "Receive decline",
+        "kind": "outcome",
+        "artifact": "Decline email",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "show-staff-card",
+        "stageId": "collect",
+        "laneId": "employee-lane",
+        "title": "Show staff card",
+        "artifact": "Staff card",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "hand-over-key",
+        "stageId": "collect",
+        "laneId": "reception-lane",
+        "title": "Check booking and issue key",
+        "artifact": "Studio key",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "return-key",
+        "stageId": "return",
+        "laneId": "employee-lane",
+        "title": "Return key by 17:00",
+        "artifact": "Studio key",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"],
+        "barrierIds": ["after-hours-return"]
+      },
+      {
+        "id": "record-return",
+        "stageId": "return",
+        "laneId": "reception-lane",
+        "title": "Mark key returned",
+        "artifact": "Updated booking sheet",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      }
+    ],
+    "edges": [
+      {
+        "id": "request-to-record",
+        "from": "send-request",
+        "to": "record-request",
+        "kind": "handoff",
+        "label": "When the media inbox is handled",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "record-to-check",
+        "from": "record-request",
+        "to": "check-calendar",
+        "kind": "flow",
+        "label": "After the request is recorded",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "slot-available",
+        "from": "check-calendar",
+        "to": "show-staff-card",
+        "kind": "flow",
+        "condition": "If the slot is available, email confirmation; employee later presents a staff card",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "slot-unavailable",
+        "from": "check-calendar",
+        "to": "receive-decline",
+        "kind": "flow",
+        "condition": "If the slot is unavailable, email a decline and ask for another date",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "card-to-key",
+        "from": "show-staff-card",
+        "to": "hand-over-key",
+        "kind": "handoff",
+        "label": "After reception checks the confirmed booking",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "key-to-return",
+        "from": "hand-over-key",
+        "to": "return-key",
+        "kind": "flow",
+        "label": "After the recording session",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      },
+      {
+        "id": "return-to-record",
+        "from": "return-key",
+        "to": "record-return",
+        "kind": "handoff",
+        "condition": "When the employee returns the key to reception by 17:00",
+        "status": "declared",
+        "sourceIds": ["studio-desk-guide"]
+      }
+    ]
+  }
+}

@@ -25,6 +25,8 @@ Start a fresh session after installation. Node.js 18+, file and shell access are
 
 ## Create a map
 
+Start with three complete worked examples: [English](references/quickstart.md) · [Русский](references/quickstart.ru.md). They include fictional inputs, ready-to-copy requests, editable results and limits: a target service, a documented current process, and an update from new material.
+
 ```text
 $cx-impact Create a target-state customer journey map and service blueprint
 from this project's product documents. Keep requirements, hypotheses and
@@ -46,6 +48,16 @@ For authored data, from this skill directory:
 ```sh
 node scripts/render-map.mjs path/to/map.json path/to/map.html
 ```
+
+Check existing JSON without creating or replacing files:
+
+```sh
+node scripts/render-map.mjs --check path/to/map.json
+```
+
+The report on stdout covers structure and geometry. Warnings permit a draft (exit 0); invalid input or geometry failure exits 1. This is not a semantic or browser-quality assessment.
+
+To update a map, give the agent its previous JSON and new source material. Ask it to retain unchanged IDs and claims, show unresolved source conflicts and deliver a separate revision bundle with a change note. The [revision guidance](references/maps.md#revising-a-map) also covers preserving customized snapshots.
 
 Paths above are examples. Read [the data format](references/maps.md) before authoring JSON. Resolve resources relative to this installed package.
 

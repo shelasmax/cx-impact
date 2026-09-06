@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "incomplete",
+      "input": "incomplete.md",
+      "task": "Using input.md, create a TARGET (TO-BE) map for the internal design-review request. Include a customer journey map, service blueprint, and experience-process view in one deliverable. Save a standalone HTML artifact as output/map.html and editable source JSON as output/map.json. Do not assume missing requirements; label unresolved information and affected paths explicitly."
+    },
+    {
+      "id": "current",
+      "input": "current.md",
+      "task": "Using only input.md as evidence, create a CURRENT (AS-IS) map for the office visitor-badge process. Include a customer journey map, service blueprint, and experience-process view in one deliverable. Save a standalone HTML artifact as output/map.html and editable source JSON as output/map.json. Preserve source labels and distinguish documented rules from observed behavior."
+    },
+    {
+      "id": "conflicting",
+      "input": "conflicting.md",
+      "task": "Using input.md, create a CURRENT (AS-IS) map for the community-hall booking process. Include a customer journey map, service blueprint, and experience-process view in one deliverable. Save a standalone HTML artifact as output/map.html and editable source JSON as output/map.json. Preserve both supplied sources, keep unresolved conflicts visible, and do not choose an authority that the input does not establish."
+    },
+    {
+      "id": "update",
+      "input": "update.md",
+      "baseMap": "base-map.json",
+      "task": "Update the supplied CURRENT (AS-IS) map in base-map.json using the new material in input.md. Preserve stable IDs for unchanged entities and retain existing source records; use new IDs for new entities and the new source. Keep unresolved conflicts visible. Include the customer journey map, service blueprint, and experience-process view in one deliverable. Save a standalone HTML artifact as output/map.html, editable source JSON as output/map.json, and a change record as output/changes.md."
+    }
+  ]
+}

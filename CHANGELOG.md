@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0] — 2026-09-07
+
+- Three bilingual first-use examples for product managers and analysts, including synthetic source material, authored JSON and an existing-map revision.
+- Explicit revision guidance for stable IDs, source changes, unresolved conflicts, separate output bundles and preservation of custom snapshots.
+- Read-only `node render-map.mjs --check map.json` command with existing structure/geometry diagnostics and failure exit codes; no map schema or viewer change.
+- Five-person pilot materials and four synthetic comparison tasks, with a local Codex trial runner. Protocols and mechanical trial outcomes do not establish human acceptance or superiority over a short prompt.
+- Expanded allowlisted package checks cover the first-use JSON examples and the extracted check-only command. No new runtime dependency.
+
 ## [0.4.0] — 2026-09-06
 
 - Current CX Impact logo embedded unchanged in every SVG export, with reserved footer space and no external image request. HTML remains standalone and JSON exports retain the original data.
@@ -70,3 +78,5 @@ Earlier local experiments are not published releases and do not establish the qu
 [0.3.1]: https://github.com/shelasmax/cx-impact/releases/tag/v0.3.1
 
 [0.4.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.4.0
+
+[0.5.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.5.0

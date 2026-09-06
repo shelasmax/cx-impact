@@ -164,10 +164,18 @@ export async function deliverMap(input, output, options={}) {
   return {output:resolve(output),bytes:Buffer.byteLength(html),report};
 }
 if(process.argv[1]&&await realpath(process.argv[1]).catch(()=>null)===fileURLToPath(import.meta.url)) {
+  const args=process.argv.slice(2),checkOnly=args[0]==='--check';
   try {
-    const [input,output,...flags]=process.argv.slice(2);check(input&&output,'Usage: node render-map.mjs map.json map.html [--template template.html] [--no-bundle]');
-    let template;for(let i=0;i<flags.length;i++){if(flags[i]==='--template'){template=flags[++i];check(template,'Missing template path');}else check(flags[i]==='--no-bundle',`Unknown flag ${flags[i]}`);}
-    const result=await deliverMap(input,output,{template,bundle:!flags.includes('--no-bundle')});
-    console.log(`Rendered ${result.output} (${result.bytes} bytes). Structure and geometry checked; visual, interactions and export require separate checks.`);
-  }catch(error){console.error(`Map not rendered: ${error.message}`);process.exitCode=1;}
+    if(checkOnly) {
+      check(args.length===2&&args[1]&&!args[1].startsWith('--'),'Usage: node render-map.mjs --check map.json (no output path or rendering flags)');
+      const report=inspectMap(JSON.parse(await readFile(args[1],'utf8')));
+      console.log(JSON.stringify(report,null,2));
+      if(report.geometry.status==='failed')process.exitCode=1;
+    } else {
+      const [input,output,...flags]=args;check(input&&output,'Usage: node render-map.mjs map.json map.html [--template template.html] [--no-bundle]\n       node render-map.mjs --check map.json');
+      let template;for(let i=0;i<flags.length;i++){if(flags[i]==='--template'){template=flags[++i];check(template,'Missing template path');}else check(flags[i]==='--no-bundle',`Unknown flag ${flags[i]}`);}
+      const result=await deliverMap(input,output,{template,bundle:!flags.includes('--no-bundle')});
+      console.log(`Rendered ${result.output} (${result.bytes} bytes). Structure and geometry checked; visual, interactions and export require separate checks.`);
+    }
+  }catch(error){console.error(`Map not ${checkOnly?'checked':'rendered'}: ${error.message}`);process.exitCode=1;}
 }

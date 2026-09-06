@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.4.0"><img alt="Release v0.4.0" src="https://img.shields.io/badge/release-v0.4.0-24695a"></a>
+  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.5.0"><img alt="Release v0.5.0" src="https://img.shields.io/badge/release-v0.5.0-24695a"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-203a34"></a>
   <a href="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml"><img alt="Checks" src="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml/badge.svg"></a>
   <img alt="Experimental preview" src="https://img.shields.io/badge/status-experimental_preview-a06a24">
@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
-  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo-en.html">Download interactive demo</a> ·
+  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/bicycle-service-demo-en.html">Download interactive demo</a> ·
   <a href="docs/installation.md">Installation</a> ·
   <a href="README.ru.md">Русский</a>
 </p>
@@ -61,7 +61,7 @@ Customer, service advisor and mechanic: handoffs, repair approval, and the alter
 
 ![Experience-process map — bicycle repair service, English](examples/bicycle-service-en/process-preview.png)
 
-[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
+[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
 
 ## Quick start
 
@@ -96,7 +96,7 @@ Create a clearly labelled fictional example. Show the customer journey and
 how staff support it. Keep unknown experience claims explicit.
 ```
 
-Prefer a manual install? Extract [cx-impact-0.4.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/cx-impact-0.4.0.zip) and copy the whole skill directory to your agent's skill location. `npx` needs npm and network access to run the third-party installer; CX Impact does not need its own npm package.
+Prefer a manual install? Extract [cx-impact-0.5.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/cx-impact-0.5.0.zip) and copy the whole skill directory to your agent's skill location. `npx` needs npm and network access to run the third-party installer; CX Impact does not need its own npm package.
 
 | Agent | Support scope |
 |---|---|
@@ -109,7 +109,7 @@ Prefer a manual install? Extract [cx-impact-0.4.0.zip](https://github.com/shelas
 
 ## Try the output without an agent
 
-Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.4.0/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
+Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
 
 The viewer includes view switching, readable **100%** scale, **fit to width**, canvas scrolling, keyboard-accessible details, sources, open questions and full-view SVG export. Dense branch labels may move to a numbered list below the map; their full text is retained.
 
@@ -139,9 +139,19 @@ It also preserves missing information: an empty process cell means a step is not
 
 [Data format and authoring guidance](skills/cx-impact/references/maps.md) · [Evidence rules](skills/cx-impact/references/evidence.md)
 
+## First use and map updates
+
+Version 0.5.0 includes [three worked examples](skills/cx-impact/references/quickstart.md) for product managers and analysts: target requirements, a documented current process and a map revision. Each includes fictional inputs, a request, authored JSON and limitations. The [Russian guide](skills/cx-impact/references/quickstart.ru.md) covers the same scenarios. Both guides, their JSON examples and the `--check` command are included in the release archive.
+
+Validate authored JSON without writing files with `node skills/cx-impact/scripts/render-map.mjs --check path/to/map.json`. Read the [revision workflow](skills/cx-impact/references/maps.md#revising-a-map) to preserve IDs, sources and the previous bundle when updating a map.
+
+Development is focused on independent first use and repeat use: [five-person pilot](docs/pilot.md) · [four-case comparison protocol](docs/evaluation.md). These are protocols and synthetic materials, not completed user studies or evidence of superiority over a short prompt. Invitations and human evaluations belong to the project owner.
+
+After an initial demand signal, the next priorities are a source-linked decision summary, navigation between related small maps, and isolated browser checks across users' environments, in that order. A visual editor, server, accounts, integrations and additional themes are outside this cycle. The pilot's 4-of-5 first-use and 3-of-5 repeat-use targets guide the next development decision; they do not establish broad demand.
+
 ## Status and limitations
 
-**v0.4.0 is an experimental public preview.** One portable skill package serves all four documented agent setups. Compatibility and verification scopes are listed above; they do not imply equal model performance.
+**v0.5.0 is an experimental public preview.** One portable skill package serves all four documented agent setups. Compatibility and verification scopes are listed above; they do not imply equal model performance.
 
 - Viewer labels support English and Russian (`locale: "en"` or `"ru"`). Authored map content is not automatically translated.
 - Maps support 2–12 stages and one process node per participant lane and stage. Complex journeys may need separate maps.

@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "locale": "en",
+  "mode": "current",
+  "scope": {"scenario": "Borrow a portable workshop kit", "start": "Email a request", "end": "Return the kit", "asOf": "2026-08-02"},
+  "title": "Updated current workshop kit loan",
+  "subtitle": "The handbook is retained and a conflicting FAQ is added",
+  "actor": "Employee requesting a workshop kit",
+  "goal": "Not stated in the handbook",
+  "disclaimer": "Fictional current-state example from two documents with unresolved authority. Statements are declared, not observed behavior. The conflict, experience, frequency and financial effects remain unresolved.",
+  "defaultView": "blueprint",
+  "sources": [
+    {"id": "ops-handbook", "kind": "other", "label": "Operations handbook · 2026-07-10", "text": "Employees email the facilities inbox with the requested date and team name. A coordinator copies each request into the loan spreadsheet and checks the cupboard. The coordinator does not send an acknowledgement before the check is complete and emails either a collection message or an unavailable message. The handbook sets no response deadline. For available kits, the employee signs a paper sheet at the reception desk and collects the labelled kit; the spreadsheet row remains the support record. The employee later returns the kit to reception, where the receptionist puts it back into reception stock. The handbook does not describe late returns."},
+    {"id": "customer-faq", "kind": "other", "label": "Customer FAQ · 2026-08-02", "text": "Every kit request receives a confirmation email within one business day, even when the availability check is still in progress. The FAQ does not say whether it supersedes the operations handbook."}
+  ],
+  "stages": [
+    {
+      "id": "request",
+      "title": "Email request",
+      "goal": {"text": "Goal is not stated in the handbook", "status": "unknown"},
+      "action": {"text": "Email the date and team name", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "channel": {"text": "Facilities inbox", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "Use a structured request form", "status": "proposal"},
+      "evidence": {"text": "Request email", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "frontstage": {"text": "Receive the request email", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "backstage": {"text": "Copy the request into a spreadsheet", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Inbox and loan spreadsheet", "status": "declared", "sourceIds": ["ops-handbook"]}
+    },
+    {
+      "id": "review",
+      "title": "Await reply",
+      "goal": {"text": "Goal is not stated in the handbook", "status": "unknown"},
+      "action": {"text": "Receive an email; confirmation order is unresolved", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      "channel": {"text": "Email; confirmation timing is disputed", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "Define and test a response promise", "status": "proposal"},
+      "evidence": {"text": "Email; the promised confirmation time is disputed", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      "frontstage": {"text": "The order of confirmation messages is unresolved", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      "backstage": {"text": "Check the kit cupboard", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Loan spreadsheet and cupboard", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "barrierIds": ["response-timing"]
+    },
+    {
+      "id": "collect",
+      "title": "Collect kit",
+      "goal": {"text": "Goal is not stated in the handbook", "status": "unknown"},
+      "action": {"text": "Sign the paper sheet and take the kit", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "channel": {"text": "Reception desk", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "Review whether paper sign-out is sufficient", "status": "proposal"},
+      "evidence": {"text": "Signed sheet and labelled kit", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "frontstage": {"text": "Hand over the labelled kit", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "backstage": {"text": "Keep the spreadsheet entry", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Paper sheet and loan spreadsheet", "status": "declared", "sourceIds": ["ops-handbook"]}
+    },
+    {
+      "id": "return",
+      "title": "Return kit",
+      "goal": {"text": "Goal is not stated in the handbook", "status": "unknown"},
+      "action": {"text": "Bring the kit back to reception", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "channel": {"text": "Reception desk", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "Define a late-return path", "status": "proposal"},
+      "evidence": {"text": "Returned kit", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "frontstage": {"text": "Receive the returned kit", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "backstage": {"text": "Return the kit to reception stock", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Reception storage", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "barrierIds": ["late-return"]
+    }
+  ],
+  "barriers": [
+    {"id": "response-timing", "text": "The handbook and FAQ conflict on confirmation timing", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook says no acknowledgement is sent before availability is checked and gives no deadline. The FAQ promises confirmation within one business day even while the check is in progress. Neither source establishes which instruction governs.", "stageIds": ["review"], "consequence": {"text": "The current confirmation path and promise are unresolved", "status": "unknown"}, "improvement": {"text": "Name the governing source before changing the map", "status": "proposal"}, "question": {"text": "Which source governs confirmation timing?", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"]}},
+    {"id": "late-return", "text": "The handbook does not describe late returns", "status": "declared", "sourceIds": ["ops-handbook"], "stageIds": ["return"], "consequence": {"text": "The recovery path is unknown", "status": "unknown"}, "improvement": {"text": "Document the owner and handoff for a late return", "status": "proposal"}, "question": {"text": "What happens when a kit is late?", "status": "unknown"}}
+  ],
+  "participants": [
+    {"id": "employee", "title": "Employee", "roles": ["Requester", "Borrower"]},
+    {"id": "coordinator", "title": "Facilities coordinator", "roles": ["Availability reviewer"]},
+    {"id": "receptionist", "title": "Receptionist", "roles": ["Kit handoff"]}
+  ],
+  "questions": [
+    {"id": "response-authority", "text": "Which document governs confirmation timing?", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "stageIds": ["review"], "impact": "Changes the waiting path, the frontstage message and any customer-facing promise."},
+    {"id": "late-return-owner", "text": "Who owns a late return?", "status": "unknown", "stageIds": ["return"], "impact": "Changes the recovery roles and transitions."}
+  ],
+  "process": {
+    "lanes": [
+      {"id": "employee-lane", "title": "Employee", "participantId": "employee", "role": "Requester and borrower"},
+      {"id": "inbox-lane", "title": "Facilities inbox", "role": "Request channel"},
+      {"id": "coordinator-lane", "title": "Coordinator", "participantId": "coordinator", "role": "Availability reviewer"},
+      {"id": "reception-lane", "title": "Reception", "participantId": "receptionist", "role": "Kit handoff"}
+    ],
+    "nodes": [
+      {"id": "email-request", "stageId": "request", "laneId": "employee-lane", "title": "Email date and team name", "artifact": "Request email", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "copy-request", "stageId": "request", "laneId": "coordinator-lane", "title": "Copy request to spreadsheet", "artifact": "Loan spreadsheet row", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "check-cupboard", "stageId": "review", "laneId": "coordinator-lane", "title": "Check the cupboard", "kind": "decision", "artifact": "Availability result", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "send-collection", "stageId": "review", "laneId": "inbox-lane", "title": "Collection email: order unresolved", "artifact": "Collection email", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "barrierIds": ["response-timing"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      {"id": "receive-unavailable", "stageId": "review", "laneId": "employee-lane", "title": "Unavailable email: order unresolved", "kind": "outcome", "artifact": "Unavailable email", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      {"id": "sign-and-collect", "stageId": "collect", "laneId": "employee-lane", "title": "Sign and collect kit", "artifact": "Signed sheet and kit", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "return-kit", "stageId": "return", "laneId": "employee-lane", "title": "Return kit to reception", "artifact": "Returned kit", "status": "declared", "sourceIds": ["ops-handbook"], "barrierIds": ["late-return"]},
+      {"id": "restock-kit", "stageId": "return", "laneId": "reception-lane", "title": "Receive kit and return it to stock", "kind": "outcome", "status": "declared", "sourceIds": ["ops-handbook"]}
+    ],
+    "edges": [
+      {"id": "email-to-copy", "from": "email-request", "to": "copy-request", "kind": "handoff", "label": "When the inbox is handled", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "copy-to-check", "from": "copy-request", "to": "check-cupboard", "kind": "flow", "label": "After spreadsheet entry", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "available", "from": "check-cupboard", "to": "send-collection", "kind": "flow", "condition": "If available: collection email in the handbook; the FAQ promises early confirmation. Order unresolved.", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      {"id": "unavailable", "from": "check-cupboard", "to": "receive-unavailable", "kind": "flow", "condition": "If unavailable: refusal email in the handbook; the FAQ promises early confirmation. Order unresolved.", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      {"id": "collection-to-sign", "from": "send-collection", "to": "sign-and-collect", "kind": "flow", "label": "After the collection email, at reception; confirmation order unresolved", "status": "unknown", "sourceIds": ["ops-handbook", "customer-faq"], "detail": "The handbook describes a reply after checking availability; the FAQ promises confirmation within one business day even before checking ends. Confirmation order is unresolved because neither source has authority."},
+      {"id": "collect-to-return", "from": "sign-and-collect", "to": "return-kit", "kind": "flow", "label": "Later", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "return-to-restock", "from": "return-kit", "to": "restock-kit", "kind": "handoff", "label": "On return to reception", "status": "declared", "sourceIds": ["ops-handbook"]}
+    ]
+  }
+}

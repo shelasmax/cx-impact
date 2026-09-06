@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "locale": "ru",
+  "mode": "current",
+  "scope": {"scenario": "Взять переносной набор для воркшопа", "start": "Отправить запрос по почте", "end": "Вернуть набор", "asOf": "2026-07-10"},
+  "title": "Текущая выдача набора для воркшопа",
+  "subtitle": "Авторский разбор вымышленного операционного документа",
+  "actor": "Сотрудник, который запрашивает набор для воркшопа",
+  "goal": "В регламенте не указана",
+  "disclaimer": "Вымышленный пример текущего состояния только по переданному регламенту. Утверждения задекларированы, а не наблюдались. Опыт, частота и финансовые эффекты неизвестны.",
+  "defaultView": "blueprint",
+  "sources": [
+    {"id": "ops-handbook", "kind": "other", "label": "Операционный регламент · 2026-07-10", "text": "Сотрудники отправляют в хозяйственную службу письмо с желаемой датой и названием команды. Координатор переносит каждый запрос в таблицу выдачи и проверяет шкаф. Координатор не отправляет подтверждение до завершения проверки и затем пишет либо о возможности получить набор, либо о его недоступности. Регламент не устанавливает срок ответа. Для доступного набора сотрудник расписывается на бумажном листе у стойки ресепшен и получает маркированный набор; строка таблицы остаётся учётной записью выдачи. Позже сотрудник возвращает набор на ресепшен, где сотрудник ресепшен помещает его обратно в запас. Регламент не описывает поздние возвраты."}
+  ],
+  "stages": [
+    {
+      "id": "request",
+      "title": "Отправить письмо",
+      "goal": {"text": "Цель не указана в регламенте", "status": "unknown"},
+      "action": {"text": "Отправить дату и название команды", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "channel": {"text": "Почта хозяйственной службы", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Использовать структурированную форму", "status": "proposal"},
+      "evidence": {"text": "Письмо с запросом", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "frontstage": {"text": "Получить письмо с запросом", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "backstage": {"text": "Перенести запрос в таблицу", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Почта и таблица выдачи", "status": "declared", "sourceIds": ["ops-handbook"]}
+    },
+    {
+      "id": "review",
+      "title": "Ждать ответа",
+      "goal": {"text": "Цель не указана в регламенте", "status": "unknown"},
+      "action": {"text": "Получить письмо о выдаче или недоступности", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "channel": {"text": "Письмо после проверки доступности", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Определить и проверить обещание срока", "status": "proposal"},
+      "evidence": {"text": "Письмо о выдаче или недоступности", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "frontstage": {"text": "Ответить после проверки доступности", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "backstage": {"text": "Проверить шкаф с наборами", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Таблица выдачи и шкаф", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "barrierIds": ["response-timing"]
+    },
+    {
+      "id": "collect",
+      "title": "Получить набор",
+      "goal": {"text": "Цель не указана в регламенте", "status": "unknown"},
+      "action": {"text": "Расписаться на листе и забрать набор", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "channel": {"text": "Стойка ресепшен", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Проверить, достаточно ли бумажной записи", "status": "proposal"},
+      "evidence": {"text": "Подписанный лист и маркированный набор", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "frontstage": {"text": "Передать маркированный набор", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "backstage": {"text": "Сохранить строку в таблице", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Бумажный лист и таблица выдачи", "status": "declared", "sourceIds": ["ops-handbook"]}
+    },
+    {
+      "id": "return",
+      "title": "Вернуть набор",
+      "goal": {"text": "Цель не указана в регламенте", "status": "unknown"},
+      "action": {"text": "Принести набор обратно на ресепшен", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "channel": {"text": "Стойка ресепшен", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Определить порядок позднего возврата", "status": "proposal"},
+      "evidence": {"text": "Возвращённый набор", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "frontstage": {"text": "Принять возвращённый набор", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "backstage": {"text": "Вернуть набор в запас ресепшен", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "support": {"text": "Хранилище ресепшен", "status": "declared", "sourceIds": ["ops-handbook"]},
+      "barrierIds": ["late-return"]
+    }
+  ],
+  "barriers": [
+    {"id": "response-timing", "text": "Регламент не устанавливает срок ответа", "status": "declared", "sourceIds": ["ops-handbook"], "stageIds": ["review"], "consequence": {"text": "Фактическое ожидание и его эффект неизвестны", "status": "unknown"}, "improvement": {"text": "Согласовать правило ответа до публикации", "status": "proposal"}, "question": {"text": "Какой срок ответа применяется на практике?", "status": "unknown"}},
+    {"id": "late-return", "text": "Регламент не описывает поздние возвраты", "status": "declared", "sourceIds": ["ops-handbook"], "stageIds": ["return"], "consequence": {"text": "Сценарий восстановления неизвестен", "status": "unknown"}, "improvement": {"text": "Описать владельца и передачу позднего возврата", "status": "proposal"}, "question": {"text": "Что происходит при позднем возврате?", "status": "unknown"}}
+  ],
+  "participants": [
+    {"id": "employee", "title": "Сотрудник", "roles": ["Автор запроса", "Получатель набора"]},
+    {"id": "coordinator", "title": "Координатор хозяйственной службы", "roles": ["Проверяющий доступность"]},
+    {"id": "receptionist", "title": "Сотрудник ресепшен", "roles": ["Передача набора"]}
+  ],
+  "questions": [
+    {"id": "response-authority", "text": "Какой срок ответа фактически соблюдается?", "status": "unknown", "stageIds": ["review"], "impact": "Изменит путь ожидания и обещание сотруднику."},
+    {"id": "late-return-owner", "text": "Кто отвечает за поздний возврат?", "status": "unknown", "stageIds": ["return"], "impact": "Изменит роли и переходы сценария восстановления."}
+  ],
+  "process": {
+    "lanes": [
+      {"id": "employee-lane", "title": "Сотрудник", "participantId": "employee", "role": "Автор запроса и получатель"},
+      {"id": "inbox-lane", "title": "Почта службы", "role": "Канал запроса"},
+      {"id": "coordinator-lane", "title": "Координатор", "participantId": "coordinator", "role": "Проверка доступности"},
+      {"id": "reception-lane", "title": "Ресепшен", "participantId": "receptionist", "role": "Передача набора"}
+    ],
+    "nodes": [
+      {"id": "email-request", "stageId": "request", "laneId": "employee-lane", "title": "Отправить дату и название команды", "artifact": "Письмо с запросом", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "copy-request", "stageId": "request", "laneId": "coordinator-lane", "title": "Перенести запрос в таблицу", "artifact": "Строка в таблице выдачи", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "check-cupboard", "stageId": "review", "laneId": "coordinator-lane", "title": "Проверить шкаф", "kind": "decision", "artifact": "Результат проверки", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "send-collection", "stageId": "review", "laneId": "inbox-lane", "title": "Отправить письмо о выдаче", "artifact": "Письмо о выдаче", "status": "declared", "sourceIds": ["ops-handbook"], "barrierIds": ["response-timing"]},
+      {"id": "receive-unavailable", "stageId": "review", "laneId": "employee-lane", "title": "Получить письмо о недоступности", "kind": "outcome", "artifact": "Письмо о недоступности", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "sign-and-collect", "stageId": "collect", "laneId": "employee-lane", "title": "Расписаться и получить набор", "artifact": "Подписанный лист и набор", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "return-kit", "stageId": "return", "laneId": "employee-lane", "title": "Вернуть набор на ресепшен", "artifact": "Возвращённый набор", "status": "declared", "sourceIds": ["ops-handbook"], "barrierIds": ["late-return"]},
+      {"id": "restock-kit", "stageId": "return", "laneId": "reception-lane", "title": "Принять набор и вернуть на хранение", "kind": "outcome", "status": "declared", "sourceIds": ["ops-handbook"]}
+    ],
+    "edges": [
+      {"id": "email-to-copy", "from": "email-request", "to": "copy-request", "kind": "handoff", "label": "При обработке почты", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "copy-to-check", "from": "copy-request", "to": "check-cupboard", "kind": "flow", "label": "После записи в таблицу", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "available", "from": "check-cupboard", "to": "send-collection", "kind": "flow", "condition": "Если набор доступен, отправить письмо о выдаче", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "unavailable", "from": "check-cupboard", "to": "receive-unavailable", "kind": "flow", "condition": "Если набора нет, отправить письмо о недоступности", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "collection-to-sign", "from": "send-collection", "to": "sign-and-collect", "kind": "flow", "label": "На ресепшен", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "collect-to-return", "from": "sign-and-collect", "to": "return-kit", "kind": "flow", "label": "Позже", "status": "declared", "sourceIds": ["ops-handbook"]},
+      {"id": "return-to-restock", "from": "return-kit", "to": "restock-kit", "kind": "handoff", "label": "При возврате на ресепшен", "status": "declared", "sourceIds": ["ops-handbook"]}
+    ]
+  }
+}

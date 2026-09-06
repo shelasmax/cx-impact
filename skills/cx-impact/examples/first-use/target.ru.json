@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "locale": "ru",
+  "mode": "target",
+  "scope": {"scenario": "Взять переносной набор для воркшопа", "start": "Запросить набор", "end": "Вернуть набор", "asOf": "2026-08-18"},
+  "title": "Целевая выдача набора для воркшопа",
+  "subtitle": "Авторский разбор вымышленного требования",
+  "actor": "Сотрудник, который проводит командный воркшоп",
+  "goal": "Забронировать, получить и вернуть подходящий набор",
+  "disclaimer": "Вымышленный пример целевого состояния. Он фиксирует требования и предложения, а не работающий сервис или исследование клиентов. Опыт, частота и финансовые эффекты неизвестны.",
+  "defaultView": "cjm",
+  "sources": [
+    {"id": "product-brief", "kind": "requirement", "label": "Продуктовый бриф · 2026-08-18", "text": "Внутренний сервис должен позволять сотруднику запросить переносной набор для воркшопа через интранет. В запросе должны быть дата и название команды; запрос нужно сохранить и передать координатору. Координатор должен проверить доступность, записать решение и через интранет отправить либо подтверждение с местом получения, либо сообщение о недоступности. Для подтверждённого запроса стойка выдачи должна подготовить и передать маркированный набор и записать выдачу. После воркшопа сотрудник должен вернуть набор на ту же стойку; стойка должна принять его и закрыть запись о выдаче. Часы выдачи и порядок действий при позднем возврате не определены."}
+  ],
+  "stages": [
+    {
+      "id": "request",
+      "title": "Запросить набор",
+      "goal": {"text": "Запросить набор для запланированной сессии", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Указать дату и название команды", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Корпоративный интранет", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Заранее объяснить обязательные поля", "status": "proposal"},
+      "evidence": {"text": "Отправленный запрос набора", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Принять запрос", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Поставить запрос в очередь проверки", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Запись запроса в интранете", "status": "requirement", "sourceIds": ["product-brief"]}
+    },
+    {
+      "id": "review",
+      "title": "Получить решение",
+      "goal": {"text": "Узнать, доступен ли набор", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Получить результат проверки", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Сообщение сервиса", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Указать срок ответа", "status": "proposal"},
+      "evidence": {"text": "Подтверждение выдачи или отказ", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Отправить результат проверки", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Проверить доступность набора", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Запись о доступности", "status": "requirement", "sourceIds": ["product-brief"]}
+    },
+    {
+      "id": "collect",
+      "title": "Получить набор",
+      "goal": {"text": "Получить забронированный набор", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Забрать маркированный набор", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Указанное место выдачи", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Опубликовать часы выдачи", "status": "proposal"},
+      "evidence": {"text": "Маркированный набор для воркшопа", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Передать маркированный набор", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Подготовить подтверждённый набор", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Маркировка и запись о выдаче", "status": "requirement", "sourceIds": ["product-brief"]},
+      "barrierIds": ["pickup-hours"]
+    },
+    {
+      "id": "return",
+      "title": "Вернуть набор",
+      "goal": {"text": "Завершить выдачу", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Вернуть набор на ту же стойку", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Стойка выдачи", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Опыт не установлен", "status": "unknown"},
+      "opportunity": {"text": "Определить порядок позднего возврата", "status": "proposal"},
+      "evidence": {"text": "Возвращённый набор", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Принять возвращённый набор", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Закрыть запись о выдаче", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Запись о выдаче", "status": "requirement", "sourceIds": ["product-brief"]},
+      "barrierIds": ["late-return"]
+    }
+  ],
+  "barriers": [
+    {"id": "pickup-hours", "text": "Часы выдачи не определены", "status": "unknown", "stageIds": ["collect"], "consequence": {"text": "Доступное окно получения неизвестно", "status": "unknown"}, "improvement": {"text": "Добавить часы выдачи в подтверждение", "status": "proposal"}, "question": {"text": "Когда стойка открыта для выдачи?", "status": "unknown"}},
+    {"id": "late-return", "text": "Порядок позднего возврата не определён", "status": "unknown", "stageIds": ["return"], "consequence": {"text": "Сценарий восстановления пока нельзя описать", "status": "unknown"}, "improvement": {"text": "Определить контакт и передачу при позднем возврате", "status": "proposal"}, "question": {"text": "Кто помогает, если набор нельзя вернуть вовремя?", "status": "unknown"}}
+  ],
+  "participants": [
+    {"id": "employee", "title": "Сотрудник", "roles": ["Автор запроса", "Получатель набора"]},
+    {"id": "coordinator", "title": "Координатор наборов", "roles": ["Проверяющий доступность"]}
+  ],
+  "questions": [
+    {"id": "pickup-window", "text": "Какие часы выдачи должен обещать сервис?", "status": "unknown", "stageIds": ["collect"], "impact": "Изменит содержание подтверждения и путь получения."},
+    {"id": "late-return-owner", "text": "Кто отвечает за поздний возврат?", "status": "unknown", "stageIds": ["return"], "impact": "Изменит роли и переходы сценария восстановления."}
+  ],
+  "process": {
+    "lanes": [
+      {"id": "employee-lane", "title": "Сотрудник", "participantId": "employee", "role": "Автор запроса и получатель"},
+      {"id": "intranet-lane", "title": "Интранет", "role": "Канал запроса"},
+      {"id": "coordinator-lane", "title": "Координатор", "participantId": "coordinator", "role": "Проверка доступности"},
+      {"id": "desk-lane", "title": "Стойка выдачи", "role": "Передача набора"}
+    ],
+    "nodes": [
+      {"id": "submit-request", "stageId": "request", "laneId": "employee-lane", "title": "Отправить дату и название команды", "artifact": "Запрос набора", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "record-request", "stageId": "request", "laneId": "intranet-lane", "title": "Записать запрос", "artifact": "Запись запроса", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "check-availability", "stageId": "review", "laneId": "coordinator-lane", "title": "Проверить доступность", "kind": "decision", "artifact": "Решение о доступности", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "send-confirmation", "stageId": "review", "laneId": "intranet-lane", "title": "Отправить подтверждение выдачи", "artifact": "Подтверждение с местом", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "receive-unavailable", "stageId": "review", "laneId": "employee-lane", "title": "Получить сообщение о недоступности", "kind": "outcome", "artifact": "Сообщение о недоступности", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "collect-kit", "stageId": "collect", "laneId": "employee-lane", "title": "Получить маркированный набор", "artifact": "Набор для воркшопа", "status": "requirement", "sourceIds": ["product-brief"], "barrierIds": ["pickup-hours"]},
+      {"id": "return-kit", "stageId": "return", "laneId": "employee-lane", "title": "Вернуть набор на стойку", "artifact": "Возвращённый набор", "status": "requirement", "sourceIds": ["product-brief"], "barrierIds": ["late-return"]},
+      {"id": "hand-over-kit", "stageId": "collect", "laneId": "desk-lane", "title": "Подготовить и передать набор", "artifact": "Запись о выдаче", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "close-loan", "stageId": "return", "laneId": "desk-lane", "title": "Принять набор и закрыть запись", "kind": "outcome", "status": "requirement", "sourceIds": ["product-brief"]}
+    ],
+    "edges": [
+      {"id": "submit-to-record", "from": "submit-request", "to": "record-request", "kind": "handoff", "label": "После отправки", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "record-to-check", "from": "record-request", "to": "check-availability", "kind": "handoff", "label": "Запрос готов к проверке", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "available", "from": "check-availability", "to": "send-confirmation", "kind": "flow", "condition": "Если набор доступен на запрошенную дату, отправить место выдачи", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "unavailable", "from": "check-availability", "to": "receive-unavailable", "kind": "flow", "condition": "Если набора нет на запрошенную дату, отправить сообщение о недоступности", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "confirmation-to-collect", "from": "send-confirmation", "to": "hand-over-kit", "kind": "flow", "label": "В указанном месте выдачи", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "collect-to-return", "from": "collect-kit", "to": "return-kit", "kind": "flow", "label": "После воркшопа", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "handover-to-collect", "from": "hand-over-kit", "to": "collect-kit", "kind": "handoff", "label": "При выдаче сотруднику", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "return-to-close", "from": "return-kit", "to": "close-loan", "kind": "handoff", "label": "При возврате на стойку", "status": "requirement", "sourceIds": ["product-brief"]}
+    ]
+  }
+}

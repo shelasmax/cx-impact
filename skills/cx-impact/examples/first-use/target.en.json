@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "locale": "en",
+  "mode": "target",
+  "scope": {"scenario": "Borrow a portable workshop kit", "start": "Request a kit", "end": "Return the kit", "asOf": "2026-08-18"},
+  "title": "Target workshop kit loan",
+  "subtitle": "Authored worked example from a fictional requirement",
+  "actor": "Employee running a team workshop",
+  "goal": "Reserve, collect and return the right kit",
+  "disclaimer": "Fictional target-state example. It records requirements and proposals, not an implemented service or customer research. Experience, frequency and financial effects are unknown.",
+  "defaultView": "cjm",
+  "sources": [
+    {"id": "product-brief", "kind": "requirement", "label": "Product brief · 2026-08-18", "text": "The workplace service must let an employee request a portable workshop kit through the intranet. The request must include date and team name, be stored, and be made available to a coordinator. The coordinator must check availability, record the decision, and send through the intranet either a pickup confirmation with location or an unavailable notice. For confirmed requests, the pickup desk must prepare and hand over the labelled kit and record collection. After the workshop, the employee must return the kit to the same desk; the desk must accept it and close the loan record. Pickup hours and the path for late returns are not specified."}
+  ],
+  "stages": [
+    {
+      "id": "request",
+      "title": "Request kit",
+      "goal": {"text": "Request a kit for a planned session", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Enter the date and team name", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Workplace intranet", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "Explain required details before entry", "status": "proposal"},
+      "evidence": {"text": "Submitted kit request", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Accept the request", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Queue it for availability review", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Intranet request record", "status": "requirement", "sourceIds": ["product-brief"]}
+    },
+    {
+      "id": "review",
+      "title": "Get decision",
+      "goal": {"text": "Learn whether a kit is available", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Receive the availability result", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Service message", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "State when the decision will arrive", "status": "proposal"},
+      "evidence": {"text": "Pickup confirmation or unavailable notice", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Send the availability result", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Check kit availability", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Availability record", "status": "requirement", "sourceIds": ["product-brief"]}
+    },
+    {
+      "id": "collect",
+      "title": "Collect kit",
+      "goal": {"text": "Collect the reserved kit", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Pick up the labelled kit", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Named pickup location", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "Publish pickup hours", "status": "proposal"},
+      "evidence": {"text": "Labelled workshop kit", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Hand over the labelled kit", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Prepare the confirmed kit", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Kit label and pickup record", "status": "requirement", "sourceIds": ["product-brief"]},
+      "barrierIds": ["pickup-hours"]
+    },
+    {
+      "id": "return",
+      "title": "Return kit",
+      "goal": {"text": "Complete the loan", "status": "requirement", "sourceIds": ["product-brief"]},
+      "action": {"text": "Return the kit to the same desk", "status": "requirement", "sourceIds": ["product-brief"]},
+      "channel": {"text": "Pickup desk", "status": "requirement", "sourceIds": ["product-brief"]},
+      "experience": {"text": "Experience is not established", "status": "unknown"},
+      "opportunity": {"text": "Define a late-return path", "status": "proposal"},
+      "evidence": {"text": "Returned kit", "status": "requirement", "sourceIds": ["product-brief"]},
+      "frontstage": {"text": "Receive the returned kit", "status": "requirement", "sourceIds": ["product-brief"]},
+      "backstage": {"text": "Close the loan record", "status": "requirement", "sourceIds": ["product-brief"]},
+      "support": {"text": "Loan record", "status": "requirement", "sourceIds": ["product-brief"]},
+      "barrierIds": ["late-return"]
+    }
+  ],
+  "barriers": [
+    {"id": "pickup-hours", "text": "Pickup hours are not specified", "status": "unknown", "stageIds": ["collect"], "consequence": {"text": "The feasible collection window is unknown", "status": "unknown"}, "improvement": {"text": "Add pickup hours to the confirmation", "status": "proposal"}, "question": {"text": "When is the desk open for collection?", "status": "unknown"}},
+    {"id": "late-return", "text": "The late-return path is not specified", "status": "unknown", "stageIds": ["return"], "consequence": {"text": "The recovery path cannot yet be mapped", "status": "unknown"}, "improvement": {"text": "Define contact and handoff steps for a late return", "status": "proposal"}, "question": {"text": "Who handles a kit that cannot be returned on time?", "status": "unknown"}}
+  ],
+  "participants": [
+    {"id": "employee", "title": "Employee", "roles": ["Requester", "Borrower"]},
+    {"id": "coordinator", "title": "Kit coordinator", "roles": ["Availability reviewer"]}
+  ],
+  "questions": [
+    {"id": "pickup-window", "text": "What pickup hours should the service promise?", "status": "unknown", "stageIds": ["collect"], "impact": "Changes the confirmation content and collection path."},
+    {"id": "late-return-owner", "text": "Who owns late-return recovery?", "status": "unknown", "stageIds": ["return"], "impact": "Changes the recovery roles and transitions."}
+  ],
+  "process": {
+    "lanes": [
+      {"id": "employee-lane", "title": "Employee", "participantId": "employee", "role": "Requester and borrower"},
+      {"id": "intranet-lane", "title": "Intranet", "role": "Request channel"},
+      {"id": "coordinator-lane", "title": "Coordinator", "participantId": "coordinator", "role": "Availability reviewer"},
+      {"id": "desk-lane", "title": "Pickup desk", "role": "Kit handoff"}
+    ],
+    "nodes": [
+      {"id": "submit-request", "stageId": "request", "laneId": "employee-lane", "title": "Submit date and team name", "artifact": "Kit request", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "record-request", "stageId": "request", "laneId": "intranet-lane", "title": "Record request", "artifact": "Request record", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "check-availability", "stageId": "review", "laneId": "coordinator-lane", "title": "Check availability", "kind": "decision", "artifact": "Availability decision", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "send-confirmation", "stageId": "review", "laneId": "intranet-lane", "title": "Send pickup confirmation", "artifact": "Confirmation with location", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "receive-unavailable", "stageId": "review", "laneId": "employee-lane", "title": "Receive unavailable notice", "kind": "outcome", "artifact": "Unavailable notice", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "collect-kit", "stageId": "collect", "laneId": "employee-lane", "title": "Collect labelled kit", "artifact": "Workshop kit", "status": "requirement", "sourceIds": ["product-brief"], "barrierIds": ["pickup-hours"]},
+      {"id": "return-kit", "stageId": "return", "laneId": "employee-lane", "title": "Return kit to desk", "artifact": "Returned kit", "status": "requirement", "sourceIds": ["product-brief"], "barrierIds": ["late-return"]},
+      {"id": "hand-over-kit", "stageId": "collect", "laneId": "desk-lane", "title": "Prepare and hand over kit", "artifact": "Collection record", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "close-loan", "stageId": "return", "laneId": "desk-lane", "title": "Accept kit and close loan record", "kind": "outcome", "status": "requirement", "sourceIds": ["product-brief"]}
+    ],
+    "edges": [
+      {"id": "submit-to-record", "from": "submit-request", "to": "record-request", "kind": "handoff", "label": "After submission", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "record-to-check", "from": "record-request", "to": "check-availability", "kind": "handoff", "label": "Request ready for review", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "available", "from": "check-availability", "to": "send-confirmation", "kind": "flow", "condition": "If a kit is available for the requested date, send the pickup location", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "unavailable", "from": "check-availability", "to": "receive-unavailable", "kind": "flow", "condition": "If no kit is available for the requested date, send an unavailable notice", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "confirmation-to-collect", "from": "send-confirmation", "to": "hand-over-kit", "kind": "flow", "label": "At the named pickup location", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "collect-to-return", "from": "collect-kit", "to": "return-kit", "kind": "flow", "label": "After the workshop", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "handover-to-collect", "from": "hand-over-kit", "to": "collect-kit", "kind": "handoff", "label": "On collection by the employee", "status": "requirement", "sourceIds": ["product-brief"]},
+      {"id": "return-to-close", "from": "return-kit", "to": "close-loan", "kind": "handoff", "label": "On return to the desk", "status": "requirement", "sourceIds": ["product-brief"]}
+    ]
+  }
+}

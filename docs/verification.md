@@ -1,5 +1,22 @@
 # Verification scope
 
+## v0.5.0 · First use, revisions and check-only validation
+
+Version 0.5.0 adds three worked exercises in English and Russian, a documented revision workflow, `--check`, and pilot/evaluation materials. It keeps input version 1 and existing viewer behavior; only the core version metadata advances to 0.5.0. The six previously published HTML snapshots retain their embedded versions.
+
+| Layer | Checked locally |
+|---|---|
+| Node tests | 39 tests: the existing 23 plus eight check-only CLI tests, five first-use/example preservation tests and three evaluation-runner tests. Check-only coverage includes unchanged file bytes and modification times, malformed input, structural errors, geometry failure, warnings, comparisons and symlinked installation. |
+| Revision preservation | The worked update retains source history and stable IDs; tests compare all unaffected content and require both sources on disputed claims. The copied custom-snapshot procedure was also executed locally: the original JSON/HTML remained unchanged, customization survived, and a second rebuild was byte-identical. |
+| New-example browser checks | Chrome 152.0.7977.83 on macOS, six first-use JSON examples × three views × 1366×900 and 1920×1080: 36 combinations. Geometry, native scale, fit and keyboard detail opening/closing with focus return passed. No page errors or viewer network requests were observed. |
+| Exports | 18 SVG downloads were saved, reopened and checked for text containment within the full view bounds; six JSON downloads deep-equalled their inputs. This was scoped to the new examples in Classic/light. |
+| Agent visual inspection | Representative final English/Russian screenshots of all three views at both sizes, including full conditions below the process, desk handoffs and the revised conflict labels. This is agent inspection, not human acceptance of every state. |
+| Packaging | Publication allowlist check and the 19-file archive build passed. The extracted check-only command was exercised, both existing language demos and all six new exercises rendered, and source snapshots rebuilt byte-for-byte. All 20 English/Russian quickstart commands were executed from an extracted installation: six result bundles were created outside it and the installed files stayed unchanged. Every newly prepared evaluation skill arm was also compared byte-for-byte with every archive member. |
+
+Browser outputs and raw trial data remain local and outside publication inputs. This pass did not rerun the entire historical theme matrix, test another browser engine or operating system, or assess screen-reader behavior. The viewer is unchanged; the broader historical scope remains documented below.
+
+The [five-person pilot](pilot.md) and [synthetic comparison](evaluation.md) have separate human review procedures. Participant recruitment, usefulness ratings and the 14-day follow-up have not taken place. Mechanical checks do not establish demand or superiority over a short prompt. The product remains an experimental preview.
+
 ## v0.4.0 · Branded exports and agent installation
 
 All 23 Node tests passed locally. Both browser suites passed in Chrome 152 on macOS: 42 baseline scenario/view/size combinations and 168 design/color-mode combinations at 1366×900 and 1920×1080. The checks cover native/fit scale, keyboard details, routes, appearance persistence, playback and reduced motion. 21 baseline and 84 themed SVG downloads were reopened; their embedded PNG bytes match the current `docs/brand/logo.png`. Baseline exports also check logo containment in the full SVG bounds. Export during an active path remains static, and downloaded JSON deep-equals the source. No viewer network requests were observed.
@@ -60,7 +77,7 @@ Generated `.checks.json` files check structure and geometry; they do not certify
 
 ## Limits
 
-- No new comparative model experiment or human acceptance study was performed for this release.
+- The published v0.4.0 release did not include a comparative model experiment or human acceptance study. Development trial outcomes remain local; the public evaluation protocol does not contain human results or a superiority claim.
 - Claude Code, other browsers, other operating systems and mobile layouts were not part of local visual validation.
 - CI validates the checks it runs; it does not run customer research or claim universal browser compatibility.
 - The in-app browser's `blob:` policy was not bypassed. Downloaded SVGs were checked through the rendered DOM; visual inspection used the HTML viewer.

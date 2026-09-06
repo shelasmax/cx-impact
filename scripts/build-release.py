@@ -14,6 +14,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL_FILES = (
     'SKILL.md', 'README.md', 'LICENSE',
     'references/maps.md', 'references/evidence.md',
+    'references/quickstart.md', 'references/quickstart.ru.md',
+    'examples/first-use/target.en.json', 'examples/first-use/target.ru.json',
+    'examples/first-use/current.en.json', 'examples/first-use/current.ru.json',
+    'examples/first-use/updated.en.json', 'examples/first-use/updated.ru.json',
     'assets/map.html', 'assets/map-core.js', 'assets/map-viewer.js', 'assets/report.md',
     'scripts/render-map.mjs',
 )
@@ -52,6 +56,9 @@ def build() -> None:
             source = workspace / (stem + '.json')
             shutil.copyfile(ROOT / folder / 'map.json', source)
             html = workspace / (stem + '.html')
+            checked = subprocess.run(['node', str(workspace / 'cx-impact/scripts/render-map.mjs'), '--check', str(source)], check=True, capture_output=True, text=True)
+            if json.loads(checked.stdout)['geometry']['status'] != 'checked' or html.exists():
+                raise SystemExit('Packaged check-only command failed or wrote HTML')
             subprocess.run(['node', str(workspace / 'cx-impact/scripts/render-map.mjs'), str(source), str(html)], check=True, stdout=subprocess.DEVNULL)
             before = html.read_bytes()
             if b'MIT License' not in before or b'/*__CX_MAP_' in before:
@@ -64,6 +71,16 @@ def build() -> None:
                 raise SystemExit('Packaged renderer failed geometry check')
             shutil.copyfile(html, out / (stem + '.html'))
             shutil.copyfile(source, out / (stem + '.json'))
+        for name in SKILL_FILES:
+            if not name.startswith('examples/first-use/') or not name.endswith('.json'):
+                continue
+            source = workspace / 'cx-impact' / name
+            html = workspace / 'first-use' / (source.stem + '.html')
+            subprocess.run(['node', str(workspace / 'cx-impact/scripts/render-map.mjs'), str(source), str(html)], check=True, stdout=subprocess.DEVNULL)
+            before = html.read_bytes()
+            subprocess.run(['node', str(html.with_suffix('.source') / 'rebuild.mjs')], check=True, stdout=subprocess.DEVNULL)
+            if html.read_bytes() != before:
+                raise SystemExit('Packaged first-use example did not rebuild deterministically')
     assets = [archive, *[out / (stem + suffix) for stem in ['bicycle-service-demo','bicycle-service-demo-en'] for suffix in ['.html','.json']]]
     (out / 'SHA256SUMS').write_text(''.join(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n' for p in assets))
     print(f'Built {archive.name}: {len(expected)} allowlisted files; extracted renderer and exact rebuild passed.')
