@@ -13,7 +13,9 @@ The connected paths represent the relationship between a customer's journey and 
 
 The generated maps offer two designs. **Classic**, the original green atlas, remains the default and uses the current brand above. **Graphite Field Notes** is an optional editorial design developed in an OpenDesign project and adapted to the existing deterministic renderer. OpenDesign is a design workspace, not a runtime dependency.
 
-Classic retains Avenir Next / Trebuchet MS typography, the circular brand mark, green stage headers, alternating ivory/mint cells, rounded cards and filled green view tabs. Supporting text colors have been adjusted for contrast. Its new dark palette uses forest surfaces and mint accents. Graphite uses Georgia titles, neutral paper/graphite surfaces and a terracotta accent. Geometry, content, details, playback and exports are shared.
+Classic retains Avenir Next / Trebuchet MS typography, green stage headers, alternating ivory/mint cells, rounded cards and filled green view tabs. Supporting text colors have been adjusted for contrast. Its new dark palette uses forest surfaces and mint accents. Graphite uses Georgia titles, neutral paper/graphite surfaces and a terracotta accent. Geometry, content, details, playback and exports are shared.
+
+Both designs use the current `logo.png` lockup in the masthead. The original PNG is embedded unchanged in the HTML template, including its ivory backing; the surrounding frame clips only excess background and preserves the complete mark and wordmark. Do not substitute CSS symbols, recolor the logo with theme tokens or fetch it remotely. This adds about 1.2 MB to each standalone HTML file and keeps offline viewing and snapshot rebuilds independent.
 
 Design (Classic / Graphite) and color mode (Light / Dark / System) are independent controls. The default is Classic + System. Both choices persist independently when browser storage is available and affect the entire map and exported SVG, without changing authored JSON. The tables below describe Graphite; the Classic token overrides live alongside it in the same template.
 

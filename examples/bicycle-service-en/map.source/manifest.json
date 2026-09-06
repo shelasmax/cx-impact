@@ -1,15 +1,15 @@
 {
-  "rendererVersion": "0.3.0",
+  "rendererVersion": "0.3.1",
   "templateCustom": false,
   "files": {
     "scripts/render-map.mjs": "5372ed937bb982eeb4a5cb88bc05b8c783062d8ddc136f7d2c0160b27ef4e783",
-    "assets/map.html": "c2c28b8b9cfbc7c72d994aec364590e8f3b94c742a82d81181a7d9d351c56af8",
-    "assets/map-core.js": "7938fb0d84aa741664f653069ceb51d41ec51a6c90245582ff3f5a1623311726",
+    "assets/map.html": "c529d0f49df2f3c62bc44f38df4e197bdec7aa7d81381bacd72f283c0817f74a",
+    "assets/map-core.js": "57308814819be043a03321e193277e5d2e7b168dc40d2ca101d6f046697e43aa",
     "assets/map-viewer.js": "1d1ee6884cac93a156a1829e61ef9e0e2eb4056eeade6e90256bbb398170dc6c",
     "rebuild.mjs": "9a16545b16dd291af8fefd8edc65b689c378f50feda759e725df215297e4f8ef"
   },
   "source": "map.json",
   "sourceSha256": "716a6f5856a9e9de0fc14119dbc20b9cae5a55d432c860df2f31b3a96184915e",
-  "htmlSha256": "10acb251bbfa7fc8da23f9a0fefe91ca9591de8e82050e839be5c1a0ae1f274f",
+  "htmlSha256": "a2313164f55580647e217927dbfead2a97553905855b4b5e9c1db0ad40e3f8a3",
   "rebuild": "node \"map.source/rebuild.mjs\""
 }

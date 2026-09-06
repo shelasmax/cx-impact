@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.3.0"><img alt="Release v0.3.0" src="https://img.shields.io/badge/release-v0.3.0-24695a"></a>
+  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.3.1"><img alt="Release v0.3.1" src="https://img.shields.io/badge/release-v0.3.1-24695a"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-203a34"></a>
   <a href="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml"><img alt="Checks" src="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml/badge.svg"></a>
   <img alt="Experimental preview" src="https://img.shields.io/badge/status-experimental_preview-a06a24">
@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
-  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/bicycle-service-demo-en.html">Download interactive demo</a> ·
+  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo-en.html">Download interactive demo</a> ·
   <a href="docs/installation.md">Installation</a> ·
   <a href="README.ru.md">Русский</a>
 </p>
@@ -60,13 +60,13 @@ Customer, service advisor and mechanic: handoffs, repair approval, and the alter
 
 ![Experience-process map — bicycle repair service, English](examples/bicycle-service-en/process-preview.png)
 
-[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
+[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
 
 ## Quick start
 
 **You need:** a local Codex environment and Node.js 18+ for rendering. The renderer uses only built-in Node APIs. The generated HTML needs only a browser.
 
-1. Download and extract [cx-impact-0.3.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/cx-impact-0.3.0.zip).
+1. Download and extract [cx-impact-0.3.1.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/cx-impact-0.3.1.zip).
 2. Copy the extracted `cx-impact` directory into **your project's** `.agents/skills/` directory. Preserve an existing installation before upgrading.
 3. Start a new Codex session in that project and invoke the skill:
 
@@ -89,7 +89,7 @@ how staff support it. Keep unknown experience claims explicit.
 
 ## Try the output without an agent
 
-Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
+Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
 
 The viewer includes view switching, readable **100%** scale, **fit to width**, canvas scrolling, keyboard-accessible details, sources, open questions and full-view SVG export. Dense branch labels may move to a numbered list below the map; their full text is retained.
 
@@ -121,7 +121,7 @@ It also preserves missing information: an empty process cell means a step is not
 
 ## Status and limitations
 
-**v0.3.0 is an experimental public preview.** Local use is oriented toward Codex. Claude Code is a portability target and has not been tested.
+**v0.3.1 is an experimental public preview.** Local use is oriented toward Codex. Claude Code is a portability target and has not been tested.
 
 - Viewer labels support English and Russian (`locale: "en"` or `"ru"`). Authored map content is not automatically translated.
 - Maps support 2–12 stages and one process node per participant lane and stage. Complex journeys may need separate maps.

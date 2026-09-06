@@ -1,5 +1,11 @@
 # Verification scope
 
+## v0.3.1 · Current masthead logo
+
+The current release logo replaces placeholder CSS marks in both designs. The embedded PNG was compared byte-for-byte with `docs/brand/logo.png`. Chrome checks covered both languages, Classic/Graphite × light/dark at 1366×900 and 1920×1080 (16 combinations), image decoding, no network requests and a 390px overflow check. Masthead screenshots were visually inspected in light/dark and at narrow width.
+
+The standard 23 Node tests, publication-integrity check and extracted-package render/rebuild check were rerun. The existing browser map check verifies all six public examples, keyboard details, natural/fit geometry, SVG/JSON exports and refreshed README previews. The map body, playback and color tokens are unchanged from v0.3.0; its broader coverage below remains the baseline. No additional browser engine or assistive-technology testing was performed.
+
 ## v0.3.0 · Classic and Graphite viewer
 
 The v0.3.0 renderer is checked locally in Chrome 152.0.7977.83 on macOS. This records scoped verification before publication, not a general accessibility certification.

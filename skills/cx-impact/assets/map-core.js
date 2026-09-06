@@ -4,7 +4,7 @@
   else root.CXMap = factory();
 })(globalThis, function () {
   'use strict';
-  const VERSION = '0.3.0';
+  const VERSION = '0.3.1';
   const statusLabels = {
     observed: 'Наблюдение', declared: 'Заявлено в источнике', requirement: 'Требование / намерение',
     user_fact: 'Факт из задания', code: 'Наблюдение в коде', hypothesis: 'Гипотеза',

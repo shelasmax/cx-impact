@@ -4,7 +4,7 @@
 
 **CX Impact** — open-source skill для Codex, который создаёт CJM, service blueprint и карту процесса-опыта по описанию продукта, документам, исследованиям и доступному коду.
 
-[English](README.md) · [Релиз v0.3.0](https://github.com/shelasmax/cx-impact/releases/tag/v0.3.0) · [Скачать интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/bicycle-service-demo.html)
+[English](README.md) · [Релиз v0.3.1](https://github.com/shelasmax/cx-impact/releases/tag/v0.3.1) · [Скачать интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo.html)
 
 ## Три вида одного сценария
 
@@ -36,13 +36,13 @@
 
 ![Карта процесса-опыта — ремонт велосипеда, русский пример](examples/bicycle-service/process-preview.png)
 
-[Скачать русский интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/bicycle-service-demo.html) · [Редактируемый JSON](examples/bicycle-service/map.json) · [English example](README.md#bicycle-workshop-one-scenario-three-maps)
+[Скачать русский интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo.html) · [Редактируемый JSON](examples/bicycle-service/map.json) · [English example](README.md#bicycle-workshop-one-scenario-three-maps)
 
 ## Начать
 
 Нужны локальный Codex и Node.js 18+. Внешние пакеты для рендерера не требуются.
 
-1. Скачайте [cx-impact-0.3.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/cx-impact-0.3.0.zip) и распакуйте архив.
+1. Скачайте [cx-impact-0.3.1.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/cx-impact-0.3.1.zip) и распакуйте архив.
 2. Скопируйте каталог `cx-impact` в `.agents/skills/` своего проекта. Если такая установка уже есть, сначала сохраните её локальные изменения.
 3. Начните новую сессию Codex в проекте и отправьте:
 
@@ -61,13 +61,13 @@ $cx-impact Создай целевую CJM, service blueprint и карту пр
 
 Автономный HTML с переключением видов, масштабом 100%, настоящим «Вписать», прокруткой полотна, деталями и источниками. SVG содержит весь активный вид, включая режим и легенду. JSON остаётся редактируемым, а каталог `.source/` позволяет воспроизвести карту с тем же шаблоном.
 
-[Интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.0/bicycle-service-demo.html) нужно скачать и открыть в браузере. GitHub показывает исходный HTML, а не работающий viewer. Пример вымышленный; он не описывает реальных клиентов.
+[Интерактивный пример](https://github.com/shelasmax/cx-impact/releases/download/v0.3.1/bicycle-service-demo.html) нужно скачать и открыть в браузере. GitHub показывает исходный HTML, а не работающий viewer. Пример вымышленный; он не описывает реальных клиентов.
 
 Сам HTML не делает сетевых запросов. Агент при создании карты использует настроенного провайдера модели.
 
 ## Границы первой публичной версии
 
-v0.3.0 — **экспериментальная версия**. Интерфейс поддерживает русский и английский: `locale: "ru"` или `"en"`. Текст самой карты задаёт автор. Проверки ориентированы на Codex; Claude не тестировался. В карте 2–12 этапов, один процессный узел на полосу и этап. Перетаскивание карточек, полный BPMN и полная нотация XP Mapping не реализованы.
+v0.3.1 — **экспериментальная версия**. Интерфейс поддерживает русский и английский: `locale: "ru"` или `"en"`. Текст самой карты задаёт автор. Проверки ориентированы на Codex; Claude не тестировался. В карте 2–12 этапов, один процессный узел на полосу и этап. Перетаскивание карточек, полный BPMN и полная нотация XP Mapping не реализованы.
 
 На плотных схемах часть условий выносится под карту с предупреждением. Проверка схемы и геометрии не заменяет просмотр результата и проверку содержания. Преимущество skill перед коротким промптом пока не доказано.
 
