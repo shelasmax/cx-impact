@@ -27,24 +27,219 @@ SOFTWARE.
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CX Impact · Карта опыта</title>
 <style>
-:root{--paper:#f5f4ef;--ink:#203a34;--muted:#6c7871;--line:#dce1d9;--teal:#24695a;--mint:#e6efe7;--amber:#9b601d;--red:#a04c3d}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Avenir Next","Trebuchet MS",sans-serif}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #ce9944;outline-offset:4px}button:disabled{cursor:default;opacity:.4}.shell{max-width:1920px;padding:0 34px;margin:auto}.masthead{height:76px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);gap:16px}.brand{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:750;letter-spacing:.07em}.mark{width:30px;height:30px;border:1px solid var(--teal);border-radius:50%;position:relative}.mark:before,.mark:after{content:"";position:absolute;border:1px solid var(--teal);border-radius:50%;width:15px;height:15px;top:6px;left:3px}.mark:after{left:10px}.edition{font-size:12px;color:var(--muted);letter-spacing:.06em}.header{display:flex;justify-content:space-between;align-items:flex-start;padding:28px 0 24px;gap:36px}.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--teal);font-weight:700;text-transform:uppercase;margin:0 0 9px}h1{font-size:clamp(26px,2.55vw,43px);line-height:1.12;font-weight:600;letter-spacing:-.035em;margin:0}.subtitle{margin:10px 0 0;font-size:14px;color:var(--muted);max-width:740px;line-height:1.5}.actor{border-left:1px solid #bfcfc3;padding-left:20px;max-width:340px;min-width:230px;font-size:13px;line-height:1.5}.actor small{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 5px}.actor p{margin:0}.actor strong{font-weight:600}.actor .goal{margin-top:7px;color:var(--muted)}.controls{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;flex-wrap:wrap}.tabs{display:flex;gap:5px;background:#e9ece5;padding:5px;border-radius:10px}.tab{border:0;padding:10px 17px;background:transparent;border-radius:7px;font-size:13px;white-space:nowrap}.tab[aria-selected=true]{background:var(--ink);color:white;box-shadow:0 2px 4px #203a3414}.tab span{opacity:.6;font-size:10px;margin-right:9px}.tools{display:flex;gap:7px;align-items:center}.tool{border:1px solid #d1d9d0;border-radius:7px;background:#fbfcf8;padding:10px 12px;min-height:40px;font-size:12px}.tool:hover{background:#e6efe7}.tool.icon{min-width:34px;padding:8px}.scale{width:45px;text-align:center;font-size:11px;color:var(--muted)}.board{border:1px solid #d3dbd0;background:#fdfefa;border-radius:12px;box-shadow:0 6px 24px #203a3407;overflow:hidden}.boardhead{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e4e9df;gap:20px;font-size:12px}.boardhead strong{font-weight:600}.boardhead small{font-size:11px;color:var(--muted)}.viewport{overflow:auto;padding:14px 16px 6px;max-height:75vh;scrollbar-color:#afc2b5 #f5f6f0}.viewport svg{display:block;max-width:none;height:auto}.boardfoot{display:flex;justify-content:space-between;gap:20px;padding:12px 20px;border-top:1px solid #e4e9df;color:var(--muted);font-size:11px}.legend{display:flex;gap:14px;flex-wrap:wrap}.legend span{display:inline-flex;gap:5px;align-items:center}.dot{height:6px;width:6px;border-radius:50%;background:var(--teal)}.dot.hypothesis{background:#b47a28}.dot.proposal{background:#506caf}.dot.unknown{background:#98a19b}.footer{padding:15px 2px 20px;display:flex;justify-content:space-between;gap:24px;font-size:11px;line-height:1.5;color:var(--muted)}.footer p{margin:0;max-width:1080px}.footer .signature{white-space:nowrap;font-size:10px;letter-spacing:.07em}.drawer{position:fixed;right:18px;top:18px;bottom:18px;width:370px;max-width:calc(100vw - 36px);background:#fffef9;border:1px solid #ccd7c9;border-radius:14px;box-shadow:0 16px 80px #183b3429;z-index:20;padding:25px;overflow:auto}.drawer[hidden]{display:none}.close{float:right;background:#eef1e8;border:0;border-radius:50%;width:30px;height:30px}.drawer .eyebrow{padding-top:8px}.drawer h2{font-size:24px;line-height:1.2;font-weight:600;margin:25px 0 16px;letter-spacing:-.02em}.drawer p{font-size:14px;line-height:1.6}.drawer .badge{display:inline-block;padding:5px 9px;border-radius:5px;background:#f1ead7;color:#765c2a;font-size:11px}.detailsection{margin:25px 0 0;border-top:1px solid #e0e5da;padding-top:14px}.detailsection h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.detailsection p{font-size:12px}.status{min-height:18px;font-size:12px;color:var(--muted);margin:8px 0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-@media(max-width:820px){.shell{padding:0 15px}.masthead{height:60px}.edition{display:none}.header{display:block;padding:22px 0 18px}.actor{margin-top:18px;max-width:none;min-width:0}.tabs{max-width:100%;overflow:auto}.tab{padding:10px}.tab span{display:none}.controls{gap:12px}.boardhead{display:block}.boardhead small{display:block;margin-top:6px}.boardfoot,.footer{display:block}.footer .signature{margin-top:8px}.viewport{padding:8px;max-height:70vh}.legend{gap:10px}}
-@media print{.masthead,.controls,.actor,.boardhead small,.drawer,.status{display:none!important}.shell{max-width:none;padding:0}.viewport{overflow:visible;max-height:none;padding:0}.viewport svg{width:100%!important;min-width:0}.board{box-shadow:none;border:0}.header{padding:10px 0}.footer{font-size:9px}body{background:white}}
+/* Graphite Field Notes — CX Impact design system, developed in OpenDesign. */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: oklch(0.965 0.006 80);
+  --surface: oklch(0.992 0.003 80);
+  --fg: oklch(0.22 0.012 250);
+  --muted: oklch(0.48 0.016 250);
+  --border: oklch(0.83 0.010 80);
+  --accent: oklch(0.53 0.175 31);
 
-.scope{font-size:12px}.viewport:focus-visible{outline:3px solid #ce9944;outline-offset:-3px}.tools{flex-wrap:wrap}.legend-item{display:inline-flex;align-items:center;gap:6px}.legend-item svg{width:24px;height:14px}.source-kind{color:#6c7871;font-size:11px!important}.claim-block{border-top:1px solid #e0e5da;padding-top:12px;margin-top:18px}.claim-block h3{font-size:14px;margin:0 0 6px}.claim-block .badge{margin-bottom:5px}#geometry-note{padding:14px 20px;background:#f8edda;font-size:13px;line-height:1.5}#export-links{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;line-height:1.6;margin:8px 0}#export-links a{color:#24695a}#comparison-switch{display:flex;gap:8px;margin:0 0 14px}#comparison-switch[hidden]{display:none}.comparison-choice{border:1px solid #bacbbb;background:#edf3e9;border-radius:6px;padding:8px 12px}.comparison-choice[aria-pressed=true]{background:#203a34;color:white}.empty-slot{pointer-events:none}.drawer p{white-space:pre-line;overflow-wrap:anywhere}.tool,.tab{min-height:40px}.board{min-width:0}.header>div{min-width:0}
+  --surface-raised: oklch(1 0 0);
+  --surface-subtle: oklch(0.945 0.008 80);
+  --surface-inset: oklch(0.925 0.008 250);
+  --fg-soft: oklch(0.37 0.014 250);
+  --border-strong: oklch(0.66 0.014 250);
+  --accent-hover: oklch(0.49 0.170 31);
+  --accent-active: oklch(0.46 0.170 31);
+  --accent-soft: oklch(0.93 0.045 31);
+  --accent-on: oklch(0.985 0.004 80);
+  --focus: oklch(0.56 0.170 31);
+
+  --evidence: oklch(0.48 0.095 235);
+  --evidence-soft: oklch(0.93 0.030 235);
+  --hypothesis: oklch(0.51 0.105 72);
+  --hypothesis-soft: oklch(0.94 0.040 72);
+  --proposal: oklch(0.45 0.095 170);
+  --proposal-soft: oklch(0.93 0.030 170);
+  --danger: oklch(0.49 0.145 24);
+  --danger-soft: oklch(0.94 0.035 24);
+  --unknown: oklch(0.50 0.012 250);
+  --unknown-soft: oklch(0.93 0.008 250);
+
+  --edge-flow: oklch(0.34 0.018 250);
+  --edge-handoff: oklch(0.50 0.065 235);
+  --edge-recovery: oklch(0.51 0.125 24);
+  --lane-customer: oklch(0.955 0.015 235);
+  --lane-desk: oklch(0.950 0.013 170);
+  --lane-mechanic: oklch(0.950 0.016 72);
+  --shadow: 0 12px 32px oklch(0.18 0.012 250 / 0.10);
+  --scrim: oklch(0.14 0.012 250 / 0.38);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: oklch(0.15 0.010 250);
+  --surface: oklch(0.19 0.012 250);
+  --fg: oklch(0.94 0.006 80);
+  --muted: oklch(0.70 0.014 250);
+  --border: oklch(0.34 0.014 250);
+  --accent: oklch(0.72 0.155 35);
+
+  --surface-raised: oklch(0.23 0.013 250);
+  --surface-subtle: oklch(0.18 0.011 250);
+  --surface-inset: oklch(0.125 0.009 250);
+  --fg-soft: oklch(0.82 0.010 80);
+  --border-strong: oklch(0.50 0.016 250);
+  --accent-hover: oklch(0.78 0.145 35);
+  --accent-active: oklch(0.66 0.155 35);
+  --accent-soft: oklch(0.28 0.065 35);
+  --accent-on: oklch(0.16 0.018 31);
+  --focus: oklch(0.76 0.145 35);
+
+  --evidence: oklch(0.73 0.095 235);
+  --evidence-soft: oklch(0.25 0.040 235);
+  --hypothesis: oklch(0.78 0.110 72);
+  --hypothesis-soft: oklch(0.27 0.045 72);
+  --proposal: oklch(0.72 0.090 170);
+  --proposal-soft: oklch(0.25 0.038 170);
+  --danger: oklch(0.73 0.135 24);
+  --danger-soft: oklch(0.27 0.055 24);
+  --unknown: oklch(0.70 0.012 250);
+  --unknown-soft: oklch(0.25 0.012 250);
+
+  --edge-flow: oklch(0.80 0.012 80);
+  --edge-handoff: oklch(0.70 0.080 235);
+  --edge-recovery: oklch(0.70 0.130 24);
+  --lane-customer: oklch(0.205 0.020 235);
+  --lane-desk: oklch(0.205 0.018 170);
+  --lane-mechanic: oklch(0.205 0.021 72);
+  --shadow: 0 18px 44px oklch(0.05 0.008 250 / 0.42);
+  --scrim: oklch(0.06 0.008 250 / 0.68);
+}
+
+:root {
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --text-display: clamp(2rem, 3vw, 3rem);
+  --text-h1: clamp(1.75rem, 2.2vw, 2.25rem);
+  --text-h2: 1.5rem;
+  --text-h3: 1.125rem;
+  --text-body: 0.9375rem;
+  --text-small: 0.8125rem;
+  --text-caption: 0.71875rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --control-h: 44px;
+  --drawer-w: clamp(360px, 30vw, 480px);
+  --stroke-hairline: 1px;
+  --stroke-emphasis: 2px;
+  --motion-instant: 90ms;
+  --motion-fast: 150ms;
+  --motion-enter: 240ms;
+  --motion-path: 520ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Classic preserves the original green atlas; contrast-adjusted text also works in dark mode. */
+[data-design="classic"] {
+  --font-display:"Avenir Next","Trebuchet MS",sans-serif;
+  --font-body:"Avenir Next","Trebuchet MS",sans-serif;
+  --bg:#f5f4ef;--surface:#fdfefa;--surface-raised:#fffefa;--surface-subtle:#f1f4ed;--surface-inset:#e9ece5;
+  --fg:#203a34;--fg-soft:#2e463a;--muted:#596b60;--border:#dce5d8;--border-strong:#98ac9a;
+  --accent:#24695a;--accent-hover:#205b4e;--accent-active:#1c5145;--accent-soft:#e4eee5;--accent-on:#ffffff;--focus:#96651c;
+  --evidence:#276756;--evidence-soft:#e4eee5;--hypothesis:#87591e;--hypothesis-soft:#f5edda;
+  --proposal:#4c67a0;--proposal-soft:#edf1f8;--danger:#7c4e3d;--danger-soft:#f8eee7;--unknown:#596b60;--unknown-soft:#f1f4ed;
+  --edge-flow:#426856;--edge-handoff:#526c80;--edge-recovery:#a04c3d;
+  --cell-even:#f9faf5;--cell-odd:#f4f6ef;--stage:#f0f3ec;--outcome:#dfeddf;
+  --selected:#203a34;--selected-on:#ffffff;--shadow:0 6px 24px #203a3407;--scrim:#183b3461;
+}
+[data-design="classic"][data-theme="dark"] {
+  --bg:#14211c;--surface:#1b2a23;--surface-raised:#24372c;--surface-subtle:#203027;--surface-inset:#101b16;
+  --fg:#edf3e9;--fg-soft:#d8e5da;--muted:#acbfb1;--border:#3b5345;--border-strong:#698873;
+  --accent:#9dcdb6;--accent-hover:#b0ddc7;--accent-active:#8abcA3;--accent-soft:#294b3d;--accent-on:#142a22;--focus:#e7bc73;
+  --evidence:#a2cdb5;--evidence-soft:#294538;--hypothesis:#e2ba78;--hypothesis-soft:#463c2b;
+  --proposal:#b0c4f0;--proposal-soft:#2b3850;--danger:#efb7a7;--danger-soft:#49342f;--unknown:#acbfb1;--unknown-soft:#2d3c32;
+  --edge-flow:#a2cdb5;--edge-handoff:#acc5df;--edge-recovery:#e8aa99;
+  --cell-even:#22342a;--cell-odd:#263a2e;--stage:#263a2e;--outcome:#2b4834;
+  --selected:#9dcdb6;--selected-on:#142a22;--shadow:0 6px 24px #00000026;--scrim:#09130ec2;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:14px;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}button:disabled{cursor:default;opacity:.45}
+button,a,select{touch-action:manipulation}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+button{transition:background var(--motion-fast),border-color var(--motion-fast),color var(--motion-fast)}
+[hidden]{display:none!important}.shell{max-width:2048px;padding:0 28px;margin:auto;min-width:0}
+.masthead{height:60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:13px;letter-spacing:.08em}
+.mark{width:27px;height:27px;position:relative;border:1.5px solid var(--fg);border-radius:4px}
+.mark:before,.mark:after{content:"";position:absolute;width:13px;height:1.5px;background:var(--fg);left:5px;top:8px;transform:rotate(-35deg)}
+.mark:after{top:15px;transform:rotate(35deg);background:var(--accent)}
+.edition{display:none}.theme-switch{display:flex;align-items:center;gap:2px}.theme-switch button{min-height:44px;padding:8px 12px;border:0;background:transparent;color:var(--muted);font-size:12px;border-radius:4px}.theme-switch button:hover{background:var(--surface-subtle)}.theme-switch button[aria-pressed=true]{color:var(--fg);background:var(--surface-raised);box-shadow:inset 0 -2px var(--accent)}
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:36px;padding:20px 0 18px}.header>div{min-width:0}
+.eyebrow{font-size:10px;letter-spacing:.1em;color:var(--accent);font-weight:600;text-transform:uppercase;margin:0 0 8px}
+h1{font-family:var(--font-display);font-size:clamp(28px,2.3vw,42px);line-height:1.12;font-weight:400;letter-spacing:-.015em;margin:0}
+.subtitle{margin:9px 0 0;color:var(--muted);font-size:13px;line-height:1.55;max-width:920px}.scope{font-size:11px;margin-top:8px}
+.actor{border-left:2px solid var(--border);padding-left:18px;max-width:300px;min-width:225px;font-size:12px;line-height:1.55}.actor small{display:block;color:var(--muted);font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}.actor p{margin:0}.actor strong{font-weight:600}.actor .goal{margin-top:7px;color:var(--muted)}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--border);padding:10px 0}
+.tabs{display:flex;gap:4px}.tab{min-height:44px;border:0;border-bottom:2px solid transparent;background:transparent;padding:10px 13px;font-size:12px;white-space:nowrap}.tab span{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-right:8px}.tab:hover{background:var(--surface-subtle)}.tab[aria-selected=true]{border-bottom-color:var(--accent);color:var(--accent);background:var(--accent-soft)}.tab[aria-selected=true] span{color:inherit}
+.tools{display:flex;gap:5px;align-items:center;flex-wrap:wrap}.tool{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);min-height:44px;padding:8px 10px;font-size:12px;white-space:nowrap}.tool:hover{background:var(--surface-raised);border-color:var(--border-strong)}.tool.icon{min-width:38px;padding:8px;font-size:16px}.scale{width:41px;text-align:center;font:11px var(--font-mono);color:var(--muted)}#path-toggle{border-color:var(--accent);color:var(--accent)}#path-toggle[aria-expanded=true]{background:var(--accent-soft)}
+.board{min-width:0;border:1px solid var(--border);background:var(--surface);border-radius:8px;overflow:hidden}
+.boardhead{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--border);font-size:12px}.boardhead strong{font-weight:600}.boardhead small{font-size:11px;color:var(--muted)}
+.viewport{overflow:auto;overscroll-behavior:contain;padding:16px 16px 8px;max-height:75vh;scrollbar-color:var(--border-strong) var(--surface-subtle)}.viewport:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}.viewport svg{display:block;max-width:none;height:auto}
+.boardfoot{display:flex;justify-content:space-between;gap:20px;padding:13px 16px;border-top:1px solid var(--border);color:var(--muted);font-size:11px}.legend{display:flex;gap:12px;flex-wrap:wrap}.legend-item{display:inline-flex;align-items:center;gap:6px}.legend-item svg{width:24px;height:14px}.dot{height:6px;width:6px;border-radius:1px;background:var(--evidence);display:inline-block}
+.footer{padding:14px 0 20px;display:flex;justify-content:space-between;gap:24px;color:var(--muted);font-size:11px;line-height:1.55}.footer p{margin:0;max-width:1080px}.signature{white-space:nowrap;font:10px var(--font-mono);letter-spacing:.04em}
+.status{min-height:0;color:var(--muted);font-size:12px;line-height:1.5;margin:8px 0}.status:empty{display:none}#export-links{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;line-height:1.6;margin:8px 0}#export-links:empty{display:none}#export-links a{color:var(--accent)}
+.drawer-backdrop{position:fixed;inset:0;background:var(--scrim);z-index:19}.drawer{position:fixed;right:16px;top:16px;bottom:16px;width:var(--drawer-w);max-width:calc(100vw - 32px);padding:24px;background:var(--surface-raised);border:1px solid var(--border-strong);border-radius:8px;box-shadow:var(--shadow);z-index:20;overflow:auto}.close{float:right;background:var(--surface-subtle);border:1px solid var(--border);border-radius:4px;width:44px;height:44px;font-size:20px}.drawer .eyebrow{padding-top:12px;padding-right:50px}.drawer h2{font-family:var(--font-display);font-size:28px;line-height:1.18;font-weight:400;margin:28px 0 18px;letter-spacing:-.01em}.drawer p{font-size:14px;line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}.badge{display:inline-block;padding:5px 8px;border:1px solid var(--border);border-radius:2px;background:var(--surface-subtle);font-size:11px;color:var(--muted)}.detailsection{margin-top:24px;border-top:1px solid var(--border);padding-top:12px}.detailsection h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.detailsection p{font-size:12px}.source-kind{color:var(--muted);font-size:11px!important}.claim-block{border-top:1px solid var(--border);padding-top:12px;margin-top:18px}.claim-block h3{font-size:14px;margin:0 0 8px;font-weight:600}.claim-block .badge{margin-bottom:5px}
+#geometry-note{padding:14px 16px;background:var(--hypothesis-soft);color:var(--fg);font-size:12px;line-height:1.55}
+#comparison-switch{display:flex;gap:6px;margin-bottom:12px}.comparison-choice{min-height:44px;border:1px solid var(--border);background:var(--surface);border-radius:4px;padding:8px 12px;font-size:12px}.comparison-choice[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.journey-player{border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:4px;background:var(--surface);padding:14px 16px;margin-bottom:12px}.path-top{display:flex;justify-content:space-between;align-items:center;gap:18px}.path-intro{display:grid;gap:6px;min-width:0}.path-intro strong{font-weight:600;font-size:13px;line-height:1.5}.path-intro small{color:var(--muted);font-size:11px}.path-actions{display:flex;gap:5px;flex-shrink:0}.path-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-on)}.path-primary:hover{background:var(--accent-hover);color:var(--accent-on)}.path-caption,.path-motion{font-size:12px;line-height:1.6;margin:10px 0 0}.path-caption:empty,.path-motion:empty{display:none}.path-motion{color:var(--muted)}.path-choices{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.path-choice{flex:1 1 280px;min-height:44px;text-align:left;padding:12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface-raised);font-size:13px;line-height:1.55;overflow-wrap:anywhere}.path-choice:hover{border-color:var(--accent);background:var(--accent-soft)}
+.appearance{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.appearance .theme-switch+.theme-switch{border-left:1px solid var(--border);padding-left:14px}
+[data-design="classic"] .shell{max-width:1920px}
+[data-design="classic"] .brand{font-weight:750;letter-spacing:.07em}
+[data-design="classic"] .mark{width:30px;height:30px;border:1px solid var(--accent);border-radius:50%}
+[data-design="classic"] .mark:before,[data-design="classic"] .mark:after{border:1px solid var(--accent);border-radius:50%;width:15px;height:15px;top:6px;left:3px;transform:none;background:transparent}
+[data-design="classic"] .mark:after{left:10px}
+[data-design="classic"] h1{font-weight:600;letter-spacing:-.035em}
+[data-design="classic"] .tabs{background:var(--surface-inset);padding:5px;border-radius:10px}
+[data-design="classic"] .tab{border:0;border-radius:7px}
+[data-design="classic"] .tab[aria-selected=true]{background:var(--selected);color:var(--selected-on);box-shadow:0 2px 4px #203a3414}
+[data-design="classic"] .tool{border-radius:7px}
+[data-design="classic"] .board{border-radius:12px;box-shadow:var(--shadow)}
+[data-design="classic"] .dot{border-radius:50%}
+[data-design="classic"] .drawer{border-radius:14px}
+[data-design="classic"] .drawer h2{font-weight:600;font-size:24px}
+[data-design="classic"] .close{border-radius:50%}
+[data-design="classic"] .badge{border-radius:5px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.empty-slot{pointer-events:none}
+@media(max-width:900px){.shell{padding:0 16px}.header{gap:20px}.actor{min-width:200px}.boardhead small{display:none}.path-top{flex-wrap:wrap}.path-actions{flex-wrap:wrap}.footer,.boardfoot{flex-wrap:wrap}.signature{margin-top:5px}}
+@media(max-width:640px){.shell{padding:0 12px}.masthead{height:auto;min-height:60px;flex-wrap:wrap;gap:4px;padding:8px 0}.brand{font-size:11px}.theme-switch button{padding:8px}.header{display:block;padding:18px 0}.actor{margin-top:16px;max-width:none;min-width:0}.tabs{width:100%;overflow:auto}.tab{padding:8px 10px}.tab span{display:none}.tools{gap:4px}.viewport{padding:8px;max-height:70vh}.boardhead{padding:12px}.path-actions .tool{padding:8px}.drawer{right:8px;top:8px;bottom:8px;max-width:calc(100vw - 16px)}.footer{display:block}.signature{margin-top:8px!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.masthead,.controls,.actor,.boardhead small,.drawer,.drawer-backdrop,.status,.journey-player,#export-links{display:none!important}.shell{max-width:none;padding:0}.viewport{overflow:visible;max-height:none;padding:0}.viewport svg{width:100%!important;min-width:0}.board{box-shadow:none;border:0}.header{padding:10px 0}.footer{font-size:9px}body{background:white}}
 </style>
 </head>
 <body>
 <div class="shell">
-<header class="masthead"><div class="brand"><span class="mark" aria-hidden="true"></span>CX IMPACT</div><div class="edition" data-i18n="АТЛАС ПОЛЬЗОВАТЕЛЬСКОГО ОПЫТА · 01">АТЛАС ПОЛЬЗОВАТЕЛЬСКОГО ОПЫТА · 01</div></header>
+<header class="masthead"><div class="brand"><span class="mark" aria-hidden="true"></span>CX IMPACT</div><div class="appearance"><div class="theme-switch" role="group" aria-label="Дизайн" data-i18n-aria="Дизайн"><button data-design-choice="classic" data-i18n="Классическая">Классическая</button><button data-design-choice="graphite">Graphite</button></div><div class="theme-switch" role="group" aria-label="Цветовой режим" data-i18n-aria="Цветовой режим"><button data-theme-choice="light" data-i18n="Светлая">Светлая</button><button data-theme-choice="dark" data-i18n="Тёмная">Тёмная</button><button data-theme-choice="system" data-i18n="Системная">Системная</button></div></div></header>
 <section class="header"><div><p class="eyebrow" id="map-mode"></p><div id="comparison-switch" hidden></div><h1 id="title"></h1><p class="subtitle" id="subtitle"></p><p class="subtitle scope" id="scope"></p></div><div class="actor"><small data-i18n="Для кого строим карту">Для кого строим карту</small><p><strong id="actor"></strong></p><p class="goal" id="goal"></p></div></section>
-<nav class="controls" aria-label="Управление картой" data-i18n-aria="Управление картой"><div class="tabs" role="tablist" aria-label="Вид карты" data-i18n-aria="Вид карты"><button class="tab" id="tab-cjm" role="tab" data-view="cjm"><span>01</span>CJM</button><button class="tab" id="tab-blueprint" role="tab" data-view="blueprint"><span>02</span>Service blueprint</button><button class="tab" id="tab-process" role="tab" data-view="process"><span>03</span><b data-i18n="Процесс и опыт" style="font-weight:inherit">Процесс и опыт</b></button></div><div class="tools"><button class="tool icon" id="minus" aria-label="Уменьшить" data-i18n-aria="Уменьшить">−</button><span class="scale" id="scale">100%</span><button class="tool icon" id="plus" aria-label="Увеличить" data-i18n-aria="Увеличить">+</button><button class="tool" id="natural">100%</button><button class="tool" id="fit" data-i18n="Вписать">Вписать</button><button class="tool" id="questions" data-i18n="Основания и вопросы">Основания и вопросы</button><button class="tool" id="export">↓ SVG</button><button class="tool" id="source" data-i18n="↓ Исходник">↓ Исходник</button></div></nav>
+<nav class="controls" aria-label="Управление картой" data-i18n-aria="Управление картой"><div class="tabs" role="tablist" aria-label="Вид карты" data-i18n-aria="Вид карты"><button class="tab" id="tab-cjm" role="tab" data-view="cjm"><span>01</span>CJM</button><button class="tab" id="tab-blueprint" role="tab" data-view="blueprint"><span>02</span>Service blueprint</button><button class="tab" id="tab-process" role="tab" data-view="process"><span>03</span><b data-i18n="Процесс и опыт" style="font-weight:inherit">Процесс и опыт</b></button></div><div class="tools"><button class="tool" id="path-toggle" aria-expanded="false" aria-controls="journey-player" data-i18n="Обзор пути">Обзор пути</button><button class="tool icon" id="minus" aria-label="Уменьшить" data-i18n-aria="Уменьшить">−</button><span class="scale" id="scale">100%</span><button class="tool icon" id="plus" aria-label="Увеличить" data-i18n-aria="Увеличить">+</button><button class="tool" id="natural">100%</button><button class="tool" id="fit" data-i18n="Вписать">Вписать</button><button class="tool" id="questions" data-i18n="Основания и вопросы">Основания и вопросы</button><button class="tool" id="export">↓ SVG</button><button class="tool" id="source" data-i18n="↓ Исходник">↓ Исходник</button></div></nav>
+<section id="journey-player" class="journey-player" hidden aria-label="Обзор пути" data-i18n-aria="Обзор пути">
+<div class="path-top"><div class="path-intro"><strong id="path-position" aria-live="polite"></strong><small id="path-kind"></small></div><div class="path-actions"><button class="tool" id="path-prev" data-i18n="Назад">Назад</button><button class="tool path-primary" id="path-play" aria-pressed="false" data-i18n="Воспроизвести">Воспроизвести</button><button class="tool" id="path-next" data-i18n="Далее">Далее</button><button class="tool" id="path-reset" data-i18n="Сначала">Сначала</button><button class="tool icon" id="path-close" aria-label="Закрыть обзор" data-i18n-aria="Закрыть обзор">×</button></div></div>
+<p id="path-caption" class="path-caption" aria-live="polite"></p><p id="path-motion" class="path-motion"></p><div id="path-choices" class="path-choices" hidden></div>
+</section>
 <main class="board" id="map-panel" role="tabpanel" aria-labelledby="tab-cjm"><div class="boardhead"><strong id="view-title"></strong><small data-i18n="Нажмите на карточку, чтобы увидеть детали и источник">Нажмите на карточку, чтобы увидеть детали и источник</small></div><div id="geometry-note" role="status" hidden></div><div class="viewport" id="viewport" tabindex="0" role="region" aria-label="Полотно карты. Прокрутка стрелками; 100 процентов для чтения, Вписать для обзора" data-i18n-aria="Полотно карты. Прокрутка стрелками; 100 процентов для чтения, Вписать для обзора"></div><div class="boardfoot"><div class="legend" id="legend"></div><span id="stage-count"></span></div></main>
 <div class="status" role="status" aria-live="polite" id="status"></div><div id="export-links"></div>
 <footer class="footer"><p id="disclaimer"></p><p class="signature">CX IMPACT / VISUAL DRAFT</p></footer>
 </div>
-<aside class="drawer" id="drawer" role="dialog" aria-label="Детали карты" data-i18n-aria="Детали карты" hidden><button class="close" id="close" aria-label="Закрыть детали" data-i18n-aria="Закрыть детали">×</button><p class="eyebrow" id="detail-stage"></p><h2 id="detail-title"></h2><span class="badge" id="detail-status"></span><p id="detail-text"></p><div id="detail-related"></div><div class="detailsection"><h3 data-i18n="Основание">Основание</h3><div id="detail-sources"></div></div></aside>
+<div id="drawer-backdrop" class="drawer-backdrop" hidden aria-hidden="true"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Детали карты" data-i18n-aria="Детали карты" hidden><button class="close" id="close" aria-label="Закрыть детали" data-i18n-aria="Закрыть детали">×</button><p class="eyebrow" id="detail-stage"></p><h2 id="detail-title"></h2><span class="badge" id="detail-status"></span><p id="detail-text"></p><div id="detail-related"></div><div class="detailsection"><h3 data-i18n="Основание">Основание</h3><div id="detail-sources"></div></div></aside>
 <script id="map-data" type="application/json">{"version":1,"title":"Вернуть велосипед в движение","subtitle":"От заявки до выдачи: где встречаются ожидания клиента и работа мастерской.","actor":"Владелец велосипеда","goal":"Понимать сроки и стоимость, получить исправный велосипед.","disclaimer":"Вымышленный сервис. Действия заданы авторским описанием; переживания и барьеры — гипотезы, улучшения — предложения.","defaultView":"cjm","sources":[{"id":"brief","label":"Авторское описание вымышленного сервиса","text":"Вымышленная мастерская принимает заявки на ремонт велосипеда через сайт. В форме не указан срок ответа. Администратор звонит, проверяет календарь и согласует время визита. Клиент привозит велосипед; администратор фиксирует состояние, выдаёт акт и передаёт его мастеру. Дату следующего контакта при передаче не называют. Мастер диагностирует неисправность и рассчитывает смету по каталогу. Администратор объясняет смету по телефону. До решения клиента ремонт ожидает. При согласии мастер ремонтирует велосипед и проверяет результат; при отказе велосипед возвращают без ремонта. Во время ремонта промежуточных сообщений о статусе нет. После завершения администратор отправляет сообщение. При выдаче показывает работу, выдаёт чек и список выполненных работ; отдельную инструкцию о повторном обращении не дают. Используются журнал заявок, календарь, заказ-наряд, каталог и история обслуживания. Цель клиента в этом авторском сценарии — вернуть велосипед в рабочее состояние и понимать сроки и стоимость. Все роли, действия и ограничения придуманы для демонстрации визуализации.","kind":"user-input"}],"stages":[{"id":"request","title":"Нужен ремонт","goal":{"text":"Понять, куда обратиться","status":"declared","sourceIds":["brief"]},"action":{"text":"Описывает неисправность","status":"declared","sourceIds":["brief"]},"channel":{"text":"Сайт мастерской","status":"declared","sourceIds":["brief"]},"evidence":{"text":"Заявка с описанием","status":"declared","sourceIds":["brief"]},"frontstage":{"text":"Принимает заявку","status":"declared","sourceIds":["brief"]},"backstage":{"text":"Определяет тип обращения","status":"declared","sourceIds":["brief"]},"support":{"text":"Форма и журнал заявок","status":"declared","sourceIds":["brief"]},"experience":{"text":"Не понимаю, сколько это займёт","status":"hypothesis","detail":"Предположение автора о переживании клиента в этом вымышленном сценарии. Интервью и наблюдения не проводились; это не цитата клиента."},"opportunity":{"text":"Показать срок ответа рядом с формой","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."},"barrierIds":["barrier-request"]},{"id":"book","title":"Запись","goal":{"text":"Выбрать удобное время","status":"declared","sourceIds":["brief"]},"action":{"text":"Подтверждает визит","status":"declared","sourceIds":["brief"]},"channel":{"text":"Звонок администратора","status":"declared","sourceIds":["brief"]},"evidence":{"text":"Подтверждение записи","status":"declared","sourceIds":["brief"]},"frontstage":{"text":"Предлагает время приёма","status":"declared","sourceIds":["brief"]},"backstage":{"text":"Проверяет загрузку мастера","status":"declared","sourceIds":["brief"]},"support":{"text":"Календарь мастерской","status":"declared","sourceIds":["brief"]},"experience":{"text":"Хочу спланировать день","status":"hypothesis","detail":"Предположение автора о переживании клиента в этом вымышленном сценарии. Интервью и наблюдения не проводились; это не цитата клиента."},"opportunity":{"text":"Предложить выбор свободного времени","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."},"barrierIds":["barrier-book"]},{"id":"handover","title":"Передача","goal":{"text":"Передать велосипед без опасений","status":"declared","sourceIds":["brief"]},"action":{"text":"Привозит велосипед","status":"declared","sourceIds":["brief"]},"channel":{"text":"Мастерская","status":"declared","sourceIds":["brief"]},"evidence":{"text":"Акт приёма","status":"declared","sourceIds":["brief"]},"frontstage":{"text":"Фиксирует состояние при клиенте","status":"declared","sourceIds":["brief"]},"backstage":{"text":"Передаёт велосипед мастеру","status":"declared","sourceIds":["brief"]},"support":{"text":"Заказ-наряд","status":"declared","sourceIds":["brief"]},"experience":{"text":"Хочу знать, что приняли в работу","status":"hypothesis","detail":"Предположение автора о переживании клиента в этом вымышленном сценарии. Интервью и наблюдения не проводились; это не цитата клиента."},"opportunity":{"text":"Сразу назвать срок диагностики","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."},"barrierIds":["barrier-handover"]},{"id":"diagnose","title":"Согласование","goal":{"text":"Понять объём и цену работ","status":"declared","sourceIds":["brief"]},"action":{"text":"Принимает или отклоняет смету","status":"declared","sourceIds":["brief"]},"channel":{"text":"Звонок со сметой","status":"declared","sourceIds":["brief"]},"evidence":{"text":"Смета и решение клиента","status":"declared","sourceIds":["brief"]},"frontstage":{"text":"Объясняет найденные неисправности","status":"declared","sourceIds":["brief"]},"backstage":{"text":"Диагностирует и считает стоимость","status":"declared","sourceIds":["brief"]},"support":{"text":"Каталог работ и запчастей","status":"declared","sourceIds":["brief"]},"experience":{"text":"Хочу понимать, за что плачу","status":"hypothesis","detail":"Предположение автора о переживании клиента в этом вымышленном сценарии. Интервью и наблюдения не проводились; это не цитата клиента."},"opportunity":{"text":"Отправить смету с понятным выбором","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."},"barrierIds":["barrier-diagnose"]},{"id":"repair","title":"Ремонт","goal":{"text":"Дождаться готового велосипеда","status":"declared","sourceIds":["brief"]},"action":{"text":"Ожидает уведомления","status":"declared","sourceIds":["brief"]},"channel":{"text":"Сообщение о готовности","status":"declared","sourceIds":["brief"]},"evidence":{"text":"Уведомление о завершении","status":"declared","sourceIds":["brief"]},"frontstage":{"text":"Сообщает, когда работа завершена","status":"declared","sourceIds":["brief"]},"backstage":{"text":"Ремонтирует и проверяет результат","status":"declared","sourceIds":["brief"]},"support":{"text":"Запчасти и лист проверки","status":"declared","sourceIds":["brief"]},"experience":{"text":"Не знаю, что происходит сейчас","status":"hypothesis","detail":"Предположение автора о переживании клиента в этом вымышленном сценарии. Интервью и наблюдения не проводились; это не цитата клиента."},"opportunity":{"text":"Показывать текущий этап и задержки","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."},"barrierIds":["barrier-repair"]},{"id":"pickup","title":"Выдача","goal":{"text":"Уехать на исправном велосипеде","status":"declared","sourceIds":["brief"]},"action":{"text":"Проверяет работу и забирает","status":"declared","sourceIds":["brief"]},"channel":{"text":"Мастерская","status":"declared","sourceIds":["brief"]},"evidence":{"text":"Чек и перечень работ","status":"declared","sourceIds":["brief"]},"frontstage":{"text":"Показывает выполненную работу","status":"declared","sourceIds":["brief"]},"backstage":{"text":"Закрывает заказ после выдачи","status":"declared","sourceIds":["brief"]},"support":{"text":"История обслуживания","status":"declared","sourceIds":["brief"]},"experience":{"text":"Хочу быть уверен в результате","status":"hypothesis","detail":"Предположение автора о переживании клиента в этом вымышленном сценарии. Интервью и наблюдения не проводились; это не цитата клиента."},"opportunity":{"text":"Дать понятный контакт для вопросов","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."},"barrierIds":["barrier-pickup"]}],"process":{"lanes":[{"id":"customer","title":"Клиент"},{"id":"desk","title":"Администратор"},{"id":"mechanic","title":"Мастер"}],"nodes":[{"id":"need","stageId":"request","laneId":"customer","title":"Оставляет заявку","artifact":"Описание неисправности","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Действие из вымышленного описания сервиса. Результат шага: описание неисправности."},{"id":"book","stageId":"book","laneId":"desk","title":"Согласует время","artifact":"Запись в календаре","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Действие из вымышленного описания сервиса. Результат шага: запись в календаре."},{"id":"bring","stageId":"handover","laneId":"customer","title":"Передаёт велосипед","artifact":"Велосипед и описание","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Действие из вымышленного описания сервиса. Результат шага: велосипед и описание."},{"id":"accept","stageId":"handover","laneId":"desk","title":"Принимает в работу","artifact":"Акт приёма","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Действие из вымышленного описания сервиса. Результат шага: акт приёма."},{"id":"inspect","stageId":"diagnose","laneId":"mechanic","title":"Проводит диагностику","artifact":"Неисправности и смета","kind":"action","status":"declared","sourceIds":["brief"],"detail":"После приёма мастер получает велосипед, проводит диагностику и рассчитывает смету. Передаёт смету администратору для объяснения клиенту."},{"id":"quote","stageId":"diagnose","laneId":"desk","title":"Объясняет смету","artifact":"Цена и перечень работ","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Действие из вымышленного описания сервиса. Результат шага: цена и перечень работ."},{"id":"decision","stageId":"diagnose","laneId":"customer","title":"Согласовать ремонт?","artifact":"Решение клиента","kind":"decision","status":"declared","sourceIds":["brief"],"detail":"При согласии клиента выполняется ремонт. При отказе велосипед выдают без ремонта. Пока решения нет, заказ ожидает; время ожидания неизвестно.","barrierIds":["barrier-diagnose"]},{"id":"fix","stageId":"repair","laneId":"mechanic","title":"Ремонтирует и проверяет","artifact":"Готовый велосипед","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Действие из вымышленного описания сервиса. Результат шага: готовый велосипед.","barrierIds":["barrier-repair"]},{"id":"notify","stageId":"repair","laneId":"desk","title":"Сообщает о готовности","artifact":"Уведомление","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Действие из вымышленного описания сервиса. Результат шага: уведомление."},{"id":"return","stageId":"pickup","laneId":"desk","title":"Выдаёт велосипед","artifact":"Выполненные работы / отказ","kind":"action","status":"declared","sourceIds":["brief"],"detail":"Сходятся два пути: выдача после выполненного ремонта и возврат без ремонта при отказе от сметы. Результат зависит от принятого клиентом решения."},{"id":"done","stageId":"pickup","laneId":"customer","title":"Забирает велосипед","artifact":"Ремонт выполнен / отказ","kind":"outcome","status":"declared","sourceIds":["brief"],"detail":"Основной путь: клиент получает отремонтированный велосипед. Альтернативный путь: забирает его без ремонта после отказа. Эти результаты нельзя смешивать."}],"edges":[{"from":"need","to":"book","kind":"handoff"},{"from":"book","to":"bring","kind":"handoff"},{"from":"bring","to":"accept","kind":"handoff"},{"from":"accept","to":"inspect","kind":"handoff"},{"from":"inspect","to":"quote","kind":"handoff"},{"from":"quote","to":"decision","kind":"handoff"},{"from":"decision","to":"fix","kind":"handoff","label":"Да"},{"from":"decision","to":"return","kind":"flow","label":"Нет → без ремонта"},{"from":"fix","to":"notify","kind":"handoff"},{"from":"notify","to":"return","kind":"flow"},{"from":"return","to":"done","kind":"handoff"}]},"mode":"current","scope":{"asOf":"2026-09-06","scenario":"Ремонт велосипеда: основной путь и отказ от сметы","start":"Потребность в ремонте","end":"Выдача после ремонта либо возврат без ремонта"},"barriers":[{"id":"barrier-request","text":"Срок ответа не обозначен","status":"hypothesis","detail":"Возможное затруднение в описанном процессе. Его выраженность и частота не установлены. Обсудить с сотрудником мастерской и проверить на реальных обращениях.","stageIds":["request"],"improvement":{"text":"Показать срок ответа рядом с формой","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."}},{"id":"barrier-book","text":"Время приходится согласовывать звонком","status":"hypothesis","detail":"Возможное затруднение в описанном процессе. Его выраженность и частота не установлены. Обсудить с сотрудником мастерской и проверить на реальных обращениях.","stageIds":["book"],"improvement":{"text":"Предложить выбор свободного времени","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."}},{"id":"barrier-handover","text":"После приёма нет даты следующего контакта","status":"hypothesis","detail":"Возможное затруднение в описанном процессе. Его выраженность и частота не установлены. Обсудить с сотрудником мастерской и проверить на реальных обращениях.","stageIds":["handover"],"improvement":{"text":"Сразу назвать срок диагностики","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."}},{"id":"barrier-diagnose","text":"Без ответа клиента работа ожидает","status":"hypothesis","detail":"Возможное затруднение в описанном процессе. Его выраженность и частота не установлены. Обсудить с сотрудником мастерской и проверить на реальных обращениях.","stageIds":["diagnose"],"improvement":{"text":"Отправить смету с понятным выбором","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."}},{"id":"barrier-repair","text":"В процессе нет сообщения о статусе","status":"hypothesis","detail":"Возможное затруднение в описанном процессе. Его выраженность и частота не установлены. Обсудить с сотрудником мастерской и проверить на реальных обращениях.","stageIds":["repair"],"improvement":{"text":"Показывать текущий этап и задержки","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."}},{"id":"barrier-pickup","text":"Неясно, как обратиться повторно","status":"hypothesis","detail":"Возможное затруднение в описанном процессе. Его выраженность и частота не установлены. Обсудить с сотрудником мастерской и проверить на реальных обращениях.","stageIds":["pickup"],"improvement":{"text":"Дать понятный контакт для вопросов","status":"proposal","detail":"Идея для обсуждения и проверки. Не является частью исходного процесса и не обещает измеримого эффекта без проверки."}}]}</script>
 <script>/* Shared deterministic geometry. No DOM, network or external packages. */
 (function (root, factory) {
@@ -52,7 +247,7 @@ SOFTWARE.
   else root.CXMap = factory();
 })(globalThis, function () {
   'use strict';
-  const VERSION = '0.2.1';
+  const VERSION = '0.3.0';
   const statusLabels = {
     observed: 'Наблюдение', declared: 'Заявлено в источнике', requirement: 'Требование / намерение',
     user_fact: 'Факт из задания', code: 'Наблюдение в коде', hypothesis: 'Гипотеза',
@@ -160,7 +355,33 @@ SOFTWARE.
   "Полотно карты. Прокрутка стрелками; 100 процентов для чтения, Вписать для обзора": "Map canvas. Use arrow keys to scroll; 100 percent to read, Fit for an overview",
   "Детали карты": "Map details",
   "Закрыть детали": "Close details",
-  "Основание": "Evidence"
+  "Основание": "Evidence",
+  "Светлая": "Light",
+  "Тёмная": "Dark",
+  "Системная": "System",
+  "Тема": "Theme",
+  "Дизайн": "Design",
+  "Классическая": "Classic",
+  "Цветовой режим": "Color mode",
+  "Обзор пути": "Path walkthrough",
+  "Воспроизвести": "Play",
+  "Пауза": "Pause",
+  "Назад": "Previous",
+  "Далее": "Next",
+  "Сначала": "Reset",
+  "Закрыть обзор": "Close walkthrough",
+  "Выберите начало": "Choose a starting point",
+  "Выберите ветвь": "Choose a branch",
+  "Начните обзор": "Start the walkthrough",
+  "Путь завершён": "Path complete",
+  "Цикл: автоматический проход завершён": "Cycle: automatic walkthrough complete",
+  "Обзор этапов, не порядок внутренних операций": "Stage overview, not an internal operation sequence",
+  "Переходы из карты, не фактическое выполнение": "Authored transitions, not actual execution",
+  "Уменьшение движения: используйте шаги": "Reduced motion: use step controls",
+  "Шаг": "Step",
+  "Этап": "Stage",
+  "Нет описанного пути": "No authored path",
+  "Переход не проложен": "Transition could not be drawn"
 };
   function translate(value, map) {
     return map?.locale === 'en' && Object.prototype.hasOwnProperty.call(english, value) ? english[value] : value;
@@ -307,7 +528,18 @@ SOFTWARE.
     const height=Math.max(cursor+30,...labelRects.map(r=>r.y+r.h+30),...edges.flatMap(e=>e.points.map(p=>p.y+24)));
     const result={left,colWidth,top,width,height,nodes,edges,lanes:p.lanes.map((l,i)=>({...l,y:ys[i],h:heights[i]+94})),warnings};result.geometry=checkGeometry(result);return result;
   }
-  return {VERSION,translate,statusLabels,modeLabels,edgeStyles,labelFor,scenarios,barriersFor,cell,measure,wrap,overlap,hitSegment,segments,pathD,checkGeometry,layoutProcess};
+  // Viewer traversal uses the authored graph; it never chooses a branch or synthesizes an edge.
+  function playbackChoices(graph,currentId,visited=[]) {
+    if(!graph)return [];
+    if(!currentId){
+      const roots=graph.nodes.filter(n=>!graph.edges.some(e=>e.to===n.id));
+      return (roots.length?roots:graph.nodes).map(node=>({node,edge:null,repeated:false}));
+    }
+    return graph.edges.filter(e=>e.from===currentId).map(edge=>({
+      node:graph.nodes.find(n=>n.id===edge.to),edge,repeated:visited.includes(edge.to)
+    })).filter(choice=>choice.node);
+  }
+  return {VERSION,translate,statusLabels,modeLabels,edgeStyles,labelFor,scenarios,barriersFor,cell,measure,wrap,overlap,hitSegment,segments,pathD,checkGeometry,layoutProcess,playbackChoices};
 });
 </script>
 <script>'use strict';
@@ -318,10 +550,10 @@ let data=originalData.mode==='comparison'?scenarioData('current'):originalData;
 const t=value=>Core.translate(value,data);
 const modeLabel=mode=>t(Core.modeLabels[mode||'unspecified']);
 let view=data.defaultView||'cjm',zoom=1,fitMode=false,focusReturn=null,layout=null;
-const palette={observed:'#276756',declared:'#52685d',requirement:'#24695a',user_fact:'#596c2f',code:'#526c80',hypothesis:'#a06a24',unknown:'#89938a',proposal:'#4c67a0'};
+let palette={},colors={},edgeStyles={};
 const viewNames={cjm:'Путь клиента',blueprint:'Как сервис обеспечивает этот путь',process:'Участники, передачи и условия продолжения'};
 const sourceKinds={'user-input':'Задание пользователя',requirement:'Требования',research:'Пользовательское исследование',runtime:'Результат выполнения',code:'Исходный код',other:'Другой источник'};
-const font='"Avenir Next", "Trebuchet MS", sans-serif';
+let font='"Avenir Next", "Trebuchet MS", sans-serif';
 const LEFT=194,COL=245,GAP=12;
 let TOP=120;
 const wrap=Core.wrap;
@@ -331,10 +563,10 @@ function el(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(co
 function rect(parent,x,y,w,h,fill,stroke='none',radius=8){return el('rect',{x,y,width:w,height:h,rx:radius,fill,stroke},parent);}
 function txt(parent,text,x,y,opts={}){
   const size=opts.size||16,lh=opts.lh||size*1.4,lines=opts.lines||wrap(text,opts.width||180,size);
-  const node=el('text',{x,y,fill:opts.fill||'#263e35','font-size':size,'font-weight':opts.weight||500,'font-family':font,...(opts.class?{class:opts.class}:{})},parent);
+  const node=el('text',{x,y,fill:opts.fill||colors.text,'font-size':size,'font-weight':opts.weight||500,'font-family':opts.family||font,...(opts.class?{class:opts.class}:{})},parent);
   lines.forEach((line,i)=>{const t=el('tspan',{x,dy:i?lh:0},node);t.textContent=line;});return lines.length*lh;
 }
-function line(parent,x1,y1,x2,y2,color='#dce3d8',dash){return el('line',{x1,y1,x2,y2,stroke:color,'stroke-width':1,...(dash?{'stroke-dasharray':dash}:{})},parent);}
+function line(parent,x1,y1,x2,y2,color=colors.border,dash){return el('line',{x1,y1,x2,y2,stroke:color,'stroke-width':1,...(dash?{'stroke-dasharray':dash}:{})},parent);}
 function paragraph(parent,text,cls){const p=document.createElement('p');p.textContent=text;if(cls)p.className=cls;parent.append(p);return p;}
 function activate(node,handler,label){node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label',label);node.style.cursor='pointer';const call=()=>{focusReturn=node;handler();};node.addEventListener('click',call);node.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();call();}});}
 function sourceBlocks(parent,claim){
@@ -357,10 +589,12 @@ function openDrawer(stage,label,claim,related={}){
   if(related.artifact)paragraph($('detail-related'),t('Результат: ')+related.artifact);
   for(const b of related.barriers||[])showBarrier($('detail-related'),b);
   for(const q of data.questions||[])if(!stage||q.stageIds?.includes(stage.id)){claimBlock($('detail-related'),t('Допущение / вопрос'),q);if(q.impact)paragraph($('detail-related'),t('Влияние на сценарий: ')+q.impact);}
-  $('drawer').hidden=false;$('close').focus();
+  pauseWalk();updateWalk();document.querySelector('.shell').inert=true;if($('drawer-backdrop'))$('drawer-backdrop').hidden=false;$('drawer').hidden=false;$('close').focus();
 }
-function closeDrawer(restore=true){$('drawer').hidden=true;if(restore&&focusReturn?.isConnected)focusReturn.focus();}
-$('close').onclick=()=>closeDrawer();document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+function closeDrawer(restore=true){$('drawer').hidden=true;document.querySelector('.shell').inert=false;if($('drawer-backdrop'))$('drawer-backdrop').hidden=true;if(restore&&focusReturn?.isConnected)focusReturn.focus();}
+$('close').onclick=()=>closeDrawer();if($('drawer-backdrop'))$('drawer-backdrop').onclick=()=>closeDrawer();
+$('drawer').addEventListener('keydown',e=>{if(e.key!=='Tab')return;const items=[...$('drawer').querySelectorAll('button,a[href],[tabindex="0"]')].filter(n=>!n.disabled);const first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 function allStatuses(){
   const set=new Set();const visit=x=>{if(!x||typeof x!=='object')return;if(typeof x.status==='string'&&Core.statusLabels[x.status])set.add(x.status);for(const value of Object.values(x))if(typeof value==='object')visit(value);};visit(data);
   set.add('unknown');return [...set];
@@ -368,7 +602,7 @@ function allStatuses(){
 function legendEntries(){
   const entries=allStatuses().map(status=>({text:claimLabel({status}),color:palette[status]}));
   if(view==='process'){
-    for(const kind of Object.keys(Core.edgeStyles)){const style=Core.edgeStyles[kind];entries.push({text:t(style.label),color:style.color,dash:style.dash,edge:true,kind});}
+    for(const kind of Object.keys(edgeStyles)){const style=edgeStyles[kind];entries.push({text:t(style.label),color:style.color,dash:style.dash,edge:true,kind});}
     entries.push({text:t('Пустая ячейка: шаг не описан'),color:palette.unknown});
   }
   return entries;
@@ -390,28 +624,29 @@ function createSvg(contentHeight,width=LEFT+COL*data.stages.length+32){
   const height=contentHeight+svgFooterHeight(width),svg=el('svg',{xmlns:NS,viewBox:`0 0 ${width} ${height}`,width,height,'aria-label':`${data.title}. ${t(viewNames[view])}. ${modeLabel(data.mode)}`});
   const title=el('title',{},svg);title.textContent=`${data.title} — ${t(viewNames[view])} — ${modeLabel(data.mode)}`;
   const desc=el('desc',{},svg);desc.textContent=scopeText()+'. '+data.disclaimer;
-  rect(svg,0,0,width,height,'#fdfefa','none',0);
-  const style=el('style',{},svg);style.textContent='[role="button"]:focus-visible{outline:none;filter:drop-shadow(0 0 3px #b18d34)}';
+  rect(svg,0,0,width,height,colors.surface,'none',0);
+  const style=el('style',{},svg);style.textContent=`[role="button"]:focus-visible{outline:none} [data-card]:focus-visible>rect:first-child,[data-card]:hover>rect:first-child{stroke:${colors.focus};stroke-width:2} [data-edge]:focus-visible{stroke-width:4} [data-card]>rect:first-child{transition:stroke 150ms} [data-walk="process"] [data-node]:not([data-traced]),[data-walk="process"] [data-edge]:not([data-traced]),[data-walk="process"] [data-edge-label]:not([data-traced]){opacity:.45} [data-walk="stages"] [data-cell]:not([data-active]){opacity:.5} [data-active][data-card]>rect:first-child{stroke:${colors.accent};stroke-width:2.5} [data-active][data-edge]{stroke-width:3} @media(prefers-reduced-motion:reduce){*{transition:none!important}}`;
   const defs=el('defs',{},svg);
-  for(const[k,v]of Object.entries(Core.edgeStyles)){
+  for(const[k,v]of Object.entries(edgeStyles)){
     const marker=el('marker',{id:k,markerWidth:9,markerHeight:9,refX:8,refY:4.5,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
     el('path',{d:'M1,1 L8,4.5 L1,8',fill:k==='handoff'?'none':v.color,stroke:v.color,'stroke-width':1.4},marker);
   }
-  txt(svg,view==='cjm'?t('КЛИЕНТСКИЙ ПУТЬ'):view==='blueprint'?t('СЛОИ СЕРВИСА'):t('УЧАСТНИКИ'),8,31,{size:11,weight:700,width:170,fill:'#78907e'});
-  txt(svg,modeLabel(data.mode),8,54,{size:10,width:175,fill:'#667e6d'});
+  txt(svg,view==='cjm'?t('КЛИЕНТСКИЙ ПУТЬ'):view==='blueprint'?t('СЛОИ СЕРВИСА'):t('УЧАСТНИКИ'),8,31,{size:11,weight:700,width:170,fill:colors.muted});
+  txt(svg,modeLabel(data.mode),8,54,{size:10,width:175,fill:colors.muted});
   data.stages.forEach((stage,i)=>{
-    const x=LEFT+i*COL,g=el('g',{'data-card':'stage'},svg);rect(g,x,10,COL-GAP,TOP-30,i===0?'#e4eee5':'#f0f3ec','#dce5d8');
-    txt(g,String(i+1).padStart(2,'0'),x+14,31,{size:11,fill:'#77937b'});txt(g,stage.title,x+14,55,{size:17,weight:600,width:COL-42});
+    const classic=designChoice==='classic',x=LEFT+i*COL,g=el('g',{'data-card':'stage','data-stage':stage.id},svg);
+    rect(g,x,10,COL-GAP,TOP-30,classic?(i===0?colors.accentSoft:colors.stage):colors.surface,classic?colors.border:'none');
+    txt(g,String(i+1).padStart(2,'0'),x+14,31,{size:classic?11:22,fill:colors.accent,family:classic?font:'Georgia, serif'});txt(g,stage.title,x+14,55,{size:17,weight:600,width:COL-42});
     activate(g,()=>openDrawer(stage,stage.title,cell(stage,'goal'),{barriers:Core.barriersFor(data,stage)}),stage.title);
-    if(i<data.stages.length-1)el('path',{d:`M${x+COL-GAP+2} 48 h8`,stroke:'#98ac9a','stroke-width':1.2,'marker-end':'url(#flow)'},svg);
+    if(i<data.stages.length-1)el('path',{d:`M${x+COL-GAP+2} 48 h8`,stroke:colors.strong,'stroke-width':1.2,'marker-end':'url(#flow)'},svg);
   });
   return svg;
 }
 function footer(svg,y){
   const width=svg.viewBox.baseVal.width;line(svg,8,y,width-12,y);
-  y+=24;y+=txt(svg,`${data.title} · ${t(viewNames[view])} · ${modeLabel(data.mode)}`,8,y,{size:12,width:width-30,fill:'#526b59'});
-  y+=4;y+=txt(svg,scopeText(),8,y,{size:11,width:width-32,fill:'#6e806f'});
-  y+=4;y+=txt(svg,data.disclaimer,8,y,{size:11,width:width-32,fill:'#6e806f'});
+  y+=24;y+=txt(svg,`${data.title} · ${t(viewNames[view])} · ${modeLabel(data.mode)}`,8,y,{size:12,width:width-30,fill:colors.muted});
+  y+=4;y+=txt(svg,scopeText(),8,y,{size:11,width:width-32,fill:colors.muted});
+  y+=4;y+=txt(svg,data.disclaimer,8,y,{size:11,width:width-32,fill:colors.muted});
   y+=12;let x=8;
   for(const e of legendEntries()){
     const w=Core.measure(e.text,11)+40;if(x+w>width-20){x=8;y+=24;}
@@ -444,20 +679,20 @@ function renderGrid(){
   const svg=createSvg(cursor+18);
   for(const row of rows){
     const y=row.y;
-    if(row.boundary){line(svg,5,y-13,LEFT+COL*data.stages.length-12,y-13,'#a3b7a3','5 5');rect(svg,8,y-23,Core.measure(row.boundary,10)+20,20,'#fdfefa','none',0);txt(svg,row.boundary,12,y-9,{size:10,weight:600,width:400,fill:'#758972'});}
-    txt(svg,row.label,8,y+26,{size:14,weight:600,width:175});txt(svg,row.sub,8,y+48,{size:11,width:170,fill:'#7f8c80'});
+    if(row.boundary){line(svg,5,y-13,LEFT+COL*data.stages.length-12,y-13,colors.strong,'5 5');rect(svg,8,y-23,Core.measure(row.boundary,10)+20,20,colors.surface,'none',0);txt(svg,row.boundary,12,y-9,{size:10,weight:600,width:400,fill:colors.muted});}
+    txt(svg,row.label,8,y+26,{size:14,weight:600,width:175});txt(svg,row.sub,8,y+48,{size:11,width:170,fill:colors.muted});
     data.stages.forEach((stage,i)=>{
-      const claim=cell(stage,row.key),x=LEFT+i*COL,status=claim.status||'unknown',g=el('g',{'data-cell':`${stage.id}:${row.key}`,'data-card':'cell'},svg);
-      const fill=row.tone==='risk'?'#f8eee7':row.tone==='proposal'?'#edf1f8':i%2?'#f4f6ef':'#f9faf5';
-      rect(g,x,y+1,COL-GAP,row.height-9,fill,'none',7);
-      txt(g,claim.text,x+14,y+27,{size:16,width:COL-42,fill:row.tone==='risk'?'#7c4e3d':'#2e463a'});
+      const claim=cell(stage,row.key),x=LEFT+i*COL,status=claim.status||'unknown',g=el('g',{'data-cell':`${stage.id}:${row.key}`,'data-card':'cell','data-status':status},svg);
+      const classic=designChoice==='classic',fill=row.tone==='risk'?colors.riskSoft:row.tone==='proposal'?colors.proposalSoft:classic?(i%2?colors.cellOdd:colors.cellEven):colors.raised;
+      rect(g,x,y+1,COL-GAP,row.height-9,fill,classic?'none':colors.border,classic?7:4);
+      txt(g,claim.text,x+14,y+27,{size:16,width:COL-42,fill:row.tone==='risk'?colors.risk:colors.text});
       if(row.key==='action'&&view==='cjm'){
         const channel=cell(stage,'channel'),lines=wrap(channel.text,COL-42,12),cy=y+row.height-59-(lines.length-1)*17;
         txt(g,channel.text,x+14,cy,{size:12,lh:17,width:COL-42});txt(g,claimLabel(channel),x+14,y+row.height-41,{size:10,width:COL-42,fill:palette[channel.status||'unknown']});
       }
       const by=y+row.height-22;el('circle',{cx:x+17,cy:by-4,r:2.5,fill:palette[status]},g);txt(g,claimLabel(claim),x+25,by,{size:10,width:COL-44,fill:palette[status]});
       const barriers=Core.barriersFor(data,stage);
-      if(view==='blueprint'&&barriers.length)txt(g,'!',x+COL-29,y+20,{size:12,fill:'#986339'});
+      if(view==='blueprint'&&barriers.length)txt(g,'!',x+COL-29,y+20,{size:12,fill:colors.hypothesis});
       activate(g,()=>openDrawer(stage,row.label,claim,{channel:row.key==='action'?cell(stage,'channel'):null,barriers:row.key==='barrier'||view==='blueprint'?barriers:[]}),`${stage.title}. ${row.label}: ${claim.text}. ${claimLabel(claim)}`);
     });
   }
@@ -467,33 +702,35 @@ function renderProcess(){
   if(!data.process){const svg=createSvg(290);txt(svg,t('Участники и переходы не описаны.'),LEFT,TOP+45,{size:22,width:700});txt(svg,t('Нужно уточнить: кто выполняет шаг, что передаёт и кому.'),LEFT,TOP+85,{size:16,width:900});footer(svg,275);return svg;}
   layout=Core.layoutProcess(data);const svg=createSvg(layout.height+20,layout.width);
   for(const lane of layout.lanes){
-    rect(svg,0,lane.y,layout.width-8,lane.h,lane===layout.lanes[0]?'#f8faf4':'#f1f4ed','none',6);
+    rect(svg,0,lane.y,layout.width-8,lane.h,lane===layout.lanes[0]?colors.surface:colors.subtle,'none',6);
     txt(svg,lane.title,10,lane.y+35,{size:14,weight:600,width:166});
-    if(lane.role)txt(svg,lane.role,10,lane.y+88,{size:11,width:170,fill:'#7e8e79'});
+    if(lane.role)txt(svg,lane.role,10,lane.y+88,{size:11,width:170,fill:colors.muted});
   }
   const edges=el('g',{'data-layer':'edges'},svg);
   for(const edge of layout.edges){
-    if(edge.unrouted)continue;const style=Core.edgeStyles[edge.kind||'flow'];
-    const path=el('path',{d:Core.pathD(edge.points),stroke:style.color,'stroke-width':1.6,fill:'none','stroke-dasharray':style.dash||'none','marker-end':`url(#${style.marker})`,'data-edge':edge.id,'data-from':edge.from,'data-to':edge.to,'data-kind':edge.kind||'flow'},edges);
+    if(edge.unrouted)continue;const style=edgeStyles[edge.kind||'flow'];
+    const path=el('path',{d:Core.pathD(edge.points),stroke:style.color,'stroke-width':2,fill:'none','stroke-dasharray':style.dash||'none','marker-end':`url(#${style.marker})`,'data-edge':edge.id,'data-from':edge.from,'data-to':edge.to,'data-kind':edge.kind||'flow'},edges);
     const from=layout.nodes.find(n=>n.id===edge.from),to=layout.nodes.find(n=>n.id===edge.to),description=`${edge.id}: ${from.title} → ${to.title}. ${edge.label||t(style.label)}`;
     const title=el('title',{},path);title.textContent=description;
     const show=()=>openDrawer(data.stages.find(s=>s.id===from.stageId),t('Переход'), {...edge,text:description,status:edge.status||'unknown'});
     activate(path,show,description);
     if(edge.labelBox){
-      const b=edge.labelBox,g=el('g',{'data-edge-label':edge.id},edges);rect(g,b.x,b.y,b.w,b.h,'#fffefa','#d7dfd0',4);
+      const b=edge.labelBox,g=el('g',{'data-edge-label':edge.id},edges);rect(g,b.x,b.y,b.w,b.h,colors.raised,colors.border,4);
       txt(g,(b.callout?edge.id+': ':'')+edge.label,b.x+8,b.y+19,{size:12,lh:17,lines:b.lines,width:b.w-16,fill:style.color});
       activate(g,show,description);
-      for(const target of [g,path]){target.addEventListener('mouseenter',()=>path.setAttribute('stroke-width',4));target.addEventListener('mouseleave',()=>path.setAttribute('stroke-width',1.6));target.addEventListener('focus',()=>path.setAttribute('stroke-width',4));target.addEventListener('blur',()=>path.setAttribute('stroke-width',1.6));}
+      for(const target of [g,path]){target.addEventListener('mouseenter',()=>path.setAttribute('stroke-width',4));target.addEventListener('mouseleave',()=>path.setAttribute('stroke-width',2));target.addEventListener('focus',()=>path.setAttribute('stroke-width',4));target.addEventListener('blur',()=>path.setAttribute('stroke-width',2));}
     }
   }
   for(const node of layout.nodes){
-    const stage=data.stages.find(s=>s.id===node.stageId),g=el('g',{'data-node':node.id,'data-card':'node'},svg),status=node.status||'unknown';
-    rect(g,node.x,node.y,node.w,node.h,node.kind==='outcome'?'#dfeddf':node.kind==='decision'?'#f5edda':'#fffefa',node.kind==='decision'?'#c3ad77':'#c4d4c2',8);
+    const stage=data.stages.find(s=>s.id===node.stageId),g=el('g',{'data-node':node.id,'data-card':'node','data-kind':node.kind||'action'},svg),status=node.status||'unknown';
+    const classic=designChoice==='classic';
+    rect(g,node.x,node.y,node.w,node.h,node.kind==='outcome'?(classic?colors.outcome:colors.proposalSoft):node.kind==='decision'?colors.hypothesisSoft:colors.raised,node.kind==='decision'?colors.hypothesis:colors.border,classic?8:node.kind==='decision'?1:4);
+    if(node.kind==='decision'&&!classic)el('path',{d:`M${node.x+node.w-12} ${node.y} L${node.x+node.w} ${node.y+12}`,fill:'none',stroke:colors.hypothesis,'stroke-width':2},g);
     txt(g,node.title,node.x+14,node.y+27,{size:16,weight:600,width:node.w-28,lh:22});
-    if(node.artifact){const lines=wrap(node.artifact,node.w-28,12);txt(g,node.artifact,node.x+14,node.y+node.h-39-(lines.length-1)*17,{size:12,lh:17,lines,width:node.w-28,fill:'#6b8167'});}
+    if(node.artifact){const lines=wrap(node.artifact,node.w-28,12);txt(g,node.artifact,node.x+14,node.y+node.h-39-(lines.length-1)*17,{size:12,lh:17,lines,width:node.w-28,fill:colors.muted});}
     txt(g,claimLabel(node),node.x+14,node.y+node.h-16,{size:10,width:node.w-28,fill:palette[status]});
     const barriers=Core.barriersFor(data,node);
-    if(barriers.length)el('circle',{cx:node.x+node.w-10,cy:node.y+12,r:4,fill:'#a77b42'},g);
+    if(barriers.length)el('circle',{cx:node.x+node.w-10,cy:node.y+12,r:4,fill:colors.hypothesis},g);
     activate(g,()=>openDrawer(stage,node.title,node,{artifact:node.artifact,barriers}),`${node.title}. ${claimLabel(node)}`);
   }
   footer(svg,layout.height+10);return svg;
@@ -525,10 +762,11 @@ function checkRenderedGeometry(){
   return window.cxMapChecks;
 }
 function render(){
+  pauseWalk();walkHistory=[];walkIndex=-1;readTheme();
   closeDrawer(false);layout=null;updateHeading();$('view-title').textContent=t(viewNames[view]);
   TOP=Math.max(120,...data.stages.map(s=>wrap(s.title,COL-42,17).length*24+66));
   document.querySelectorAll('[data-view]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.view===view));b.tabIndex=b.dataset.view===view?0:-1;b.setAttribute('aria-controls','map-panel');});
-  $('map-panel').setAttribute('aria-labelledby',`tab-${view}`);$('viewport').replaceChildren(view==='process'?renderProcess():renderGrid());renderLegend();setScale();$('viewport').scrollTo(0,0);checkRenderedGeometry();
+  $('map-panel').setAttribute('aria-labelledby',`tab-${view}`);$('viewport').replaceChildren(view==='process'?renderProcess():renderGrid());renderLegend();setScale();$('viewport').scrollTo(0,0);checkRenderedGeometry();updateWalk();
 }
 for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>{view=b.dataset.view;render();};
 document.querySelector('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const keys=['cjm','blueprint','process'],i=keys.indexOf(view);view=keys[e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3];render();$(`tab-${view}`).focus();});
@@ -554,14 +792,149 @@ function offerDownload(content,type,name){
   $('status').textContent=t('Файл сформирован. Сохранение на диск этим просмотрщиком не подтверждено; ссылка доступна для повторного действия.');
 }
 function exportedSVG(){
-  const svg=$('viewport').querySelector('svg').cloneNode(true);svg.removeAttribute('style');
-  for(const path of svg.querySelectorAll('[data-edge]'))path.setAttribute('stroke-width',1.6);
+  const svg=$('viewport').querySelector('svg').cloneNode(true);svg.removeAttribute('style');svg.removeAttribute('data-walk');
+  for(const n of svg.querySelectorAll('[data-viewer-only], style'))n.remove();
+  for(const n of svg.querySelectorAll('[data-active], [data-traced]')){n.removeAttribute('data-active');n.removeAttribute('data-traced');}
+  for(const path of svg.querySelectorAll('[data-edge]'))path.setAttribute('stroke-width',2);
   for(const n of svg.querySelectorAll('[tabindex]')){n.removeAttribute('tabindex');n.removeAttribute('role');n.removeAttribute('style');}
   return new XMLSerializer().serializeToString(svg);
 }
 $('export').onclick=()=>offerDownload(exportedSVG(),'image/svg+xml',`cx-impact-${data.mode||'unspecified'}-${view}.svg`);
 $('source').onclick=()=>offerDownload(JSON.stringify(originalData,null,2),'application/json','cx-impact-map.json');
 window.addEventListener('unload',()=>{for(const url of exportURLs.values())URL.revokeObjectURL(url);});
+// Finite, reader-controlled playback. State is never written into map data.
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+let walkHistory=[],walkIndex=-1,walkPlaying=false,walkTimer=null,walkAnimation=null;
+function walkCurrent(){return walkHistory[walkIndex];}
+function walkCycle(){return walkIndex>0&&walkHistory.slice(0,walkIndex).some(step=>step.nodeId===walkCurrent().nodeId);}
+function walkChoices(){
+  if(view==='process')return Core.playbackChoices(layout,walkCurrent()?.nodeId,walkHistory.slice(0,walkIndex+1).map(s=>s.nodeId));
+  const stage=data.stages[walkIndex+1];return stage?[{node:stage,edge:null,repeated:false}]:[];
+}
+function pauseWalk(){
+  walkPlaying=false;clearTimeout(walkTimer);walkTimer=null;
+  walkAnimation?.cancel();walkAnimation=null;
+  if($('path-play')){$('path-play').textContent=t('Воспроизвести');$('path-play').setAttribute('aria-pressed','false');}
+}
+function clearWalkMarks(){
+  const svg=$('viewport').querySelector('svg');if(!svg)return;
+  svg.removeAttribute('data-walk');
+  for(const n of svg.querySelectorAll('[data-active], [data-traced]')){n.removeAttribute('data-active');n.removeAttribute('data-traced');}
+  for(const n of svg.querySelectorAll('[data-viewer-only]'))n.remove();
+}
+function resetWalk(){
+  pauseWalk();walkHistory=[];walkIndex=-1;readTheme();clearWalkMarks();updateWalk();
+}
+function walkNodeElement(step){
+  const key=view==='process'?'node':'stage';
+  return [...$('viewport').querySelectorAll(`[data-${key}]`)].find(n=>n.dataset[key]===step.nodeId);
+}
+function markWalk(animate=false){
+  clearWalkMarks();const step=walkCurrent(),svg=$('viewport').querySelector('svg');if(!step||!svg)return;
+  svg.setAttribute('data-walk',view==='process'?'process':'stages');
+  const seen=walkHistory.slice(0,walkIndex+1);
+  if(view==='process'){
+    for(const n of svg.querySelectorAll('[data-node]')){if(seen.some(s=>s.nodeId===n.dataset.node))n.setAttribute('data-traced','true');if(n.dataset.node===step.nodeId)n.setAttribute('data-active','true');}
+    for(const n of svg.querySelectorAll('[data-edge], [data-edge-label]')){const id=n.dataset.edge||n.dataset.edgeLabel;if(seen.some(s=>s.edgeId===id))n.setAttribute('data-traced','true');if(step.edgeId===id)n.setAttribute('data-active','true');}
+  }else{
+    for(const n of svg.querySelectorAll('[data-stage], [data-cell]')){const id=n.dataset.stage||n.dataset.cell.split(':')[0];if(id===step.nodeId)n.setAttribute('data-active','true');}
+  }
+  if(animate&&step.edgeId&&!reducedMotion.matches){
+    const path=[...svg.querySelectorAll('[data-edge]')].find(p=>p.dataset.edge===step.edgeId);
+    if(path){
+      const length=path.getTotalLength();
+      const overlay=el('path',{d:path.getAttribute('d'),fill:'none',stroke:colors.accent,'stroke-width':3,'stroke-linecap':'round','stroke-dasharray':length,'data-viewer-only':'trace','pointer-events':'none'},svg);
+      walkAnimation=overlay.animate([{'strokeDashoffset':length},{'strokeDashoffset':0}],{duration:520,easing:'linear'});
+    }
+  }
+  const node=walkNodeElement(step);
+  if(node){ // Pan only the canvas; never steal page scroll or keyboard focus.
+    const vp=$('viewport'),b=node.getBoundingClientRect(),v=vp.getBoundingClientRect();
+    if(b.left<v.left+20||b.right>v.right-20||b.top<v.top+20||b.bottom>v.bottom-20){
+      vp.scrollTo({left:vp.scrollLeft+b.left-v.left-(v.width-b.width)/2,top:vp.scrollTop+b.top-v.top-(v.height-b.height)/2,behavior:'auto'});
+    }
+  }
+}
+function updateWalk(){
+  if(!$('journey-player'))return;
+  const choices=walkChoices(),step=walkCurrent(),cycle=walkCycle(),hasFuture=walkIndex<walkHistory.length-1;
+  const complete=!!step&&!choices.length;
+  $('path-play').textContent=t(walkPlaying?'Пауза':'Воспроизвести');$('path-play').setAttribute('aria-pressed',String(walkPlaying));
+  $('path-play').disabled=reducedMotion.matches||cycle||(!choices.length&&!hasFuture);
+  $('path-prev').disabled=walkIndex<0;$('path-next').disabled=cycle||(!choices.length&&!hasFuture);
+  $('path-reset').disabled=walkHistory.length===0;
+  $('path-kind').textContent=t(view==='process'?'Переходы из карты, не фактическое выполнение':'Обзор этапов, не порядок внутренних операций');
+  $('path-motion').textContent=reducedMotion.matches?t('Уменьшение движения: используйте шаги'):'';
+  const node=view==='process'?layout?.nodes.find(n=>n.id===step?.nodeId):data.stages.find(n=>n.id===step?.nodeId);
+  const edge=layout?.edges.find(e=>e.id===step?.edgeId);
+  const state=cycle?t('Цикл: автоматический проход завершён'):complete?t('Путь завершён'):choices.length>1?t(step?'Выберите ветвь':'Выберите начало'):t('Начните обзор');
+  $('path-position').textContent=node?`${t(view==='process'?'Шаг':'Этап')} ${walkIndex+1}${view==='process'?'':` / ${data.stages.length}`} · ${node.title}`:state;
+  $('path-caption').textContent=[node&&(cycle||complete||choices.length>1)?state:'',edge?.label,edge?.unrouted?t('Переход не проложен'):''].filter(Boolean).join(' · ');
+  const box=$('path-choices');box.replaceChildren();box.hidden=choices.length<2||cycle;
+  if(!box.hidden)for(const choice of choices){
+    const button=document.createElement('button');button.className='path-choice';
+    button.textContent=choice.edge?`${choice.edge.label||t(Core.edgeStyles[choice.edge.kind||'flow'].label)} → ${choice.node.title}`:choice.node.title;
+    button.onclick=()=>{pauseWalk();takeWalkStep(choice);};box.append(button);
+  }
+}
+function takeWalkStep(choice){
+  walkHistory=walkHistory.slice(0,walkIndex+1);walkHistory.push({nodeId:choice.node.id,edgeId:choice.edge?.id});walkIndex++;
+  markWalk(walkPlaying);const choices=walkChoices();
+  if(choice.repeated||!choices.length||choices.length>1)pauseWalk();
+  updateWalk();if(walkPlaying)walkTimer=setTimeout(advanceWalk,1800);
+}
+function advanceWalk(){
+  clearTimeout(walkTimer);
+  if(walkCycle()){pauseWalk();updateWalk();return;}
+  if(walkIndex<walkHistory.length-1){walkIndex++;markWalk(walkPlaying);updateWalk();if(walkPlaying)walkTimer=setTimeout(advanceWalk,1800);return;}
+  const choices=walkChoices();
+  if(choices.length===1)takeWalkStep(choices[0]);
+  else{pauseWalk();updateWalk();if(choices.length>1)$('path-choices').querySelector('button')?.focus();}
+}
+function initWalk(){
+  if(!$('journey-player'))return; // Saved custom templates can keep their original controls.
+  $('path-toggle').onclick=()=>{const opening=$('journey-player').hidden;$('journey-player').hidden=!opening;$('path-toggle').setAttribute('aria-expanded',String(opening));resetWalk();};
+  $('path-close').onclick=()=>{$('journey-player').hidden=true;$('path-toggle').setAttribute('aria-expanded','false');resetWalk();$('path-toggle').focus();};
+  $('path-play').onclick=()=>{if(walkPlaying){pauseWalk();updateWalk();}else if(!reducedMotion.matches){walkPlaying=true;advanceWalk();}};
+  $('path-next').onclick=()=>{pauseWalk();advanceWalk();};
+  $('path-prev').onclick=()=>{pauseWalk();walkIndex=Math.max(-1,walkIndex-1);markWalk();updateWalk();};
+  $('path-reset').onclick=resetWalk;
+  reducedMotion.addEventListener('change',()=>{pauseWalk();updateWalk();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){pauseWalk();updateWalk();}});
+}
+
+const themePreference=window.matchMedia('(prefers-color-scheme: dark)');
+let themeChoice='system',designChoice='classic';
+try{const saved=localStorage.getItem('cx-impact-theme');if(['light','dark','system'].includes(saved))themeChoice=saved;}catch{}
+try{const saved=localStorage.getItem('cx-impact-design');if(['classic','graphite'].includes(saved))designChoice=saved;}catch{}
+function resolvedTheme(){return themeChoice==='system'?(themePreference.matches?'dark':'light'):themeChoice;}
+function readTheme(){
+  const css=getComputedStyle(document.documentElement);
+  font=css.getPropertyValue('--font-body').trim()||font;
+  const roles={surface:'surface',raised:'surface-raised',subtle:'surface-subtle',text:'fg',muted:'muted',border:'border',strong:'border-strong',accent:'accent',accentSoft:'accent-soft',focus:'focus',risk:'danger',riskSoft:'danger-soft',proposal:'proposal',proposalSoft:'proposal-soft',evidence:'evidence',hypothesis:'hypothesis',hypothesisSoft:'hypothesis-soft',unknown:'unknown',unknownSoft:'unknown-soft'};
+  const fallback={surface:'#fffefa',raised:'#ffffff',subtle:'#f1f4ed',text:'#263e35',muted:'#667e6d',border:'#dce5d8',strong:'#98ac9a',accent:'#24695a',accentSoft:'#e4eee5',focus:'#b18d34',risk:'#7c4e3d',riskSoft:'#f8eee7',proposal:'#4c67a0',proposalSoft:'#edf1f8',evidence:'#276756',hypothesis:'#a06a24',hypothesisSoft:'#f5edda',unknown:'#667e6d',unknownSoft:'#f1f4ed'};
+  colors=Object.fromEntries(Object.entries(roles).map(([key,name])=>[key,css.getPropertyValue('--'+name).trim()||fallback[key]]));
+  for(const [key,name]of Object.entries({cellEven:'cell-even',cellOdd:'cell-odd',stage:'stage',outcome:'outcome'}))colors[key]=css.getPropertyValue('--'+name).trim()||colors.surface;
+  palette={observed:colors.evidence,declared:colors.evidence,requirement:colors.evidence,user_fact:colors.evidence,code:colors.evidence,hypothesis:colors.hypothesis,unknown:colors.unknown,proposal:colors.proposal};
+  if(designChoice==='classic'&&resolvedTheme()==='light')Object.assign(palette,{declared:'#52685d',requirement:'#24695a',user_fact:'#596c2f',code:'#526c80'});
+  edgeStyles=Object.fromEntries(Object.entries(Core.edgeStyles).map(([kind,style])=>[kind,{...style,color:css.getPropertyValue('--edge-'+(kind==='exception'?'recovery':kind)).trim()||style.color}]));
+}
+function applyTheme(redraw=true){
+  document.documentElement.dataset.theme=resolvedTheme();
+  document.documentElement.dataset.design=designChoice;
+  for(const b of document.querySelectorAll('[data-design-choice]'))b.setAttribute('aria-pressed',String(b.dataset.designChoice===designChoice));
+  for(const b of document.querySelectorAll('[data-theme-choice]'))b.setAttribute('aria-pressed',String(b.dataset.themeChoice===themeChoice));
+  if(redraw){const vp=$('viewport'),left=vp.scrollLeft,top=vp.scrollTop;render();vp.scrollTo(left,top);}
+}
+function initTheme(){
+  applyTheme(false);
+  for(const b of document.querySelectorAll('[data-theme-choice]'))b.onclick=()=>{themeChoice=b.dataset.themeChoice;try{localStorage.setItem('cx-impact-theme',themeChoice);}catch{}applyTheme();};
+  for(const b of document.querySelectorAll('[data-design-choice]'))b.onclick=()=>{designChoice=b.dataset.designChoice;try{localStorage.setItem('cx-impact-design',designChoice);}catch{}applyTheme();};
+  themePreference.addEventListener('change',()=>{if(themeChoice==='system')applyTheme();});
+}
+
+initTheme();
+initWalk();
 render();
 </script>
 </body></html>

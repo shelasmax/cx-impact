@@ -2,21 +2,21 @@
 
 ## Codex: install per project
 
-1. Download `cx-impact-0.2.1.zip` from the [release](https://github.com/shelasmax/cx-impact/releases/tag/v0.2.1).
+1. Download `cx-impact-0.3.0.zip` from the [release](https://github.com/shelasmax/cx-impact/releases/tag/v0.3.0).
 2. Extract it. The archive contains a single `cx-impact/` directory, including `SKILL.md`, assets, references, renderer and license.
 3. Copy that directory into your project's `.agents/skills/` directory. The resulting file should be `.agents/skills/cx-impact/SKILL.md`.
 4. Start a new Codex session in the project and invoke `$cx-impact`.
 
 No global configuration change, package installation or additional service is required. The agent's existing model provider is still used. Rendering needs Node.js 18+; viewing generated HTML needs a modern browser. This release was developed with Node 22 and Chrome on macOS. See [verification](verification.md) for the distinction between local checks and CI.
 
-If you prefer a repository checkout, copy `skills/cx-impact/` from the `v0.2.1` tag into the same destination. Copy the **whole directory**, not only `SKILL.md`.
+If you prefer a repository checkout, copy `skills/cx-impact/` from the `v0.3.0` tag into the same destination. Copy the **whole directory**, not only `SKILL.md`.
 
 ## Verify the download
 
 The release includes `SHA256SUMS`. Keep it next to the downloaded assets and compare the hash of the archive you downloaded. For example, on macOS:
 
 ```sh
-shasum -a 256 cx-impact-0.2.1.zip
+shasum -a 256 cx-impact-0.3.0.zip
 ```
 
 Compare the output with the archive's line in `SHA256SUMS`. If you downloaded all listed assets, `shasum -a 256 -c SHA256SUMS` checks them together. On Linux, `sha256sum` provides the same operation. These checks detect corrupted or mismatched downloads; they are not a signed provenance claim.

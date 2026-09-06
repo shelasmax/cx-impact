@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0] — 2026-09-06
+
+- Original green Classic design retained as the default; Graphite Field Notes is an optional visual system developed through an OpenDesign design project: editorial hierarchy, paper/graphite surfaces, semantic colors and refined map controls.
+- Independent Classic/Graphite design and light/dark/system mode selection with browser-local preferences; standalone SVG retains the selected colors and typography.
+- Finite, opt-in stage/process walkthroughs with play, pause, previous, next, reset and explicit branch selection; cycles stop and reduced motion uses static steps.
+- Accessible modal details, focus return, complete static exports without temporary viewer styles, and theme/contrast/playback regression checks.
+- Refreshed public examples and portable source snapshots. No map schema change or new runtime dependency.
+
 ## [0.2.1] — 2026-09-06
 
 ### Added
@@ -43,3 +51,5 @@ Earlier local experiments are not published releases and do not establish the qu
 [0.2.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.2.0
 
 [0.2.1]: https://github.com/shelasmax/cx-impact/releases/tag/v0.2.1
+
+[0.3.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.3.0

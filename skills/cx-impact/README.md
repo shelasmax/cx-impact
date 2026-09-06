@@ -1,6 +1,6 @@
 # CX Impact skill
 
-Create customer journey maps, service blueprints and experience-process maps with a coding agent. The primary output is a standalone interactive HTML map with editable JSON and SVG export.
+Create customer journey maps, service blueprints and experience-process maps with a coding agent. The primary output is a standalone interactive HTML map with editable JSON and SVG export. Choose the original green Classic design (default) or Graphite Field Notes. Each has independent light, dark and system color modes. Optional finite path walkthroughs explain stages or authored process transitions, pause at branches and support reduced-motion steps; exported SVG stays complete and static.
 
 ## Install in Codex
 

@@ -4,7 +4,7 @@
   else root.CXMap = factory();
 })(globalThis, function () {
   'use strict';
-  const VERSION = '0.2.1';
+  const VERSION = '0.3.0';
   const statusLabels = {
     observed: 'Наблюдение', declared: 'Заявлено в источнике', requirement: 'Требование / намерение',
     user_fact: 'Факт из задания', code: 'Наблюдение в коде', hypothesis: 'Гипотеза',
@@ -112,7 +112,33 @@
   "Полотно карты. Прокрутка стрелками; 100 процентов для чтения, Вписать для обзора": "Map canvas. Use arrow keys to scroll; 100 percent to read, Fit for an overview",
   "Детали карты": "Map details",
   "Закрыть детали": "Close details",
-  "Основание": "Evidence"
+  "Основание": "Evidence",
+  "Светлая": "Light",
+  "Тёмная": "Dark",
+  "Системная": "System",
+  "Тема": "Theme",
+  "Дизайн": "Design",
+  "Классическая": "Classic",
+  "Цветовой режим": "Color mode",
+  "Обзор пути": "Path walkthrough",
+  "Воспроизвести": "Play",
+  "Пауза": "Pause",
+  "Назад": "Previous",
+  "Далее": "Next",
+  "Сначала": "Reset",
+  "Закрыть обзор": "Close walkthrough",
+  "Выберите начало": "Choose a starting point",
+  "Выберите ветвь": "Choose a branch",
+  "Начните обзор": "Start the walkthrough",
+  "Путь завершён": "Path complete",
+  "Цикл: автоматический проход завершён": "Cycle: automatic walkthrough complete",
+  "Обзор этапов, не порядок внутренних операций": "Stage overview, not an internal operation sequence",
+  "Переходы из карты, не фактическое выполнение": "Authored transitions, not actual execution",
+  "Уменьшение движения: используйте шаги": "Reduced motion: use step controls",
+  "Шаг": "Step",
+  "Этап": "Stage",
+  "Нет описанного пути": "No authored path",
+  "Переход не проложен": "Transition could not be drawn"
 };
   function translate(value, map) {
     return map?.locale === 'en' && Object.prototype.hasOwnProperty.call(english, value) ? english[value] : value;
@@ -259,5 +285,16 @@
     const height=Math.max(cursor+30,...labelRects.map(r=>r.y+r.h+30),...edges.flatMap(e=>e.points.map(p=>p.y+24)));
     const result={left,colWidth,top,width,height,nodes,edges,lanes:p.lanes.map((l,i)=>({...l,y:ys[i],h:heights[i]+94})),warnings};result.geometry=checkGeometry(result);return result;
   }
-  return {VERSION,translate,statusLabels,modeLabels,edgeStyles,labelFor,scenarios,barriersFor,cell,measure,wrap,overlap,hitSegment,segments,pathD,checkGeometry,layoutProcess};
+  // Viewer traversal uses the authored graph; it never chooses a branch or synthesizes an edge.
+  function playbackChoices(graph,currentId,visited=[]) {
+    if(!graph)return [];
+    if(!currentId){
+      const roots=graph.nodes.filter(n=>!graph.edges.some(e=>e.to===n.id));
+      return (roots.length?roots:graph.nodes).map(node=>({node,edge:null,repeated:false}));
+    }
+    return graph.edges.filter(e=>e.from===currentId).map(edge=>({
+      node:graph.nodes.find(n=>n.id===edge.to),edge,repeated:visited.includes(edge.to)
+    })).filter(choice=>choice.node);
+  }
+  return {VERSION,translate,statusLabels,modeLabels,edgeStyles,labelFor,scenarios,barriersFor,cell,measure,wrap,overlap,hitSegment,segments,pathD,checkGeometry,layoutProcess,playbackChoices};
 });

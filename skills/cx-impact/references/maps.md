@@ -1,4 +1,4 @@
-# Visual maps · renderer 0.2.1
+# Visual maps · renderer 0.3.0
 
 Use a bounded scenario with shared stages across views. This is an original simplified authoring format, not full BPMN or a claim of complete XP Mapping conformance. Set `locale: "en"` for English interface labels or `locale: "ru"` for Russian. Omission preserves Russian for existing maps. Author the scenario content in the requested language; the renderer does not translate user content. Locale applies to buttons, accessibility labels, evidence/status labels, details, missing values and exported SVG. A comparison wrapper's locale is inherited unless a nested scenario explicitly overrides it.
 
@@ -108,13 +108,30 @@ node map.source/rebuild.mjs
 
 The snapshot uses no installed skill and produces deterministic HTML. Edit the adjacent JSON for content and the local snapshot for presentation. Rebuild does not rewrite IDs or unrelated source data. A canonical renderer refuses to overwrite a modified bundle or silently drop a recorded custom template; use its rebuild command or a new output name. `--template <path>` explicitly supplies a custom template; `--no-bundle` is intended for already self-contained rebuilds or disposable tests, not ordinary delivery.
 
+## Design, themes and path walkthrough
+
+The bundled viewer preserves **Classic**, the original green atlas design, as the default: Avenir Next/Trebuchet typography, rounded tinted cards and green stage headers. **Graphite Field Notes** is an optional design: neutral paper/graphite surfaces, editorial titles, system sans-serif map text, a restrained terracotta selection accent, and separate evidence colors. Both designs have light and dark palettes using semantic tokens, explicit SVG fills/strokes, complete status labels and the existing line patterns. No webfont or rendering service is fetched. Body text remains 16px at native 100%; fit is an overview.
+
+Two independent groups control appearance: Classic / Graphite and Light / Dark / System. The initial defaults are Classic and System. Choices are saved independently in browser-local storage when available. Denied or invalid storage does not prevent switching. Appearance settings are viewer preferences, not new map fields. SVG exports retain both selected colors and typography.
+
+The optional Path walkthrough is closed and static on load:
+
+- **CJM / blueprint:** read the authored stages in order. This does not infer backstage operation order or a process edge.
+- **Process:** start from a root; multiple roots or a rootless cycle require selecting a starting point. Follow only authored directed edges, preserving complete conditions.
+- **Fork:** automatically pause and show every outgoing branch as a labelled button. Choose explicitly; no branch is treated as more likely or successful.
+- **End / repeated node:** stop automatic playback. Reset or step backward to review another choice; no infinite loop.
+- **Pause / previous / next / reset:** available from the panel. Changing view, scenario, design or color mode resets traversal. Opening details and hiding the browser page pause playback.
+- **Reduced motion:** Play is disabled; Previous/Next provide static highlights with no animated trace.
+
+Animation is a 520ms viewer-only stroke reveal at a fixed reading cadence. Neither duration nor emphasis represents observed timing, frequency, probabilities or runtime activity. SVG export contains the complete active view in the selected theme and strips interactive styles, transient markers and dimming. JSON remains the exact original map/wrapper.
+
 ## Verification and export
 
 `map.checks.json` records structure, geometry, visual, interactions, export and reproducibility separately. `checked` states its scope; `not_checked` and `environment_limited` must explain what is missing. Writing a snapshot is not the same as executing its rebuild.
 
 The shared geometry checks routes against unrelated cards and labels against cards/other labels. The browser adds actual text bounding-box checks in `window.cxMapChecks`. Also inspect the final HTML visually at 1366×900 and 1920×1080, all requested views at natural 100% and fitted overview. Test keyboard scroll, tabs, details, Escape and status/source preservation. Natural 100% means one SVG unit per CSS pixel; fitting a large map is an overview, not a promise of readable body text.
 
-SVG export includes the entire active scenario/view, mode, scope and legend independently of zoom and scroll. JSON exports the unchanged complete data. Reopen a downloaded SVG and compare downloaded JSON before claiming a successful round-trip. Persistent retry and standalone SVG links remain in the page. The viewer says a file is formed, not that a download has been saved. Browser tools may block blob URLs; report that specific limitation without a workaround or a claim about the user's browser.
+SVG export includes the entire active scenario/view, selected theme, mode, scope and legend independently of zoom, scroll and playback. Interactive CSS and temporary trace/focus state are removed. JSON exports the unchanged complete data. Reopen a downloaded SVG and compare downloaded JSON before claiming a successful round-trip. Persistent retry and standalone SVG links remain in the page. The viewer says a file is formed, not that a download has been saved. Browser tools may block blob URLs; report that specific limitation without a workaround or a claim about the user's browser.
 
 Use a quiet canvas, clear stage columns and role lanes. Status must be text as well as color; connection kinds also differ by line pattern. Decoration, fabricated KPIs or smooth emotion curves do not compensate for missing content. Automated geometry and visual inspection are complementary.
 

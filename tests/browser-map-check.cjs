@@ -39,14 +39,14 @@ if(process.env.CX_MAP_PRIVATE_CASE)cases.push(['private',process.env.CX_MAP_PRIV
       if(size.width===1920){await page.locator('#viewport').evaluate(el=>el.scrollTop=el.scrollHeight);await page.screenshot({path:path.join(out,`${prefix}-${mode}-${view}-bottom.png`)});await page.locator('#viewport').evaluate(el=>el.scrollTop=0);}
       await page.locator('#plus').click();assert.notEqual(await page.locator('#scale').innerText(),Math.round(fit/dimensions.viewBox*100)+'%');await page.locator('#natural').click();
       const card=page.locator(view==='process'?'[data-node]':'[data-cell]').first();await card.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#drawer').isVisible(),true);if(input.locale==='en')assert.doesNotMatch(await page.locator('#drawer').innerText(),/[А-Яа-яЁё]/);await page.keyboard.press('Escape');assert.equal(await page.locator('#drawer').isVisible(),false);assert.equal(await card.evaluate(el=>el===document.activeElement),true);
-      await page.locator('#viewport').focus();await page.keyboard.press('ArrowRight');await page.waitForTimeout(180);if(dimensions.natural+dimensions.padding>dimensions.client)assert.ok(await page.locator('#viewport').evaluate(el=>el.scrollLeft)>0);
+      await page.locator('#viewport').focus();await page.keyboard.press('ArrowRight');if(dimensions.natural+dimensions.padding>dimensions.client)await page.waitForFunction(()=>document.getElementById('viewport').scrollLeft>0,null,{timeout:3000}).catch(async error=>{error.message+=' '+JSON.stringify({name,mode,view,size,dimensions,current:await page.evaluate(()=>({focus:document.activeElement.id,hasFocus:document.hasFocus(),hidden:document.hidden,inert:document.querySelector('.shell').inert,left:document.getElementById('viewport').scrollLeft,scroll:document.getElementById('viewport').scrollWidth,client:document.getElementById('viewport').clientWidth}))});throw error;});
       if(size.width===1366){
        await page.locator('#viewport').evaluate(el=>{el.scrollTop=120;el.scrollLeft=150});await page.locator('#minus').click();
-       const xmlBefore=await page.locator('#viewport>svg').evaluate(svg=>({width:svg.viewBox.baseVal.width,height:svg.viewBox.baseVal.height,text:svg.textContent}));
+       const xmlBefore=await page.locator('#viewport>svg').evaluate(svg=>({width:svg.viewBox.baseVal.width,height:svg.viewBox.baseVal.height,text:[...svg.querySelectorAll('title,desc,text')].map(n=>n.textContent).join('\n')}));
        const download=page.waitForEvent('download');await page.locator('#export').click();const d=await download;const saved=path.join(out,`${prefix}-${mode}-${view}.svg`);await d.saveAs(saved);
        assert.equal(await page.locator('[data-export-type="image/svg+xml"] a').count(),2);
        const svgPage=await browser.newPage();await svgPage.goto(pathToFileURL(saved).href);
-       const exported=await svgPage.locator('svg').evaluate(svg=>({width:+svg.getAttribute('width'),height:+svg.getAttribute('height'),viewBox:svg.getAttribute('viewBox'),text:svg.textContent,nodeCount:svg.querySelectorAll('[data-node]').length,edges:[...svg.querySelectorAll('[data-edge]')].map(p=>({kind:p.dataset.kind,dash:p.getAttribute('stroke-dasharray')})),outside:[...svg.querySelectorAll('text')].filter(t=>{const b=t.getBBox();return b.x<0||b.y<0||b.x+b.width>svg.viewBox.baseVal.width+1||b.y+b.height>svg.viewBox.baseVal.height+1}).map(t=>t.textContent)}));
+       const exported=await svgPage.locator('svg').evaluate(svg=>({width:+svg.getAttribute('width'),height:+svg.getAttribute('height'),viewBox:svg.getAttribute('viewBox'),text:[...svg.querySelectorAll('title,desc,text')].map(n=>n.textContent).join('\n'),nodeCount:svg.querySelectorAll('[data-node]').length,edges:[...svg.querySelectorAll('[data-edge]')].map(p=>({kind:p.dataset.kind,dash:p.getAttribute('stroke-dasharray')})),outside:[...svg.querySelectorAll('text')].filter(t=>{const b=t.getBBox();return b.x<0||b.y<0||b.x+b.width>svg.viewBox.baseVal.width+1||b.y+b.height>svg.viewBox.baseVal.height+1}).map(t=>t.textContent)}));
        assert.ok(Math.abs(exported.width-xmlBefore.width)<0.1);assert.ok(Math.abs(exported.height-xmlBefore.height)<0.1);assert.equal(exported.text,xmlBefore.text);assert.deepEqual(exported.outside,[],'standalone SVG text within full bounds');
        if(view==='process'){for(const e of exported.edges)assert.equal(e.dash,{flow:'none',handoff:'8 4',exception:'2 4'}[e.kind]);}
        await svgPage.close();report.export.checks.push(`${mode}/${view}: download saved, standalone SVG reopened, complete native bounds, mode and legend retained`);
@@ -73,7 +73,7 @@ if(process.env.CX_MAP_PRIVATE_CASE)cases.push(['private',process.env.CX_MAP_PRIV
      await page.evaluate(()=>window.scrollTo(0,0));
      const canvas=await page.locator('#viewport').evaluate(el=>({height:el.clientHeight,scroll:el.scrollHeight}));
      assert.ok(canvas.scroll<=canvas.height+1,'README preview includes the whole diagram');
-     await page.locator('.shell').screenshot({path:path.join(out,view+'-preview.png')});
+     await page.locator('.shell').screenshot({path:path.join(out,view+'-preview.png'),animations:'disabled'});
      fs.copyFileSync(path.join(out,prefix+'-'+modes[0]+'-'+view+'.svg'),path.join(out,view+'.svg'));
     }
    }
