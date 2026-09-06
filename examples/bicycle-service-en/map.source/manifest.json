@@ -6,10 +6,10 @@
     "assets/map.html": "e66ead368174273579e0c4de7619038f27818a2bdcd90625ed92fa84ddea9325",
     "assets/map-core.js": "c5adc78099d00d530dc58c3f0d60820b8a77dc59c05e631f4324fea83230adb1",
     "assets/map-viewer.js": "5619186afd8b606df191595be2283582fb827ba8484cd363f75ed45f7bdc8998",
-    "rebuild.mjs": "a771f095fb9e38fc8d5c53bc5708814de0a00abe10a08e796fd17acd44a225da"
+    "rebuild.mjs": "9a16545b16dd291af8fefd8edc65b689c378f50feda759e725df215297e4f8ef"
   },
-  "source": "comparison.json",
-  "sourceSha256": "1e4eaba086cab31bf0ed86e34f906489bd63d7ff1f812feb8a836ef45111ada2",
-  "htmlSha256": "e0a56b06f0d6bca59acea210b990cb304f8faa61095c0104847d97c519e0268f",
-  "rebuild": "node \"comparison.source/rebuild.mjs\""
+  "source": "map.json",
+  "sourceSha256": "716a6f5856a9e9de0fc14119dbc20b9cae5a55d432c860df2f31b3a96184915e",
+  "htmlSha256": "cf6e9ea883e035d7a0ecab540f00c14c3b82dbb0210a8a8775c6888a83c9fae1",
+  "rebuild": "node \"map.source/rebuild.mjs\""
 }

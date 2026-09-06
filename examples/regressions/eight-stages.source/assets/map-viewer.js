@@ -1,7 +1,10 @@
 'use strict';
 const originalData=JSON.parse(document.getElementById('map-data').textContent);
 const Core=globalThis.CXMap, $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
-let data=originalData.mode==='comparison'?originalData.current:originalData;
+const scenarioData=key=>({...originalData[key],locale:originalData[key].locale||originalData.locale});
+let data=originalData.mode==='comparison'?scenarioData('current'):originalData;
+const t=value=>Core.translate(value,data);
+const modeLabel=mode=>t(Core.modeLabels[mode||'unspecified']);
 let view=data.defaultView||'cjm',zoom=1,fitMode=false,focusReturn=null,layout=null;
 const palette={observed:'#276756',declared:'#52685d',requirement:'#24695a',user_fact:'#596c2f',code:'#526c80',hypothesis:'#a06a24',unknown:'#89938a',proposal:'#4c67a0'};
 const viewNames={cjm:'Путь клиента',blueprint:'Как сервис обеспечивает этот путь',process:'Участники, передачи и условия продолжения'};
@@ -23,25 +26,25 @@ function line(parent,x1,y1,x2,y2,color='#dce3d8',dash){return el('line',{x1,y1,x
 function paragraph(parent,text,cls){const p=document.createElement('p');p.textContent=text;if(cls)p.className=cls;parent.append(p);return p;}
 function activate(node,handler,label){node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label',label);node.style.cursor='pointer';const call=()=>{focusReturn=node;handler();};node.addEventListener('click',call);node.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();call();}});}
 function sourceBlocks(parent,claim){
-  if(!claim.sourceIds?.length){paragraph(parent,claim.status==='proposal'?'Предложение автора; не согласованное правило.':claim.status==='hypothesis'?'Гипотеза автора; подтверждение не представлено.':'Источник не указан.','source-kind');return;}
-  for(const id of claim.sourceIds){const source=(data.sources||[]).find(s=>s.id===id);paragraph(parent,source.label);paragraph(parent,sourceKinds[source.kind]||'Тип источника не указан','source-kind');paragraph(parent,source.text);}
+  if(!claim.sourceIds?.length){paragraph(parent,claim.status==='proposal'?t('Предложение автора; не согласованное правило.'):claim.status==='hypothesis'?t('Гипотеза автора; подтверждение не представлено.'):t('Источник не указан.'),'source-kind');return;}
+  for(const id of claim.sourceIds){const source=(data.sources||[]).find(s=>s.id===id);paragraph(parent,source.label);paragraph(parent,t(sourceKinds[source.kind])||t('Тип источника не указан'),'source-kind');paragraph(parent,source.text);}
 }
 function claimBlock(parent,title,claim){
   const block=document.createElement('section');block.className='claim-block';const h=document.createElement('h3');h.textContent=title;block.append(h);
   const badge=document.createElement('span');badge.className='badge';badge.textContent=claimLabel(claim);block.append(badge);paragraph(block,claim.text||claim.title);if(claim.detail)paragraph(block,claim.detail);sourceBlocks(block,claim);parent.append(block);
 }
 function showBarrier(parent,b){
-  claimBlock(parent,`Барьер${b.id?' · '+b.id:''}`,b);
-  for(const[key,title]of [['consequence','Последствие'],['improvement','Связанное улучшение'],['question','Открытый вопрос']])if(b[key])claimBlock(parent,title,b[key]);
+  claimBlock(parent,`${t('Барьер')}${b.id?' · '+b.id:''}`,b);
+  for(const[key,title]of [['consequence',t('Последствие')],['improvement',t('Связанное улучшение')],['question',t('Открытый вопрос')]])if(b[key])claimBlock(parent,title,b[key]);
 }
 function openDrawer(stage,label,claim,related={}){
-  $('detail-stage').textContent=stage?`${String(data.stages.indexOf(stage)+1).padStart(2,'0')} / ${stage.title}`:Core.modeLabels[data.mode||'unspecified'];
+  $('detail-stage').textContent=stage?`${String(data.stages.indexOf(stage)+1).padStart(2,'0')} / ${stage.title}`:modeLabel(data.mode);
   $('detail-title').textContent=label;$('detail-status').textContent=claimLabel(claim);$('detail-text').textContent=claim.detail||claim.text||claim.title||'';
   $('detail-related').replaceChildren();$('detail-sources').replaceChildren();sourceBlocks($('detail-sources'),claim);
-  if(related.channel)claimBlock($('detail-related'),'Канал',related.channel);
-  if(related.artifact)paragraph($('detail-related'),'Результат: '+related.artifact);
+  if(related.channel)claimBlock($('detail-related'),t('Канал'),related.channel);
+  if(related.artifact)paragraph($('detail-related'),t('Результат: ')+related.artifact);
   for(const b of related.barriers||[])showBarrier($('detail-related'),b);
-  for(const q of data.questions||[])if(!stage||q.stageIds?.includes(stage.id)){claimBlock($('detail-related'),'Допущение / вопрос',q);if(q.impact)paragraph($('detail-related'),'Влияние на сценарий: '+q.impact);}
+  for(const q of data.questions||[])if(!stage||q.stageIds?.includes(stage.id)){claimBlock($('detail-related'),t('Допущение / вопрос'),q);if(q.impact)paragraph($('detail-related'),t('Влияние на сценарий: ')+q.impact);}
   $('drawer').hidden=false;$('close').focus();
 }
 function closeDrawer(restore=true){$('drawer').hidden=true;if(restore&&focusReturn?.isConnected)focusReturn.focus();}
@@ -53,8 +56,8 @@ function allStatuses(){
 function legendEntries(){
   const entries=allStatuses().map(status=>({text:claimLabel({status}),color:palette[status]}));
   if(view==='process'){
-    for(const kind of Object.keys(Core.edgeStyles)){const style=Core.edgeStyles[kind];entries.push({text:style.label,color:style.color,dash:style.dash,edge:true,kind});}
-    entries.push({text:'Пустая ячейка: шаг не описан',color:palette.unknown});
+    for(const kind of Object.keys(Core.edgeStyles)){const style=Core.edgeStyles[kind];entries.push({text:t(style.label),color:style.color,dash:style.dash,edge:true,kind});}
+    entries.push({text:t('Пустая ячейка: шаг не описан'),color:palette.unknown});
   }
   return entries;
 }
@@ -66,14 +69,14 @@ function renderLegend(){
     span.append(document.createTextNode(entry.text));$('legend').append(span);
   }
 }
-function scopeText(){return data.scope?`${data.scope.scenario} · ${data.scope.start} → ${data.scope.end} · Срез: ${data.scope.asOf}`:'Граница и дата среза не уточнены';}
+function scopeText(){return data.scope?`${data.scope.scenario} · ${data.scope.start} → ${data.scope.end} · ${t('Срез:')} ${data.scope.asOf}`:t('Граница и дата среза не уточнены');}
 function svgFooterHeight(width){
   let rows=1,x=8;for(const e of legendEntries()){const w=Core.measure(e.text,11)+40;if(x+w>width-20){rows++;x=8;}x+=w;}
-  return 64+wrap(`${data.title} · ${viewNames[view]} · ${Core.modeLabels[data.mode||'unspecified']}`,width-30,12).length*16.8+wrap(data.disclaimer,width-32,11).length*15.4+wrap(scopeText(),width-32,11).length*15.4+rows*24;
+  return 64+wrap(`${data.title} · ${t(viewNames[view])} · ${modeLabel(data.mode)}`,width-30,12).length*16.8+wrap(data.disclaimer,width-32,11).length*15.4+wrap(scopeText(),width-32,11).length*15.4+rows*24;
 }
 function createSvg(contentHeight,width=LEFT+COL*data.stages.length+32){
-  const height=contentHeight+svgFooterHeight(width),svg=el('svg',{xmlns:NS,viewBox:`0 0 ${width} ${height}`,width,height,'aria-label':`${data.title}. ${viewNames[view]}. ${Core.modeLabels[data.mode||'unspecified']}`});
-  const title=el('title',{},svg);title.textContent=`${data.title} — ${viewNames[view]} — ${Core.modeLabels[data.mode||'unspecified']}`;
+  const height=contentHeight+svgFooterHeight(width),svg=el('svg',{xmlns:NS,viewBox:`0 0 ${width} ${height}`,width,height,'aria-label':`${data.title}. ${t(viewNames[view])}. ${modeLabel(data.mode)}`});
+  const title=el('title',{},svg);title.textContent=`${data.title} — ${t(viewNames[view])} — ${modeLabel(data.mode)}`;
   const desc=el('desc',{},svg);desc.textContent=scopeText()+'. '+data.disclaimer;
   rect(svg,0,0,width,height,'#fdfefa','none',0);
   const style=el('style',{},svg);style.textContent='[role="button"]:focus-visible{outline:none;filter:drop-shadow(0 0 3px #b18d34)}';
@@ -82,8 +85,8 @@ function createSvg(contentHeight,width=LEFT+COL*data.stages.length+32){
     const marker=el('marker',{id:k,markerWidth:9,markerHeight:9,refX:8,refY:4.5,orient:'auto',markerUnits:'userSpaceOnUse'},defs);
     el('path',{d:'M1,1 L8,4.5 L1,8',fill:k==='handoff'?'none':v.color,stroke:v.color,'stroke-width':1.4},marker);
   }
-  txt(svg,view==='cjm'?'КЛИЕНТСКИЙ ПУТЬ':view==='blueprint'?'СЛОИ СЕРВИСА':'УЧАСТНИКИ',8,31,{size:11,weight:700,width:170,fill:'#78907e'});
-  txt(svg,Core.modeLabels[data.mode||'unspecified'],8,54,{size:10,width:175,fill:'#667e6d'});
+  txt(svg,view==='cjm'?t('КЛИЕНТСКИЙ ПУТЬ'):view==='blueprint'?t('СЛОИ СЕРВИСА'):t('УЧАСТНИКИ'),8,31,{size:11,weight:700,width:170,fill:'#78907e'});
+  txt(svg,modeLabel(data.mode),8,54,{size:10,width:175,fill:'#667e6d'});
   data.stages.forEach((stage,i)=>{
     const x=LEFT+i*COL,g=el('g',{'data-card':'stage'},svg);rect(g,x,10,COL-GAP,TOP-30,i===0?'#e4eee5':'#f0f3ec','#dce5d8');
     txt(g,String(i+1).padStart(2,'0'),x+14,31,{size:11,fill:'#77937b'});txt(g,stage.title,x+14,55,{size:17,weight:600,width:COL-42});
@@ -94,7 +97,7 @@ function createSvg(contentHeight,width=LEFT+COL*data.stages.length+32){
 }
 function footer(svg,y){
   const width=svg.viewBox.baseVal.width;line(svg,8,y,width-12,y);
-  y+=24;y+=txt(svg,`${data.title} · ${viewNames[view]} · ${Core.modeLabels[data.mode||'unspecified']}`,8,y,{size:12,width:width-30,fill:'#526b59'});
+  y+=24;y+=txt(svg,`${data.title} · ${t(viewNames[view])} · ${modeLabel(data.mode)}`,8,y,{size:12,width:width-30,fill:'#526b59'});
   y+=4;y+=txt(svg,scopeText(),8,y,{size:11,width:width-32,fill:'#6e806f'});
   y+=4;y+=txt(svg,data.disclaimer,8,y,{size:11,width:width-32,fill:'#6e806f'});
   y+=12;let x=8;
@@ -107,16 +110,16 @@ function footer(svg,y){
 }
 function renderGrid(){
   const rows=view==='cjm'?[
-    {key:'goal',label:'Цель клиента',sub:'Ради чего этот шаг',min:95},
-    {key:'action',label:'Действие и канал',sub:'Что делает клиент',min:125},
-    {key:'experience',label:'Переживание',sub:'Основание указано отдельно',min:105},
-    {key:'barrier',label:'Барьер',sub:'Препятствие или неизвестность',min:115,tone:'risk'},
-    {key:'opportunity',label:'Улучшение',sub:'Связанное предложение',min:115,tone:'proposal'}]:[
-    {key:'evidence',label:'Свидетельство',sub:'Что получает клиент',min:95},
-    {key:'action',label:'Клиент',sub:'Действие',min:105},
-    {key:'frontstage',label:'Видимая работа',sub:'Контакт с сервисом',min:110,boundary:'ЛИНИЯ ВЗАИМОДЕЙСТВИЯ'},
-    {key:'backstage',label:'Внутренняя работа',sub:'Скрыто от клиента',min:110,boundary:'ЛИНИЯ ВИДИМОСТИ'},
-    {key:'support',label:'Поддержка',sub:'Системы и ресурсы',min:100,boundary:'ВНУТРЕННЕЕ ВЗАИМОДЕЙСТВИЕ'}];
+    {key:'goal',label:t('Цель клиента'),sub:t('Ради чего этот шаг'),min:95},
+    {key:'action',label:t('Действие и канал'),sub:t('Что делает клиент'),min:125},
+    {key:'experience',label:t('Переживание'),sub:t('Основание указано отдельно'),min:105},
+    {key:'barrier',label:t('Барьер'),sub:t('Препятствие или неизвестность'),min:115,tone:'risk'},
+    {key:'opportunity',label:t('Улучшение'),sub:t('Связанное предложение'),min:115,tone:'proposal'}]:[
+    {key:'evidence',label:t('Свидетельство'),sub:t('Что получает клиент'),min:95},
+    {key:'action',label:t('Клиент'),sub:t('Действие'),min:105},
+    {key:'frontstage',label:t('Видимая работа'),sub:t('Контакт с сервисом'),min:110,boundary:t('ЛИНИЯ ВЗАИМОДЕЙСТВИЯ')},
+    {key:'backstage',label:t('Внутренняя работа'),sub:t('Скрыто от клиента'),min:110,boundary:t('ЛИНИЯ ВИДИМОСТИ')},
+    {key:'support',label:t('Поддержка'),sub:t('Системы и ресурсы'),min:100,boundary:t('ВНУТРЕННЕЕ ВЗАИМОДЕЙСТВИЕ')}];
   let cursor=TOP;
   for(const row of rows){
     if(row.boundary)cursor+=30;row.y=cursor;
@@ -149,7 +152,7 @@ function renderGrid(){
   footer(svg,cursor+10);return svg;
 }
 function renderProcess(){
-  if(!data.process){const svg=createSvg(290);txt(svg,'Участники и переходы не описаны.',LEFT,TOP+45,{size:22,width:700});txt(svg,'Нужно уточнить: кто выполняет шаг, что передаёт и кому.',LEFT,TOP+85,{size:16,width:900});footer(svg,275);return svg;}
+  if(!data.process){const svg=createSvg(290);txt(svg,t('Участники и переходы не описаны.'),LEFT,TOP+45,{size:22,width:700});txt(svg,t('Нужно уточнить: кто выполняет шаг, что передаёт и кому.'),LEFT,TOP+85,{size:16,width:900});footer(svg,275);return svg;}
   layout=Core.layoutProcess(data);const svg=createSvg(layout.height+20,layout.width);
   for(const lane of layout.lanes){
     rect(svg,0,lane.y,layout.width-8,lane.h,lane===layout.lanes[0]?'#f8faf4':'#f1f4ed','none',6);
@@ -160,9 +163,9 @@ function renderProcess(){
   for(const edge of layout.edges){
     if(edge.unrouted)continue;const style=Core.edgeStyles[edge.kind||'flow'];
     const path=el('path',{d:Core.pathD(edge.points),stroke:style.color,'stroke-width':1.6,fill:'none','stroke-dasharray':style.dash||'none','marker-end':`url(#${style.marker})`,'data-edge':edge.id,'data-from':edge.from,'data-to':edge.to,'data-kind':edge.kind||'flow'},edges);
-    const from=layout.nodes.find(n=>n.id===edge.from),to=layout.nodes.find(n=>n.id===edge.to),description=`${edge.id}: ${from.title} → ${to.title}. ${edge.label||style.label}`;
+    const from=layout.nodes.find(n=>n.id===edge.from),to=layout.nodes.find(n=>n.id===edge.to),description=`${edge.id}: ${from.title} → ${to.title}. ${edge.label||t(style.label)}`;
     const title=el('title',{},path);title.textContent=description;
-    const show=()=>openDrawer(data.stages.find(s=>s.id===from.stageId),'Переход', {...edge,text:description,status:edge.status||'unknown'});
+    const show=()=>openDrawer(data.stages.find(s=>s.id===from.stageId),t('Переход'), {...edge,text:description,status:edge.status||'unknown'});
     activate(path,show,description);
     if(edge.labelBox){
       const b=edge.labelBox,g=el('g',{'data-edge-label':edge.id},edges);rect(g,b.x,b.y,b.w,b.h,'#fffefa','#d7dfd0',4);
@@ -184,10 +187,14 @@ function renderProcess(){
   footer(svg,layout.height+10);return svg;
 }
 function updateHeading(){
+  document.documentElement.lang=data.locale||'ru';
+  for(const node of document.querySelectorAll('[data-i18n]'))node.textContent=t(node.dataset.i18n);
+  for(const node of document.querySelectorAll('[data-i18n-aria]'))node.setAttribute('aria-label',t(node.dataset.i18nAria));
+  for(const node of document.querySelectorAll('[data-scenario]'))node.textContent=modeLabel(node.dataset.scenario);
   for(const key of ['title','subtitle','actor','goal','disclaimer'])$(key).textContent=data[key];
-  $('map-mode').textContent=Core.modeLabels[data.mode||'unspecified'];$('scope').textContent=scopeText();
-  $('stage-count').textContent=`${data.stages.length} этапов · 100% для чтения, «Вписать» для обзора`;
-  document.title=`${data.title} · ${Core.modeLabels[data.mode||'unspecified']} · CX Impact`;
+  $('map-mode').textContent=modeLabel(data.mode);$('scope').textContent=scopeText();
+  $('stage-count').textContent=`${data.stages.length} ${t('этапов · 100% для чтения, «Вписать» для обзора')}`;
+  document.title=`${data.title} · ${modeLabel(data.mode)} · CX Impact`;
 }
 function setScale(){
   const svg=$('viewport').querySelector('svg');
@@ -202,11 +209,11 @@ function checkRenderedGeometry(){
   }
   const warnings=[...(layout?.geometry.warnings||[])];
   window.cxMapChecks={structure:{status:'checked',scope:'Validated during HTML generation'},geometry:{status:errors.length?'failed':'checked',errors,warnings},visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},mode:data.mode||'unspecified',view};
-  const note=$('geometry-note');note.hidden=!errors.length&&!warnings.length;note.textContent=[...errors.map(e=>`Проверьте размещение: ${e.code} (${e.card||e.edge||''})`),...(warnings.length?[`Условий, вынесенных в список под картой: ${warnings.length}. Наведите на подпись, чтобы выделить переход; нажмите для подробностей.`]:[])].join(' · ');
+  const note=$('geometry-note');note.hidden=!errors.length&&!warnings.length;note.textContent=[...errors.map(e=>`${t('Проверьте размещение:')} ${e.code} (${e.card||e.edge||''})`),...(warnings.length?[`${t('Условий, вынесенных в список под картой:')} ${warnings.length}. ${t('Наведите на подпись, чтобы выделить переход; нажмите для подробностей.')}`]:[])].join(' · ');
   return window.cxMapChecks;
 }
 function render(){
-  closeDrawer(false);layout=null;updateHeading();$('view-title').textContent=viewNames[view];
+  closeDrawer(false);layout=null;updateHeading();$('view-title').textContent=t(viewNames[view]);
   TOP=Math.max(120,...data.stages.map(s=>wrap(s.title,COL-42,17).length*24+66));
   document.querySelectorAll('[data-view]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.view===view));b.tabIndex=b.dataset.view===view?0:-1;b.setAttribute('aria-controls','map-panel');});
   $('map-panel').setAttribute('aria-labelledby',`tab-${view}`);$('viewport').replaceChildren(view==='process'?renderProcess():renderGrid());renderLegend();setScale();$('viewport').scrollTo(0,0);checkRenderedGeometry();
@@ -217,22 +224,22 @@ $('plus').onclick=()=>{fitMode=false;zoom=Math.min(2,zoom+.25);setScale();};$('m
 $('natural').onclick=()=>{fitMode=false;zoom=1;setScale();};$('fit').onclick=()=>{fitMode=true;setScale();$('viewport').scrollTo(0,0);};
 new ResizeObserver(()=>{if(fitMode)setScale();}).observe($('viewport'));
 $('questions').onclick=()=>{
-  focusReturn=$('questions');openDrawer(null,'Основания и открытые вопросы',{text:scopeText(),status:'unknown'});
+  focusReturn=$('questions');openDrawer(null,t('Основания и открытые вопросы'),{text:scopeText(),status:'unknown'});
   for(const b of data.barriers||[])if(b.question)showBarrier($('detail-related'),b);
-  if(data.participants?.length)for(const p of data.participants)paragraph($('detail-related'),`${p.title}: ${p.roles.join(', ')}. Роль не равна отдельному человеку или аккаунту.`);
+  if(data.participants?.length)for(const p of data.participants)paragraph($('detail-related'),`${p.title}: ${p.roles.join(', ')}. ${t('Роль не равна отдельному человеку или аккаунту.')}`);
   for(const source of data.sources||[])sourceBlocks($('detail-related'),{sourceIds:[source.id]});
 };
 if(originalData.mode==='comparison'){
   $('comparison-switch').hidden=false;
-  for(const key of ['current','target']){const b=document.createElement('button');b.className='comparison-choice';b.textContent=Core.modeLabels[key];b.dataset.scenario=key;b.setAttribute('aria-pressed',String(key==='current'));b.onclick=()=>{data=originalData[key];document.querySelectorAll('[data-scenario]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();};$('comparison-switch').append(b);}
+  for(const key of ['current','target']){const b=document.createElement('button');b.className='comparison-choice';b.textContent=modeLabel(key);b.dataset.scenario=key;b.setAttribute('aria-pressed',String(key==='current'));b.onclick=()=>{data=scenarioData(key);document.querySelectorAll('[data-scenario]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();};$('comparison-switch').append(b);}
 }
 const exportURLs=new Map();
 function offerDownload(content,type,name){
   if(exportURLs.has(type))URL.revokeObjectURL(exportURLs.get(type));const url=URL.createObjectURL(new Blob([content],{type}));exportURLs.set(type,url);
   let box=document.querySelector(`[data-export-type="${type}"]`);if(!box){box=document.createElement('div');box.dataset.exportType=type;$('export-links').append(box);}box.replaceChildren();
-  const a=document.createElement('a');a.href=url;a.download=name;a.textContent=`Сохранить ${name} повторно`;box.append(a);a.click();
-  if(type==='image/svg+xml'){const open=document.createElement('a');open.href=url;open.target='_blank';open.rel='noopener';open.textContent='Открыть SVG отдельно';box.append(document.createTextNode(' · '),open);}
-  $('status').textContent='Файл сформирован. Сохранение на диск этим просмотрщиком не подтверждено; ссылка доступна для повторного действия.';
+  const a=document.createElement('a');a.href=url;a.download=name;a.textContent=`${t('Сохранить')} ${name} ${t('повторно')}`;box.append(a);a.click();
+  if(type==='image/svg+xml'){const open=document.createElement('a');open.href=url;open.target='_blank';open.rel='noopener';open.textContent=t('Открыть SVG отдельно');box.append(document.createTextNode(' · '),open);}
+  $('status').textContent=t('Файл сформирован. Сохранение на диск этим просмотрщиком не подтверждено; ссылка доступна для повторного действия.');
 }
 function exportedSVG(){
   const svg=$('viewport').querySelector('svg').cloneNode(true);svg.removeAttribute('style');

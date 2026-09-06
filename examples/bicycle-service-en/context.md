@@ -1,0 +1,7 @@
+# Fictional bicycle repair service
+
+English translation of the [Russian example](../bicycle-service/context.md). Both maps use the same stage, participant, source and barrier IDs, evidence statuses, and process connections.
+
+A fictional workshop accepts bicycle repair requests through its website. The form does not state a response time. A service advisor calls, checks the calendar and agrees a visit time. The customer brings the bicycle; the advisor records its condition, provides an intake receipt and hands it to the mechanic. No date for the next contact is given at drop-off. The mechanic diagnoses the fault and calculates an estimate using the catalogue. The advisor explains the estimate by phone. Repair waits for the customer’s decision. If approved, the mechanic repairs the bicycle and checks the result; if declined, the bicycle is returned without repair. No progress updates are sent during repair. The advisor sends a message when it is complete. At collection, the advisor shows the completed work and provides a receipt and a list of work; no separate instructions for follow-up questions are given. The service uses a request log, calendar, work order, catalogue and service history. In this authored scenario, the customer wants a working bicycle and clarity on timing and cost. All roles, actions and limitations are invented to demonstrate the visualization.
+
+Experiences and barriers are author hypotheses, not customer quotes or observations. Improvements are proposals. The main repair path and return without repair remain distinct.

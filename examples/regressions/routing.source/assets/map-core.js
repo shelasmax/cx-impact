@@ -4,7 +4,7 @@
   else root.CXMap = factory();
 })(globalThis, function () {
   'use strict';
-  const VERSION = '0.2.0';
+  const VERSION = '0.2.1';
   const statusLabels = {
     observed: 'Наблюдение', declared: 'Заявлено в источнике', requirement: 'Требование / намерение',
     user_fact: 'Факт из задания', code: 'Наблюдение в коде', hypothesis: 'Гипотеза',
@@ -16,22 +16,123 @@
     handoff: {label:'Передача между участниками', color:'#476e83', dash:'8 4', marker:'handoff'},
     exception: {label:'Исключение / восстановление', color:'#a36249', dash:'2 4', marker:'exception'}
   };
+  const english = {
+  "Наблюдение": "Observation",
+  "Заявлено в источнике": "Stated in source",
+  "Требование / намерение": "Requirement / intent",
+  "Факт из задания": "Fact from brief",
+  "Наблюдение в коде": "Code observation",
+  "Гипотеза": "Hypothesis",
+  "Не установлено": "Unknown",
+  "Предложение": "Proposal",
+  "Текущая картина · AS-IS": "Current state · AS-IS",
+  "Целевая картина · TO-BE": "Target state · TO-BE",
+  "Сравнение AS-IS / TO-BE": "AS-IS / TO-BE comparison",
+  "Режим не указан": "State not specified",
+  "Последовательность / обычная ветвь": "Sequence / normal branch",
+  "Передача между участниками": "Handoff between participants",
+  "Исключение / восстановление": "Exception / recovery",
+  "Старая строковая аннотация. Тип основания и источник не заданы.": "Legacy text annotation. Evidence type and source are not specified.",
+  "Условие не задано": "Condition not specified",
+  "Не удалось проложить переход. Добавьте свободное пространство или разделите карту.": "Could not route this transition. Add space or split the map.",
+  "Условие показано в нумерованном списке под картой; текст сохранён полностью.": "The full condition is shown in a numbered list below the map.",
+  "Путь клиента": "Customer journey",
+  "Как сервис обеспечивает этот путь": "How the service supports this journey",
+  "Участники, передачи и условия продолжения": "Participants, handoffs and decision conditions",
+  "Задание пользователя": "User brief",
+  "Требования": "Requirements",
+  "Пользовательское исследование": "User research",
+  "Результат выполнения": "Runtime result",
+  "Исходный код": "Source code",
+  "Другой источник": "Other source",
+  "Предложение автора; не согласованное правило.": "Author proposal; not an agreed rule.",
+  "Гипотеза автора; подтверждение не представлено.": "Author hypothesis; no supporting evidence supplied.",
+  "Источник не указан.": "No source specified.",
+  "Тип источника не указан": "Source type not specified",
+  "Последствие": "Consequence",
+  "Связанное улучшение": "Related improvement",
+  "Открытый вопрос": "Open question",
+  "Канал": "Channel",
+  "Результат: ": "Output: ",
+  "Допущение / вопрос": "Assumption / question",
+  "Влияние на сценарий: ": "Effect on the scenario: ",
+  "Пустая ячейка: шаг не описан": "Empty cell: step not described",
+  "Граница и дата среза не уточнены": "Scope and reference date are not specified",
+  "КЛИЕНТСКИЙ ПУТЬ": "CUSTOMER JOURNEY",
+  "СЛОИ СЕРВИСА": "SERVICE LAYERS",
+  "УЧАСТНИКИ": "PARTICIPANTS",
+  "Цель клиента": "Customer goal",
+  "Ради чего этот шаг": "Purpose of this step",
+  "Действие и канал": "Action & channel",
+  "Что делает клиент": "What the customer does",
+  "Переживание": "Experience",
+  "Основание указано отдельно": "Evidence stated separately",
+  "Барьер": "Barrier",
+  "Препятствие или неизвестность": "Obstacle or uncertainty",
+  "Улучшение": "Improvement",
+  "Связанное предложение": "Related proposal",
+  "Свидетельство": "Service evidence",
+  "Что получает клиент": "What the customer receives",
+  "Клиент": "Customer",
+  "Действие": "Action",
+  "Видимая работа": "Frontstage",
+  "Контакт с сервисом": "Visible service interaction",
+  "ЛИНИЯ ВЗАИМОДЕЙСТВИЯ": "LINE OF INTERACTION",
+  "Внутренняя работа": "Backstage",
+  "Скрыто от клиента": "Hidden from the customer",
+  "ЛИНИЯ ВИДИМОСТИ": "LINE OF VISIBILITY",
+  "Поддержка": "Support",
+  "Системы и ресурсы": "Systems and resources",
+  "ВНУТРЕННЕЕ ВЗАИМОДЕЙСТВИЕ": "INTERNAL INTERACTION",
+  "Участники и переходы не описаны.": "Participants and transitions are not described.",
+  "Нужно уточнить: кто выполняет шаг, что передаёт и кому.": "Clarify who performs each step, what they hand over and to whom.",
+  "Переход": "Transition",
+  "Основания и открытые вопросы": "Evidence and open questions",
+  "Открыть SVG отдельно": "Open SVG separately",
+  "Файл сформирован. Сохранение на диск этим просмотрщиком не подтверждено; ссылка доступна для повторного действия.": "File generated. This viewer cannot confirm it was saved to disk; use the link to try again.",
+  "Срез:": "As of:",
+  "этапов · 100% для чтения, «Вписать» для обзора": "stages · 100% to read, Fit for an overview",
+  "Проверьте размещение:": "Check placement:",
+  "Условий, вынесенных в список под картой:": "Conditions listed below the map:",
+  "Наведите на подпись, чтобы выделить переход; нажмите для подробностей.": "Hover over a label to highlight its transition; click for details.",
+  "Роль не равна отдельному человеку или аккаунту.": "A role is not necessarily a separate person or account.",
+  "Сохранить": "Save",
+  "повторно": "again",
+  "АТЛАС ПОЛЬЗОВАТЕЛЬСКОГО ОПЫТА · 01": "CUSTOMER EXPERIENCE ATLAS · 01",
+  "Для кого строим карту": "Who this map is for",
+  "Управление картой": "Map controls",
+  "Вид карты": "Map view",
+  "Процесс и опыт": "Process & experience",
+  "Уменьшить": "Zoom out",
+  "Увеличить": "Zoom in",
+  "Вписать": "Fit",
+  "Основания и вопросы": "Evidence & questions",
+  "↓ Исходник": "↓ Source JSON",
+  "Нажмите на карточку, чтобы увидеть детали и источник": "Click a card to see details and its source",
+  "Полотно карты. Прокрутка стрелками; 100 процентов для чтения, Вписать для обзора": "Map canvas. Use arrow keys to scroll; 100 percent to read, Fit for an overview",
+  "Детали карты": "Map details",
+  "Закрыть детали": "Close details",
+  "Основание": "Evidence"
+};
+  function translate(value, map) {
+    return map?.locale === 'en' && Object.prototype.hasOwnProperty.call(english, value) ? english[value] : value;
+  }
   function labelFor(claim, map) {
     const status = claim?.status || 'unknown';
-    if (status === 'declared' && map.mode === 'target') return 'Требование / намерение';
-    return statusLabels[status] || statusLabels.unknown;
+    if (status === 'declared' && map.mode === 'target') return translate('Требование / намерение', map);
+    return translate(statusLabels[status] || statusLabels.unknown, map);
   }
-  function scenarios(data) { return data.mode === 'comparison' ? [data.current, data.target] : [data]; }
+  function scenarios(data) { return data.mode === 'comparison' ? [data.current, data.target].map(map=>({...map,locale:map.locale||data.locale})) : [data]; }
   function barriersFor(map, item) {
     const refs = item?.barrierIds || [];
     const result = refs.map(id => (map.barriers || []).find(b => b.id === id)).filter(Boolean);
-    if (item?.barrier) result.push(typeof item.barrier === 'string' ? {text:item.barrier,status:'unknown',detail:'Старая строковая аннотация. Тип основания и источник не заданы.'} : item.barrier);
+    if (item?.barrier) result.push(typeof item.barrier === 'string' ? {text:item.barrier,status:'unknown',detail:translate('Старая строковая аннотация. Тип основания и источник не заданы.', map)} : item.barrier);
     return result;
   }
   function cell(map, stage, key) {
-    if (key === 'barrier') return barriersFor(map, stage)[0] || {text:'Не установлено',status:'unknown'};
-    if (key === 'opportunity') return stage.opportunity || barriersFor(map, stage)[0]?.improvement || {text:'Не установлено',status:'unknown'};
-    return stage[key] || {text:'Не установлено',status:'unknown'};
+    if (key === 'barrier') return barriersFor(map, stage)[0] || {text:translate('Не установлено', map),status:'unknown'};
+    if (key === 'opportunity') return stage.opportunity || barriersFor(map, stage)[0]?.improvement || {text:translate('Не установлено', map),status:'unknown'};
+    return stage[key] || {text:translate('Не установлено', map),status:'unknown'};
   }
   function measure(text, size=16) {
     return Array.from(String(text)).reduce((sum,c) => sum + size * (/\s/.test(c) ? .35 : /[ЖШЩЮМЫW@%]/.test(c) ? 1 : /[ilI1.,:;!|’']/ .test(c) ? .34 : .67), 0);
@@ -145,12 +246,12 @@
     p.edges.forEach((originalEdge,i)=>{
       const fromNode=index.get(originalEdge.from);
       const condition=originalEdge.label&&originalEdge.condition&&originalEdge.label!==originalEdge.condition?originalEdge.label+' · '+originalEdge.condition:originalEdge.label||originalEdge.condition;
-      const edge={...originalEdge,label:condition||(fromNode.kind==='decision'?'Условие не задано':undefined)};
+      const edge={...originalEdge,label:condition||(fromNode.kind==='decision'?translate('Условие не задано',map):undefined)};
       const id=edge.id||`edge-${i+1}`,a=index.get(edge.from),b=index.get(edge.to),aInc=incident.get(a.id),bInc=incident.get(b.id);
       const points=route(a,b,nodes,labelRects,oldSegments,aInc.indexOf(i),aInc.length,bInc.indexOf(i),bInc.length);
-      if(!points){warnings.push({code:'ROUTE_UNAVAILABLE',edge:id,message:'Не удалось проложить переход. Добавьте свободное пространство или разделите карту.'});edges.push({...edge,id,points:[],unrouted:true});return;}
+      if(!points){warnings.push({code:'ROUTE_UNAVAILABLE',edge:id,message:translate('Не удалось проложить переход. Добавьте свободное пространство или разделите карту.', map)});edges.push({...edge,id,points:[],unrouted:true});return;}
       let labelBox=placeLabel(edge,points,nodes,labelRects,oldSegments,top-24);
-      if(edge.label&&!labelBox){const lines=wrap(id+': '+edge.label,260,12);labelBox={x:left,y:calloutY,w:Math.max(...lines.map(s=>measure(s,12)))+16,h:lines.length*17+10,lines,callout:true};calloutY+=labelBox.h+18;warnings.push({code:'LABEL_CALLOUT',edge:id,message:'Условие показано в нумерованном списке под картой; текст сохранён полностью.'});}
+      if(edge.label&&!labelBox){const lines=wrap(id+': '+edge.label,260,12);labelBox={x:left,y:calloutY,w:Math.max(...lines.map(s=>measure(s,12)))+16,h:lines.length*17+10,lines,callout:true};calloutY+=labelBox.h+18;warnings.push({code:'LABEL_CALLOUT',edge:id,message:translate('Условие показано в нумерованном списке под картой; текст сохранён полностью.', map)});}
       if(labelBox)labelRects.push(labelBox);
       edges.push({...edge,id,points,labelBox});oldSegments.push(...segments(points));
     });
@@ -158,5 +259,5 @@
     const height=Math.max(cursor+30,...labelRects.map(r=>r.y+r.h+30),...edges.flatMap(e=>e.points.map(p=>p.y+24)));
     const result={left,colWidth,top,width,height,nodes,edges,lanes:p.lanes.map((l,i)=>({...l,y:ys[i],h:heights[i]+94})),warnings};result.geometry=checkGeometry(result);return result;
   }
-  return {VERSION,statusLabels,modeLabels,edgeStyles,labelFor,scenarios,barriersFor,cell,measure,wrap,overlap,hitSegment,segments,pathD,checkGeometry,layoutProcess};
+  return {VERSION,translate,statusLabels,modeLabels,edgeStyles,labelFor,scenarios,barriersFor,cell,measure,wrap,overlap,hitSegment,segments,pathD,checkGeometry,layoutProcess};
 });

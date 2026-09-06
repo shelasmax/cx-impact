@@ -6,7 +6,7 @@ Create customer journey maps, service blueprints and experience-process maps wit
 
 Copy this entire `cx-impact` directory into your project's `.agents/skills/` directory, then start a new Codex session in that project. Preserve an existing installation before upgrading.
 
-Invoke `$cx-impact` and describe the scenario, the requested current/target mode and the available sources. Node.js 18+ is required to render HTML; no external Node packages are needed. The viewer UI is currently Russian.
+Invoke `$cx-impact` and describe the scenario, the requested current/target mode and the available sources. Node.js 18+ is required to render HTML; no external Node packages are needed. The viewer supports English and Russian labels; set `locale` to `"en"` or `"ru"`. Map content is authored separately in the requested language.
 
 ```text
 $cx-impact Create a target-state customer journey map and service blueprint

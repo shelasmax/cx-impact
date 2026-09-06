@@ -1,15 +1,15 @@
 {
-  "rendererVersion": "0.2.0",
+  "rendererVersion": "0.2.1",
   "templateCustom": false,
   "files": {
-    "scripts/render-map.mjs": "207ee488bb643f16d7c8d4eefb8e49c3e9b504e7bed4ce4675f13e71a3d03352",
-    "assets/map.html": "016f3f79d50272095baa5801dd35b6837fb01acae0d750b83b5ab6d65aa605d9",
-    "assets/map-core.js": "1f1f45e5e9dc4fe00b3f0d6ef3776d031fb71657507265628e726b5bc26d788c",
-    "assets/map-viewer.js": "2694a82f17fed98f2c39a1e0c2b7d5ebddf30964cfcb5c55a982733ce2837dc1",
+    "scripts/render-map.mjs": "5372ed937bb982eeb4a5cb88bc05b8c783062d8ddc136f7d2c0160b27ef4e783",
+    "assets/map.html": "e66ead368174273579e0c4de7619038f27818a2bdcd90625ed92fa84ddea9325",
+    "assets/map-core.js": "c5adc78099d00d530dc58c3f0d60820b8a77dc59c05e631f4324fea83230adb1",
+    "assets/map-viewer.js": "5619186afd8b606df191595be2283582fb827ba8484cd363f75ed45f7bdc8998",
     "rebuild.mjs": "4129cc0b5202164ea7faa276125ba2b4669b0dfc4f7498ea55c30586c1034d0a"
   },
   "source": "twelve-stages.json",
   "sourceSha256": "8bb364f3256c57abb1557ba6bb6d8b0c0322b7e5a161d928e3cf9dca5a79f5da",
-  "htmlSha256": "412d016f5288f267846f1f4d87467b820e743b925ee90cdb52db35e06df58928",
+  "htmlSha256": "e57efdf35da758cd619784971940d81eac0d458e2baf00e246b10b1d97e3416e",
   "rebuild": "node \"twelve-stages.source/rebuild.mjs\""
 }

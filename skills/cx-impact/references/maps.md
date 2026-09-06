@@ -1,6 +1,6 @@
-# Visual maps · renderer 0.2.0
+# Visual maps · renderer 0.2.1
 
-Use a bounded scenario with shared stages across views. This is an original simplified authoring format, not full BPMN or a claim of complete XP Mapping conformance. The viewer's fixed UI language is Russian; content can be in another language if the user accepts that limit.
+Use a bounded scenario with shared stages across views. This is an original simplified authoring format, not full BPMN or a claim of complete XP Mapping conformance. Set `locale: "en"` for English interface labels or `locale: "ru"` for Russian. Omission preserves Russian for existing maps. Author the scenario content in the requested language; the renderer does not translate user content. Locale applies to buttons, accessibility labels, evidence/status labels, details, missing values and exported SVG. A comparison wrapper's locale is inherited unless a nested scenario explicitly overrides it.
 
 ## Mode and evidence
 
@@ -38,6 +38,7 @@ The following is a complete small **synthetic target** example. Create fresh con
 ```json
 {
   "version": 1,
+  "locale": "en",
   "mode": "target",
   "scope": {"scenario":"Service request", "start":"Submit request", "end":"Receive confirmation", "asOf":"2026-09-06"},
   "title": "Service request",

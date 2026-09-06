@@ -6,7 +6,7 @@ const assert=require('node:assert/strict');
 const {createHash}=require('node:crypto');
 const {chromium}=require(process.env.CX_PLAYWRIGHT_MODULE||'playwright');
 const root=path.resolve(__dirname,'..');
-const cases=[['bicycle','examples/bicycle-service/map'],...['routing','eight-stages','twelve-stages','comparison'].map(n=>[n,'examples/regressions/'+n])];
+const cases=[['bicycle','examples/bicycle-service/map'],['bicycle-en','examples/bicycle-service-en/map'],...['routing','eight-stages','twelve-stages','comparison'].map(n=>[n,'examples/regressions/'+n])];
 if(process.env.CX_MAP_PRIVATE_CASE)cases.push(['private',process.env.CX_MAP_PRIVATE_CASE.replace(/\.html$/,'')]);
 (async()=>{
  const browser=await chromium.launch({channel:'chrome',headless:true});
@@ -25,6 +25,7 @@ if(process.env.CX_MAP_PRIVATE_CASE)cases.push(['private',process.env.CX_MAP_PRIV
      for(const view of ['cjm','blueprint','process']){
       await page.locator('#tab-'+view).click();await page.locator('#natural').click();
       const geometry=await page.evaluate(()=>window.cxMapChecks);
+      if(input.locale==='en') { assert.equal(await page.locator('html').getAttribute('lang'),'en'); assert.doesNotMatch(await page.locator('body').innerText(),/[А-Яа-яЁё]/); }
       assert.equal(geometry.geometry.status,'checked',`${name}/${view}: ${JSON.stringify(geometry.geometry.errors)}`);
       const dimensions=await page.evaluate(()=>{const vp=document.getElementById('viewport'),svg=vp.querySelector('svg'),css=getComputedStyle(vp);return{page:document.documentElement.scrollWidth,viewport:innerWidth,natural:svg.getBoundingClientRect().width,viewBox:svg.viewBox.baseVal.width,client:vp.clientWidth,padding:parseFloat(css.paddingLeft)+parseFloat(css.paddingRight),scroll:vp.scrollWidth};});
       assert.equal(dimensions.page,dimensions.viewport,'no horizontal page overflow');assert.ok(Math.abs(dimensions.natural-dimensions.viewBox)<1,'100% means native CSS pixels');if(dimensions.natural+dimensions.padding>dimensions.client)assert.ok(dimensions.scroll>dimensions.client,'large maps scroll within the canvas');
@@ -37,7 +38,7 @@ if(process.env.CX_MAP_PRIVATE_CASE)cases.push(['private',process.env.CX_MAP_PRIV
       // Entire SVG captured independently of the clipped viewport, for manual geometry review.
       if(size.width===1920){await page.locator('#viewport').evaluate(el=>el.scrollTop=el.scrollHeight);await page.screenshot({path:path.join(out,`${prefix}-${mode}-${view}-bottom.png`)});await page.locator('#viewport').evaluate(el=>el.scrollTop=0);}
       await page.locator('#plus').click();assert.notEqual(await page.locator('#scale').innerText(),Math.round(fit/dimensions.viewBox*100)+'%');await page.locator('#natural').click();
-      const card=page.locator(view==='process'?'[data-node]':'[data-cell]').first();await card.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#drawer').isVisible(),true);await page.keyboard.press('Escape');assert.equal(await page.locator('#drawer').isVisible(),false);assert.equal(await card.evaluate(el=>el===document.activeElement),true);
+      const card=page.locator(view==='process'?'[data-node]':'[data-cell]').first();await card.focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#drawer').isVisible(),true);if(input.locale==='en')assert.doesNotMatch(await page.locator('#drawer').innerText(),/[А-Яа-яЁё]/);await page.keyboard.press('Escape');assert.equal(await page.locator('#drawer').isVisible(),false);assert.equal(await card.evaluate(el=>el===document.activeElement),true);
       await page.locator('#viewport').focus();await page.keyboard.press('ArrowRight');await page.waitForTimeout(180);if(dimensions.natural+dimensions.padding>dimensions.client)assert.ok(await page.locator('#viewport').evaluate(el=>el.scrollLeft)>0);
       if(size.width===1366){
        await page.locator('#viewport').evaluate(el=>{el.scrollTop=120;el.scrollLeft=150});await page.locator('#minus').click();
@@ -61,7 +62,21 @@ if(process.env.CX_MAP_PRIVATE_CASE)cases.push(['private',process.env.CX_MAP_PRIV
    }
    const jsonDownload=page.waitForEvent('download');await page.locator('#source').click();const jd=await jsonDownload;const jsonFile=path.join(out,prefix+'-download.json');await jd.saveAs(jsonFile);assert.deepEqual(JSON.parse(fs.readFileSync(jsonFile)),input);fs.unlinkSync(jsonFile);
    const retry=page.waitForEvent('download');await page.locator('[data-export-type="application/json"] a').click();const retryDownload=await retry;assert.equal(await retryDownload.failure(),null);
-   assert.match(await page.locator('#status').innerText(),/Файл сформирован/);assert.match(await page.locator('#status').innerText(),/не подтверждено/);
+   assert.match(await page.locator('#status').innerText(),input.locale==='en'?/File generated/:/Файл сформирован/);assert.match(await page.locator('#status').innerText(),input.locale==='en'?/cannot confirm/:/не подтверждено/);
+   if(name==='bicycle'||name==='bicycle-en'){
+    // README images show the complete view at a spacious desktop size, without editing the map.
+    await page.setViewportSize({width:1920,height:1600});
+    for(const view of ['cjm','blueprint','process']){
+     await page.locator('#tab-'+view).click();await page.locator('#fit').click();
+     await page.locator('#export-links').evaluate(el=>el.replaceChildren());
+     await page.locator('#status').evaluate(el=>el.textContent='');
+     await page.evaluate(()=>window.scrollTo(0,0));
+     const canvas=await page.locator('#viewport').evaluate(el=>({height:el.clientHeight,scroll:el.scrollHeight}));
+     assert.ok(canvas.scroll<=canvas.height+1,'README preview includes the whole diagram');
+     await page.locator('.shell').screenshot({path:path.join(out,view+'-preview.png')});
+     fs.copyFileSync(path.join(out,prefix+'-'+modes[0]+'-'+view+'.svg'),path.join(out,view+'.svg'));
+    }
+   }
    assert.deepEqual(errors,[]);assert.deepEqual(network,[]);
    report.interactions.checks=['Natural 100%, fit, zoom, canvas keyboard scroll, details keyboard activation, Escape focus return at both viewport sizes','Tab keyboard navigation and assumptions registry','Explicit current/target switching where comparison is supplied'];
    report.export.checks.push('Downloaded JSON deep-equals original input; persistent retry triggers another download');

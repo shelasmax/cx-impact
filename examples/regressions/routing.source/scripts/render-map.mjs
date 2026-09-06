@@ -28,6 +28,7 @@ function refs(values, allowed, label) {
 }
 export function validateMap(data) {
   check(data && data.version === 1, 'Expected map version 1');
+  check(data.locale === undefined || ['ru','en'].includes(data.locale), 'locale: use ru or en');
   if(data.mode === 'comparison') {
     check(data.current?.mode === 'current' && data.target?.mode === 'target', 'Comparison requires explicit current and target maps');
     validateMap(data.current); validateMap(data.target); return data;
@@ -122,7 +123,7 @@ export async function renderMap(data, options={}) {
   let template=await readFile(options.template || new URL('../assets/map.html',import.meta.url),'utf8');
   const files={'/*__CX_MAP_DATA__*/':safeJSON(data),'/*__CX_MAP_CORE__*/':await readFile(new URL('../assets/map-core.js',import.meta.url),'utf8'),'/*__CX_MAP_VIEWER__*/':await readFile(new URL('../assets/map-viewer.js',import.meta.url),'utf8')};
   for(const [marker,content] of Object.entries(files)) {check(template.split(marker).length===2,`Template marker ${marker} must occur exactly once`);template=template.replace(marker,()=>content);}
-  return template;
+  return template.replace('<html lang="ru">', `<html lang="${data.current?.locale||data.locale||'ru'}">`);
 }
 export async function deliverMap(input, output, options={}) {
   check(resolve(input)!==resolve(output),'Output must not overwrite the source JSON');

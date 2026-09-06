@@ -48,22 +48,23 @@ def build() -> None:
             if set(z.namelist()) != expected or z.testzip() is not None:
                 raise SystemExit('Archive contents failed verification')
             z.extractall(workspace)
-        source = workspace / 'demo.json'
-        shutil.copyfile(ROOT / 'examples/bicycle-service/map.json', source)
-        html = workspace / 'demo.html'
-        subprocess.run(['node', str(workspace / 'cx-impact/scripts/render-map.mjs'), str(source), str(html)], check=True, stdout=subprocess.DEVNULL)
-        before = html.read_bytes()
-        if b'MIT License' not in before or b'/*__CX_MAP_' in before:
-            raise SystemExit('Generated demo is missing license or contains unresolved markers')
-        subprocess.run(['node', str(workspace / 'demo.source/rebuild.mjs')], check=True, stdout=subprocess.DEVNULL)
-        if html.read_bytes() != before:
-            raise SystemExit('Extracted package does not rebuild deterministically')
-        checks = json.loads((workspace / 'demo.checks.json').read_text())
-        if checks['geometry']['status'] != 'checked':
-            raise SystemExit('Packaged renderer failed geometry check')
-        shutil.copyfile(html, out / 'bicycle-service-demo.html')
-        shutil.copyfile(source, out / 'bicycle-service-demo.json')
-    assets = [archive, out / 'bicycle-service-demo.html', out / 'bicycle-service-demo.json']
+        for folder, stem in [('examples/bicycle-service','bicycle-service-demo'), ('examples/bicycle-service-en','bicycle-service-demo-en')]:
+            source = workspace / (stem + '.json')
+            shutil.copyfile(ROOT / folder / 'map.json', source)
+            html = workspace / (stem + '.html')
+            subprocess.run(['node', str(workspace / 'cx-impact/scripts/render-map.mjs'), str(source), str(html)], check=True, stdout=subprocess.DEVNULL)
+            before = html.read_bytes()
+            if b'MIT License' not in before or b'/*__CX_MAP_' in before:
+                raise SystemExit('Generated demo is missing license or contains unresolved markers')
+            subprocess.run(['node', str(workspace / (stem + '.source/rebuild.mjs'))], check=True, stdout=subprocess.DEVNULL)
+            if html.read_bytes() != before:
+                raise SystemExit('Extracted package does not rebuild deterministically')
+            checks = json.loads((workspace / (stem + '.checks.json')).read_text())
+            if checks['geometry']['status'] != 'checked':
+                raise SystemExit('Packaged renderer failed geometry check')
+            shutil.copyfile(html, out / (stem + '.html'))
+            shutil.copyfile(source, out / (stem + '.json'))
+    assets = [archive, *[out / (stem + suffix) for stem in ['bicycle-service-demo','bicycle-service-demo-en'] for suffix in ['.html','.json']]]
     (out / 'SHA256SUMS').write_text(''.join(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n' for p in assets))
     print(f'Built {archive.name}: {len(expected)} allowlisted files; extracted renderer and exact rebuild passed.')
     for p in assets:

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.2.0"><img alt="Release v0.2.0" src="https://img.shields.io/badge/release-v0.2.0-24695a"></a>
+  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.2.1"><img alt="Release v0.2.1" src="https://img.shields.io/badge/release-v0.2.1-24695a"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-203a34"></a>
   <a href="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml"><img alt="Checks" src="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml/badge.svg"></a>
   <img alt="Experimental preview" src="https://img.shields.io/badge/status-experimental_preview-a06a24">
@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
-  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.2.0/bicycle-service-demo.html">Download interactive demo</a> ·
+  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.2.1/bicycle-service-demo-en.html">Download interactive demo</a> ·
   <a href="docs/installation.md">Installation</a> ·
   <a href="README.ru.md">Русский</a>
 </p>
@@ -25,10 +25,6 @@
 CX Impact helps product engineers, designers and service teams connect what a customer does with the work a service needs to perform. Give your coding agent a product description, documents, research or relevant code. It produces a standalone interactive HTML map, editable JSON and SVG exports.
 
 **One scenario. Three complementary views. Clear boundaries between evidence and assumptions.**
-
-![Customer journey map for a fictional bicycle repair service](examples/bicycle-service/cjm-preview.png)
-
-*The example is fictional. The viewer UI is currently in Russian; map content can be authored in your language.*
 
 ## What you get
 
@@ -40,25 +36,35 @@ CX Impact helps product engineers, designers and service teams connect what a cu
 
 Choose a **current state (AS-IS)** or **target state (TO-BE)**. Compare them when you explicitly need both. Shared stage and barrier IDs keep the views connected; requirements, observations, hypotheses, proposals and unknowns retain their meaning.
 
-<details>
-<summary>See the service blueprint</summary>
+## Bicycle workshop: one scenario, three maps
 
-![Service blueprint](examples/bicycle-service/blueprint-preview.png)
+An original fictional example, with English content and interface. Experiences and barriers are hypotheses; improvements are proposals. Click a screenshot to inspect it at full size.
 
-</details>
+### 1. Customer journey map (CJM)
 
-<details>
-<summary>See participants, handovers and decisions</summary>
+The customer's goals, actions, touchpoints, possible barriers and improvement ideas across six stages.
 
-![Experience-process map](examples/bicycle-service/process-preview.png)
+![Customer journey map — bicycle repair service, English](examples/bicycle-service-en/cjm-preview.png)
 
-</details>
+### 2. Service blueprint
+
+Customer-facing interactions, backstage work and supporting systems, aligned to the same journey.
+
+![Service blueprint — bicycle repair service, English](examples/bicycle-service-en/blueprint-preview.png)
+
+### 3. Experience-process map
+
+Customer, service advisor and mechanic: handoffs, repair approval, and the alternative path when the estimate is declined.
+
+![Experience-process map — bicycle repair service, English](examples/bicycle-service-en/process-preview.png)
+
+[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.2.1/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
 
 ## Quick start
 
 **You need:** a local Codex environment and Node.js 18+ for rendering. The renderer uses only built-in Node APIs. The generated HTML needs only a browser.
 
-1. Download and extract [cx-impact-0.2.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.2.0/cx-impact-0.2.0.zip).
+1. Download and extract [cx-impact-0.2.1.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.2.1/cx-impact-0.2.1.zip).
 2. Copy the extracted `cx-impact` directory into **your project's** `.agents/skills/` directory. Preserve an existing installation before upgrading.
 3. Start a new Codex session in that project and invoke the skill:
 
@@ -81,14 +87,14 @@ how staff support it. Keep unknown experience claims explicit.
 
 ## Try the output without an agent
 
-Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.2.0/bicycle-service-demo.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
+Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.2.1/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
 
 The viewer includes view switching, readable **100%** scale, **fit to width**, canvas scrolling, keyboard-accessible details, sources, open questions and full-view SVG export. Dense branch labels may move to a numbered list below the map; their full text is retained.
 
 To render the included source yourself, from a repository checkout:
 
 ```sh
-node skills/cx-impact/scripts/render-map.mjs examples/bicycle-service/map.json examples/bicycle-service/map.html
+node skills/cx-impact/scripts/render-map.mjs examples/bicycle-service-en/map.json examples/bicycle-service-en/map.html
 ```
 
 Each delivery includes:
@@ -113,9 +119,9 @@ It also preserves missing information: an empty process cell means a step is not
 
 ## Status and limitations
 
-**v0.2.0 is an experimental public preview.** Local use is oriented toward Codex. Claude Code is a portability target and has not been tested.
+**v0.2.1 is an experimental public preview.** Local use is oriented toward Codex. Claude Code is a portability target and has not been tested.
 
-- The viewer UI is Russian; full UI localization is not implemented.
+- Viewer labels support English and Russian (`locale: "en"` or `"ru"`). Authored map content is not automatically translated.
 - Maps support 2–12 stages and one process node per participant lane and stage. Complex journeys may need separate maps.
 - The viewer is not a drag-and-drop editor, a complete BPMN tool or a full implementation of XP Mapping.
 - Automated checks help find geometry and data errors. They do not establish semantic correctness or universal layout quality.
