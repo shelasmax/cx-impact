@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "kind": "sales-funnel",
+  "locale": "en",
+  "title": "Online sales · closed people cohort",
+  "subtitle": "First purchase and a separate checkout recovery flow",
+  "disclaimer": "Original synthetic example. Authored aggregates illustrate the contract; no live analytics or verified customer outcomes.",
+  "scope": {
+    "unit": "people",
+    "entry": "closed",
+    "cohortStart": "2026-06-01",
+    "cohortEnd": "2026-06-07",
+    "asOf": "2026-09-01",
+    "timezone": "Europe/Moscow",
+    "conversionDays": 7,
+    "identityRule": "One synthetic person ID across devices; deduplicated at entry. Identity resolution is authored, not independently verified.",
+    "orderRule": "Count each person once per ordered stage, within 7 days of entry. Last stage is first approved paid purchase, not attempts or orders."
+  },
+  "sources": [
+    {
+      "id": "synthetic",
+      "label": "Original synthetic measurements",
+      "kind": "other",
+      "text": "Authored example, not telemetry: June 1–7 entry cohort, seven-day first purchase, September 1 cutoff; repeat eligibility is a separate 60-day window after first purchase."
+    }
+  ],
+  "stages": [
+    {
+      "id": "entry",
+      "title": "Entered",
+      "count": 10000,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Unique people reaching entered in authored stage order within the conversion window."
+    },
+    {
+      "id": "product",
+      "title": "Viewed product",
+      "count": 4000,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Unique people reaching viewed product in authored stage order within the conversion window."
+    },
+    {
+      "id": "cart",
+      "title": "Added to cart",
+      "count": 1000,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Unique people reaching added to cart in authored stage order within the conversion window."
+    },
+    {
+      "id": "checkout",
+      "title": "Started checkout",
+      "count": 600,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Unique people reaching started checkout in authored stage order within the conversion window."
+    },
+    {
+      "id": "purchase",
+      "title": "First paid purchase",
+      "count": 420,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Unique people reaching first paid purchase in authored stage order within the conversion window."
+    }
+  ],
+  "transitions": {
+    "scope": {
+      "stageId": "checkout",
+      "rootTotal": 600,
+      "denominator": "600 unique people who started checkout",
+      "description": "Explicit checkout subset only. Recovery is unrolled; stage totals do not generate these edges."
+    },
+    "nodes": [
+      {
+        "id": "checkout",
+        "title": "Checkout entry",
+        "value": 600,
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "recovery",
+        "title": "Recovery needed",
+        "value": 140,
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "retry",
+        "title": "Retry payment",
+        "value": 100,
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "paid",
+        "title": "Paid",
+        "value": 420,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "progress"
+      },
+      {
+        "id": "lost",
+        "title": "Lost (supplied)",
+        "value": 150,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "lost"
+      },
+      {
+        "id": "pending",
+        "title": "Pending",
+        "value": 20,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "pending"
+      },
+      {
+        "id": "unknown",
+        "title": "Unknown outcome",
+        "value": 10,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "unknown"
+      }
+    ],
+    "edges": [
+      {
+        "id": "direct",
+        "from": "checkout",
+        "to": "paid",
+        "value": 360,
+        "label": "Approved first attempt",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "recover",
+        "from": "checkout",
+        "to": "recovery",
+        "value": 140,
+        "label": "Payment recovery",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "exit",
+        "from": "checkout",
+        "to": "lost",
+        "value": 80,
+        "label": "Supplied loss",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "wait",
+        "from": "checkout",
+        "to": "pending",
+        "value": 20,
+        "label": "Awaiting outcome",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "try",
+        "from": "recovery",
+        "to": "retry",
+        "value": 100,
+        "label": "Retry started",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "abandon",
+        "from": "recovery",
+        "to": "lost",
+        "value": 40,
+        "label": "No retry (supplied loss)",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "success",
+        "from": "retry",
+        "to": "paid",
+        "value": 60,
+        "label": "Approved retry",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "failed",
+        "from": "retry",
+        "to": "lost",
+        "value": 30,
+        "label": "Retry lost",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "unresolved",
+        "from": "retry",
+        "to": "unknown",
+        "value": 10,
+        "label": "Outcome unknown",
+        "sourceIds": [
+          "synthetic"
+        ]
+      }
+    ]
+  },
+  "repeat": {
+    "eligible": 420,
+    "purchased": 105,
+    "pending": 0,
+    "windowDays": 60,
+    "sourceIds": [
+      "synthetic"
+    ],
+    "definition": "Among 420 first purchasers with a full 60 days elapsed since first purchase, 105 made at least one later approved purchase within that window. No immature purchasers enter the denominator."
+  }
+}

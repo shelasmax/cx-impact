@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "kind": "sales-funnel",
+  "locale": "ru",
+  "title": "Онлайн-продажи · закрытая когорта людей",
+  "subtitle": "Первая покупка и отдельный поток восстановления оплаты",
+  "disclaimer": "Оригинальный синтетический пример. Авторские агрегаты иллюстрируют формат; это не реальная аналитика и не подтверждённые результаты клиентов.",
+  "scope": {
+    "unit": "people",
+    "entry": "closed",
+    "cohortStart": "2026-06-01",
+    "cohortEnd": "2026-06-07",
+    "asOf": "2026-09-01",
+    "timezone": "Europe/Moscow",
+    "conversionDays": 7,
+    "identityRule": "Один синтетический ID человека на всех устройствах; дедупликация при входе. Правило задано автором, независимо не проверено.",
+    "orderRule": "Один человек учитывается один раз на каждом упорядоченном этапе, в течение 7 дней после входа. Последний этап — первая оплаченная и одобренная покупка, не попытки и не заказы."
+  },
+  "sources": [
+    {
+      "id": "synthetic",
+      "label": "Оригинальные синтетические измерения",
+      "kind": "other",
+      "text": "Авторский пример, не телеметрия: вход 1–7 июня, первая покупка за 7 дней, срез 1 сентября; повторная покупка — отдельное окно 60 дней после первой покупки."
+    }
+  ],
+  "stages": [
+    {
+      "id": "entry",
+      "title": "Вошли",
+      "count": 10000,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Уникальные люди: «Вошли» в заданном порядке этапов и окне конверсии."
+    },
+    {
+      "id": "product",
+      "title": "Посмотрели товар",
+      "count": 4000,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Уникальные люди: «Посмотрели товар» в заданном порядке этапов и окне конверсии."
+    },
+    {
+      "id": "cart",
+      "title": "Добавили в корзину",
+      "count": 1000,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Уникальные люди: «Добавили в корзину» в заданном порядке этапов и окне конверсии."
+    },
+    {
+      "id": "checkout",
+      "title": "Начали оформление",
+      "count": 600,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Уникальные люди: «Начали оформление» в заданном порядке этапов и окне конверсии."
+    },
+    {
+      "id": "purchase",
+      "title": "Первая оплаченная покупка",
+      "count": 420,
+      "sourceIds": [
+        "synthetic"
+      ],
+      "definition": "Уникальные люди: «Первая оплаченная покупка» в заданном порядке этапов и окне конверсии."
+    }
+  ],
+  "transitions": {
+    "scope": {
+      "stageId": "checkout",
+      "rootTotal": 600,
+      "denominator": "600 уникальных людей, начавших оформление",
+      "description": "Только явно заданная подкогорта оформления. Повтор развёрнут в отдельные узлы; переходы не выведены из итогов этапов."
+    },
+    "nodes": [
+      {
+        "id": "checkout",
+        "title": "Вход в оформление",
+        "value": 600,
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "recovery",
+        "title": "Нужно восстановление",
+        "value": 140,
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "retry",
+        "title": "Повтор оплаты",
+        "value": 100,
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "paid",
+        "title": "Оплатили",
+        "value": 420,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "progress"
+      },
+      {
+        "id": "lost",
+        "title": "Потеря (задана)",
+        "value": 150,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "lost"
+      },
+      {
+        "id": "pending",
+        "title": "Ожидание",
+        "value": 20,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "pending"
+      },
+      {
+        "id": "unknown",
+        "title": "Исход неизвестен",
+        "value": 10,
+        "sourceIds": [
+          "synthetic"
+        ],
+        "outcome": "unknown"
+      }
+    ],
+    "edges": [
+      {
+        "id": "direct",
+        "from": "checkout",
+        "to": "paid",
+        "value": 360,
+        "label": "Первая попытка одобрена",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "recover",
+        "from": "checkout",
+        "to": "recovery",
+        "value": 140,
+        "label": "Восстановление оплаты",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "exit",
+        "from": "checkout",
+        "to": "lost",
+        "value": 80,
+        "label": "Заданная потеря",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "wait",
+        "from": "checkout",
+        "to": "pending",
+        "value": 20,
+        "label": "Ожидание результата",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "try",
+        "from": "recovery",
+        "to": "retry",
+        "value": 100,
+        "label": "Начат повтор",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "abandon",
+        "from": "recovery",
+        "to": "lost",
+        "value": 40,
+        "label": "Без повтора (заданная потеря)",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "success",
+        "from": "retry",
+        "to": "paid",
+        "value": 60,
+        "label": "Повтор одобрен",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "failed",
+        "from": "retry",
+        "to": "lost",
+        "value": 30,
+        "label": "Потеря после повтора",
+        "sourceIds": [
+          "synthetic"
+        ]
+      },
+      {
+        "id": "unresolved",
+        "from": "retry",
+        "to": "unknown",
+        "value": 10,
+        "label": "Исход неизвестен",
+        "sourceIds": [
+          "synthetic"
+        ]
+      }
+    ]
+  },
+  "repeat": {
+    "eligible": 420,
+    "purchased": 105,
+    "pending": 0,
+    "windowDays": 60,
+    "sourceIds": [
+      "synthetic"
+    ],
+    "definition": "Из 420 первых покупателей с полным окном 60 дней после первой покупки 105 совершили хотя бы одну последующую одобренную покупку в этом окне. Незрелые когорты не входят в знаменатель."
+  }
+}
