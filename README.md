@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.5.0"><img alt="Release v0.5.0" src="https://img.shields.io/badge/release-v0.5.0-24695a"></a>
+  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.6.0"><img alt="Release v0.6.0" src="https://img.shields.io/badge/release-v0.6.0-24695a"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-203a34"></a>
   <a href="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml"><img alt="Checks" src="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml/badge.svg"></a>
   <img alt="Experimental preview" src="https://img.shields.io/badge/status-experimental_preview-a06a24">
@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
-  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/bicycle-service-demo-en.html">Download interactive demo</a> ·
+  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/bicycle-service-demo-en.html">Download interactive demo</a> ·
   <a href="docs/installation.md">Installation</a> ·
   <a href="README.ru.md">Русский</a>
 </p>
@@ -27,7 +27,7 @@ CX Impact helps product engineers, designers and service teams connect what a cu
 
 **One scenario. Three complementary views. Clear boundaries between evidence and assumptions.**
 
-## Scenarios, funnels and four designs — unreleased local work
+## New in v0.6.0: scenarios, funnels and four designs
 
 Comparison is opt-in: render an explicit current/target document, then enable **Compare AS IS / TO BE**. Authored stage/node/lane correspondence supports splits and unmatched items; there is no automatic matching. Details preserve each side’s sources. SVG exports stack both scenarios; comparison off restores ordinary viewing.
 
@@ -40,7 +40,19 @@ node skills/cx-impact/scripts/render-map.mjs skills/cx-impact/examples/scenarios
 node skills/cx-impact/scripts/render-map.mjs skills/cx-impact/examples/funnels/online-sales.en.json output/funnel.html
 ```
 
-Read the [funnel contract](skills/cx-impact/references/funnels.md), [map format](skills/cx-impact/references/maps.md) and [verification scope](docs/verification.md). All bundled examples are synthetic. These changes are local review work; VERSION remains 0.5.0 and the existing published release does not contain them.
+Read the [funnel contract](skills/cx-impact/references/funnels.md), [map format](skills/cx-impact/references/maps.md) and [verification scope](docs/verification.md). All bundled examples are synthetic. [Release guide and eight screenshots](docs/releases/v0.6.0.en.md) · [Download the offline showcase](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/cx-impact-0.6.0-showcase.zip).
+
+### Compare the change and inspect the numbers
+
+Complete paired CJM in Classic, exported from the English synthetic scenario:
+
+![AS IS and TO BE — English, Classic](docs/releases/v0.6.0/comparison-classic-en.png)
+
+Checkout recovery flows in Signal; ribbon widths use the supplied counts:
+
+![Online sales recovery — English, Signal](docs/releases/v0.6.0/funnel-flows-en.png)
+
+[All eight English screenshots, four designs and usage examples](docs/releases/v0.6.0.en.md) · [Comparison HTML](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/comparison-en.html) · [Funnel HTML](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/funnel-en.html)
 
 ## What you get
 
@@ -76,7 +88,7 @@ Customer, service advisor and mechanic: handoffs, repair approval, and the alter
 
 ![Experience-process map — bicycle repair service, English](examples/bicycle-service-en/process-preview.png)
 
-[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
+[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
 
 ## Quick start
 
@@ -111,7 +123,7 @@ Create a clearly labelled fictional example. Show the customer journey and
 how staff support it. Keep unknown experience claims explicit.
 ```
 
-Prefer a manual install? Extract [cx-impact-0.5.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/cx-impact-0.5.0.zip) and copy the whole skill directory to your agent's skill location. `npx` needs npm and network access to run the third-party installer; CX Impact does not need its own npm package.
+Prefer a manual install? Extract [cx-impact-0.6.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/cx-impact-0.6.0.zip) and copy the whole skill directory to your agent's skill location. `npx` needs npm and network access to run the third-party installer; CX Impact does not need its own npm package.
 
 | Agent | Support scope |
 |---|---|
@@ -124,7 +136,7 @@ Prefer a manual install? Extract [cx-impact-0.5.0.zip](https://github.com/shelas
 
 ## Try the output without an agent
 
-Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
+Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
 
 The viewer includes view switching, readable **100%** scale, **fit to width**, canvas scrolling, keyboard-accessible details, sources, open questions and full-view SVG export. Dense branch labels may move to a numbered list below the map; their full text is retained.
 
@@ -162,11 +174,11 @@ Validate authored JSON without writing files with `node skills/cx-impact/scripts
 
 Development is focused on independent first use and repeat use: [five-person pilot](docs/pilot.md) · [four-case comparison protocol](docs/evaluation.md). These are protocols and synthetic materials, not completed user studies or evidence of superiority over a short prompt. Invitations and human evaluations belong to the project owner.
 
-After an initial demand signal, the next priorities are a source-linked decision summary, navigation between related small maps, and isolated browser checks across users' environments, in that order. A visual editor, server, accounts, integrations and additional themes are outside this cycle. The pilot's 4-of-5 first-use and 3-of-5 repeat-use targets guide the next development decision; they do not establish broad demand.
+After an initial demand signal, the next priorities are a source-linked decision summary, navigation between related small maps, and expanding browser compatibility across users' environments. Isolated browser checks and four designs are now available. A visual editor, server, accounts and integrations remain outside this cycle. The pilot's 4-of-5 first-use and 3-of-5 repeat-use targets guide the next development decision; they do not establish broad demand.
 
 ## Status and limitations
 
-**v0.5.0 is an experimental public preview.** One portable skill package serves all four documented agent setups. Compatibility and verification scopes are listed above; they do not imply equal model performance.
+**v0.6.0 is an experimental public preview.** One portable skill package serves all four documented agent setups. Compatibility and verification scopes are listed above; they do not imply equal model performance.
 
 - Viewer labels support English and Russian (`locale: "en"` or `"ru"`). Authored map content is not automatically translated.
 - Maps support 2–12 stages and one process node per participant lane and stage. Complex journeys may need separate maps.

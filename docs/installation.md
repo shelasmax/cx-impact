@@ -61,17 +61,17 @@ The [official filesystem-skills documentation](https://deepseek-harness.github.i
 
 ## Manual or version-pinned installation
 
-1. Download [cx-impact-0.5.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.5.0/cx-impact-0.5.0.zip).
+1. Download [cx-impact-0.6.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/cx-impact-0.6.0.zip).
 2. Extract it. The archive contains a single `cx-impact/` directory, including `SKILL.md`, assets, references, renderer and license.
 3. Copy that **whole directory** to the location in the table above. Preserve any existing installation first.
 4. Start a fresh agent session in that project.
 
-For a repository checkout, use `skills/cx-impact/` from tag `v0.5.0`. The short `npx` command follows the repository; the release archive pins the complete package to a version. Once downloaded, manual installation and rendering need no package registry.
+For a repository checkout, use `skills/cx-impact/` from tag `v0.6.0`. The short `npx` command follows the repository; the release archive pins the complete package to a version. Once downloaded, manual installation and rendering need no package registry.
 
 The release includes `SHA256SUMS`. On macOS, compare the archive's hash with its line in that file:
 
 ```sh
-shasum -a 256 cx-impact-0.5.0.zip
+shasum -a 256 cx-impact-0.6.0.zip
 ```
 
 If you downloaded all listed assets, `shasum -a 256 -c SHA256SUMS` checks them together. On Linux use `sha256sum`. These detect mismatched downloads; they are not signed provenance.

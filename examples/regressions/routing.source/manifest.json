@@ -1,10 +1,10 @@
 {
-  "rendererVersion": "0.5.0",
+  "rendererVersion": "0.6.0",
   "templateCustom": false,
   "files": {
     "scripts/render-map.mjs": "b87d63e6f1215f242a258123b9dffd6ad30298fe7cb5f02ebdaefebfb08c76e4",
     "assets/map.html": "07f6fbd687bd9ac7041fc1cc3c8a277274c5c7c7b27348e14adfa4bd50734963",
-    "assets/map-core.js": "a2feb8b9ad065286484efaf4ef6191ff56f30e8f6cb34aa0b0de7c8ef17076af",
+    "assets/map-core.js": "7958cbd8d2ba0a099f51c02de57c9665e5ace7d1e90ffa3e05be945a8473c500",
     "assets/comparison-core.js": "3b118fc2211c8d5c849756faf2c6de1d59d543386fc6f45b47a89ba5d7a989f5",
     "assets/design-core.js": "1db4c0a91930fff0b6ab4c2b0efa5770500c5d267669232366ec356adc2c0188",
     "assets/funnel-core.js": "2beba277d91d9275df4125b7f2972d40b117669c4c0af134d7b02d0550f89fc5",
@@ -14,6 +14,6 @@
   },
   "source": "routing.json",
   "sourceSha256": "0cb05e7eafe3f407f24172d5bbe8c91cf13c4bb0e3deb7a2d9b3e064371a1265",
-  "htmlSha256": "ba870f781c9d505e3fd3b8589a04c08f64a97f139e8075d3e71b3dc649450ab6",
+  "htmlSha256": "d5781fc272d8561f4cf081e26bf5aebdc3df9da6bc8dcf67ada2e66bb047af28",
   "rebuild": "node \"routing.source/rebuild.mjs\""
 }

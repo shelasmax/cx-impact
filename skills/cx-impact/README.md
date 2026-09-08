@@ -79,4 +79,4 @@ node scripts/render-map.mjs examples/funnels/online-sales.en.json output/funnel.
 node scripts/render-map.mjs --check examples/funnels/online-sales.ru.json
 ```
 
-These additions are unreleased local review work. The package version remains 0.5.0. Mechanical checks are not semantic or human acceptance.
+These features are included in version 0.6.0. Mechanical checks are not semantic or human acceptance.

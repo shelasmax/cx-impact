@@ -1,11 +1,13 @@
 # Changelog
 
-## Unreleased
+## [0.6.0] — 2026-09-08
 
 - Opt-in aligned AS IS / TO BE with explicit one-to-many correspondence, original per-side sources and complete stacked SVG.
 - Independent quantitative people-cohort funnel: stages, explicit recovery flows, table, separate mature repeat cohort, JSON/CSV/SVG exports and bilingual synthetic examples.
 - Four independent visual designs: Classic (default), Graphite, Workshop and Signal; light/dark/system and static reduced-motion behavior.
-- Updated isolated browser acceptance, public snapshots and explicit package extraction/rebuild checks. Local review build only; VERSION 0.5.0 is unchanged.
+- Appearance changes stop funnel playback and clear the previous traversal; reopening starts paused at the root.
+- Updated isolated browser acceptance, public snapshots and explicit package extraction/rebuild checks. Existing map input remains `version: 1`; no runtime dependency is added.
+- English and Russian release descriptions, actual interface screenshots, interactive comparison/funnel demos and an offline showcase with exact source snapshots.
 
 ## [0.5.0] — 2026-09-07
 
@@ -87,3 +89,5 @@ Earlier local experiments are not published releases and do not establish the qu
 [0.4.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.4.0
 
 [0.5.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.5.0
+
+[0.6.0]: https://github.com/shelasmax/cx-impact/releases/tag/v0.6.0
