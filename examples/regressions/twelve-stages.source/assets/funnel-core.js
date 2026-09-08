@@ -1,47 +1,279 @@
 /* Pure quantitative contracts and deterministic geometry. MIT; see package LICENSE. */
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.CXFunnel=factory();})(globalThis,function(){
- 'use strict';
- const fail=(ok,path,message)=>{if(!ok)throw new Error(`${path}: ${message}`);};
- const object=(v,p)=>fail(v&&typeof v==='object'&&!Array.isArray(v),p,'expected an object');
- const text=(v,p,max=3000)=>fail(typeof v==='string'&&v.trim().length>0&&v.length<=max,p,`expected nonempty text, at most ${max} characters`);
- const count=(v,p)=>fail(Number.isSafeInteger(v)&&v>=0,p,'expected a nonnegative safe integer');
- const positive=(v,p)=>fail(Number.isFinite(v)&&v>0&&v<=36500,p,'expected positive days, at most 36500');
- function keys(v,allowed,p){object(v,p);for(const k of Object.keys(v))fail(allowed.includes(k),`${p}.${k}`,'unsupported field');}
- function records(v,p,min,max){fail(Array.isArray(v)&&v.length>=min&&v.length<=max,p,`expected ${min}–${max} records`);const ids=new Set();v.forEach((x,i)=>{object(x,`${p}[${i}]`);fail(typeof x.id==='string'&&/^[a-z][a-z0-9_-]*$/.test(x.id),`${p}[${i}].id`,'invalid ID');fail(!ids.has(x.id),`${p}[${i}].id`,'duplicate ID');ids.add(x.id);});return ids;}
- function date(v,p){fail(typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v),p,'expected YYYY-MM-DD');const n=Date.parse(v+'T00:00:00Z');fail(Number.isFinite(n)&&new Date(n).toISOString().slice(0,10)===v,p,'invalid calendar date');return n/86400000;}
- function graphOrder(g){const incoming=new Map(g.nodes.map(n=>[n.id,[]])),outgoing=new Map(g.nodes.map(n=>[n.id,[]]));g.edges.forEach(e=>{incoming.get(e.to).push(e);outgoing.get(e.from).push(e);});const degree=new Map(g.nodes.map(n=>[n.id,incoming.get(n.id).length])),queue=g.nodes.filter(n=>!degree.get(n.id)).map(n=>n.id),order=[];for(let i=0;i<queue.length;i++){const id=queue[i];order.push(id);for(const e of outgoing.get(id)){degree.set(e.to,degree.get(e.to)-1);if(!degree.get(e.to))queue.push(e.to);}}return {incoming,outgoing,order};}
- function validateFunnel(d){
-  keys(d,['version','kind','locale','title','subtitle','disclaimer','scope','sources','stages','transitions','repeat'],'funnel');fail(d.version===1,'version','expected 1');fail(d.kind==='sales-funnel','kind','expected sales-funnel');fail(['ru','en'].includes(d.locale),'locale','expected ru or en');for(const k of ['title','subtitle','disclaimer'])text(d[k],k,k==='disclaimer'?1000:240);
-  const s=d.scope;keys(s,['unit','entry','cohortStart','cohortEnd','asOf','timezone','conversionDays','identityRule','orderRule'],'scope');fail(s.unit==='people','scope.unit','only people supported');fail(s.entry==='closed','scope.entry','only closed ordered cohorts supported');const start=date(s.cohortStart,'scope.cohortStart'),end=date(s.cohortEnd,'scope.cohortEnd'),asOf=date(s.asOf,'scope.asOf');fail(start<=end,'scope.cohortEnd','must follow cohortStart');positive(s.conversionDays,'scope.conversionDays');fail(asOf>=end+s.conversionDays,'scope.asOf','closed cohort requires full conversion window after cohortEnd');text(s.timezone,'scope.timezone',100);fail(!/^[+-]/.test(s.timezone),'scope.timezone','expected an IANA timezone, not a fixed offset');try{new Intl.DateTimeFormat('en',{timeZone:s.timezone}).format();}catch{fail(false,'scope.timezone','invalid IANA timezone');}for(const k of ['identityRule','orderRule'])text(s[k],`scope.${k}`);
-  const sources=records(d.sources,'sources',1,100);d.sources.forEach((x,i)=>{keys(x,['id','label','text','kind'],`sources[${i}]`);text(x.label,`sources[${i}].label`,160);text(x.text,`sources[${i}].text`,8000);fail(['user-input','requirement','research','runtime','code','other'].includes(x.kind),`sources[${i}].kind`,'unsupported source kind');});
-  function refs(v,p){fail(Array.isArray(v)&&v.length>0,p,'at least one source required');v.forEach(id=>fail(sources.has(id),p,`unknown source ${id}`));fail(new Set(v).size===v.length,p,'duplicate source');}
-  const stages=records(d.stages,'stages',2,12);let previous=null;d.stages.forEach((x,i)=>{const p=`stages[${i}]`;keys(x,['id','title','count','sourceIds','definition'],p);text(x.title,p+'.title',100);text(x.definition,p+'.definition');refs(x.sourceIds,p+'.sourceIds');if(x.count!==null){count(x.count,p+'.count');fail(previous===null||x.count<=previous,p+'.count','closed ordered cohort counts must not increase, including across unknown stages');previous=x.count;}});
-  if(d.transitions!==undefined){const g=d.transitions;keys(g,['scope','nodes','edges'],'transitions');keys(g.scope,['stageId','rootTotal','denominator','description'],'transitions.scope');fail(stages.has(g.scope.stageId),'transitions.scope.stageId','unknown stage');count(g.scope.rootTotal,'transitions.scope.rootTotal');const stage=d.stages.find(s=>s.id===g.scope.stageId);fail(stage.count!==null&&stage.count===g.scope.rootTotal,'transitions.scope.rootTotal','must equal referenced known stage count');text(g.scope.denominator,'transitions.scope.denominator');text(g.scope.description,'transitions.scope.description');
-   const nodes=records(g.nodes,'transitions.nodes',2,32);records(g.edges,'transitions.edges',1,48);g.nodes.forEach((n,i)=>{const p=`transitions.nodes[${i}]`;keys(n,['id','title','value','stageId','outcome','sourceIds'],p);text(n.title,p+'.title',100);count(n.value,p+'.value');refs(n.sourceIds,p+'.sourceIds');if(n.stageId!==undefined)fail(stages.has(n.stageId),p+'.stageId','unknown stage');if(n.outcome!==undefined)fail(['progress','lost','pending','unknown'].includes(n.outcome),p+'.outcome','invalid outcome');});g.edges.forEach((e,i)=>{const p=`transitions.edges[${i}]`;keys(e,['id','from','to','value','label','sourceIds'],p);fail(nodes.has(e.from)&&nodes.has(e.to),p,'unknown node reference');fail(e.from!==e.to,p,'self edge; unroll retry');count(e.value,p+'.value');text(e.label,p+'.label',400);refs(e.sourceIds,p+'.sourceIds');});
-   const {incoming,outgoing,order}=graphOrder(g);fail(order.length===g.nodes.length,'transitions.edges','cycle; unroll retry nodes');let rootTotal=0,sinkTotal=0;g.nodes.forEach((n,i)=>{const a=incoming.get(n.id),b=outgoing.get(n.id),p=`transitions.nodes[${i}]`;fail(a.length||b.length,p,'isolated node');for(const [es,label]of [[a,'incoming'],[b,'outgoing']])if(es.length)fail(es.reduce((s,e)=>s+e.value,0)===n.value,p+'.value',`${label} flow must conserve node value`);if(!a.length)rootTotal+=n.value;if(!b.length){sinkTotal+=n.value;fail(n.outcome!==undefined,p+'.outcome','sink must explicitly classify outcome');}else fail(n.outcome===undefined,p+'.outcome','only sinks classify final outcomes');});fail(Number.isSafeInteger(rootTotal)&&rootTotal===g.scope.rootTotal,'transitions.scope.rootTotal','must equal sum of explicit graph roots');fail(sinkTotal===rootTotal,'transitions.nodes','sink total must equal roots');
+(function(root,factory){
+  if(typeof module==='object'&&module.exports)module.exports=factory();
+  else root.CXFunnel=factory();
+})(globalThis,function(){
+  'use strict';
+  const fail=(ok,path,message)=>{
+    if(!ok)throw new Error(`${path}: ${message}`);
+  };
+  const object=(v,path)=>fail(v&&typeof v==='object'&&!Array.isArray(v),path,'expected an object');
+  const text=(v,path,max=3000)=>fail(typeof v==='string'&&v.trim().length>0&&v.length<=max,path,`expected nonempty text, at most ${max} characters`);
+  const count=(v,path)=>fail(Number.isSafeInteger(v)&&v>=0,path,'expected a nonnegative safe integer');
+  const positive=(v,path)=>fail(Number.isFinite(v)&&v>0&&v<=36500,path,'expected positive days, at most 36500');
+  function keys(v,allowed,path){
+    object(v,path);
+    for(const k of Object.keys(v))fail(allowed.includes(k),`${path}.${k}`,'unsupported field');
   }
-  if(d.repeat!==undefined){const r=d.repeat;keys(r,['eligible','purchased','pending','windowDays','sourceIds','definition'],'repeat');for(const k of ['eligible','purchased','pending'])count(r[k],`repeat.${k}`);positive(r.windowDays,'repeat.windowDays');text(r.definition,'repeat.definition');refs(r.sourceIds,'repeat.sourceIds');const final=d.stages.at(-1).count;fail(final!==null,'repeat','requires known final first-purchase stage');fail(r.eligible+r.pending===final,'repeat.pending','eligible + pending must equal first purchasers');fail(r.purchased<=r.eligible,'repeat.purchased','cannot exceed mature eligible cohort');fail(asOf>=start+r.windowDays||r.eligible===0,'repeat.eligible','no first purchaser can yet have matured');fail(asOf<end+s.conversionDays+r.windowDays||r.pending===0,'repeat.pending','all first-purchase windows have elapsed at cutoff');}
-  return d;
- }
- const rate=(n,d)=>n===null||d===null||d===0?null:n/d;
- function analyzeFunnel(d){validateFunnel(d);const entry=d.stages[0].count;const stages=d.stages.map((s,i)=>{const previous=i?d.stages[i-1].count:null;return {...s,previousApplicable:i>0,entryDenominator:entry,previousDenominator:previous,fromEntry:rate(s.count,entry),fromPrevious:rate(s.count,previous),notProgressed:i&&s.count!==null&&previous!==null?previous-s.count:null};});let graph=null;if(d.transitions){const g=d.transitions,{incoming,outgoing,order}=graphOrder(g),outcomes={progress:0,lost:0,pending:0,unknown:0};const roots=g.nodes.filter(n=>!incoming.get(n.id).length).map(n=>n.id),sinks=g.nodes.filter(n=>!outgoing.get(n.id).length);sinks.forEach(n=>outcomes[n.outcome]+=n.value);graph={rootTotal:g.scope.rootTotal,sinkTotal:sinks.reduce((s,n)=>s+n.value,0),roots,sinks:sinks.map(n=>n.id),outcomes,order,nodes:g.nodes.map(n=>({...n,fromScope:rate(n.value,g.scope.rootTotal)})),edges:g.edges.map(e=>({...e,denominator:g.nodes.find(n=>n.id===e.from).value,fromNode:rate(e.value,g.nodes.find(n=>n.id===e.from).value),fromScope:rate(e.value,g.scope.rootTotal)}))};}
-  return {stages,graph,repeat:d.repeat?{...d.repeat,rate:rate(d.repeat.purchased,d.repeat.eligible)}:null,limits:['Counts and identity/cohort definitions are authored aggregates; person-level identity, ordering and maturation are not independently verified.','Stage residual is not progressed within the conversion window, not an inferred loss or cause.']};
- }
- function layoutFunnel(d){const analysis=analyzeFunnel(d),stages=analysis.stages.map((s,i)=>({...s,x:310,y:60+i*125,w:s.fromEntry===null?0:740*s.fromEntry,h:30}));let flows=null;
-  if(analysis.graph){const g=d.transitions,{incoming,outgoing,order}=graphOrder(g),depth=new Map();order.forEach(id=>depth.set(id,Math.max(0,...incoming.get(id).map(e=>depth.get(e.from)+1))));const maxDepth=Math.max(...depth.values()),scale=g.scope.rootTotal?520/g.scope.rootTotal:0,nodes=[],byId=new Map();for(const n of g.nodes)if(!outgoing.get(n.id).length)depth.set(n.id,maxDepth);for(let col=0;col<=maxDepth;col++){let y=80;for(const n of g.nodes.filter(n=>depth.get(n.id)===col)){if(outgoing.get(n.id).length&&incoming.get(n.id).length){const starts=incoming.get(n.id).map(e=>{const source=byId.get(e.from),prior=outgoing.get(e.from).slice(0,outgoing.get(e.from).indexOf(e)).reduce((sum,x)=>sum+x.value,0);return source.y+prior*scale;});y=Math.max(y,Math.min(...starts));}const box={...n,x:40+col*340,y,h:n.value*scale,w:20,depth:col};nodes.push(box);byId.set(n.id,box);y+=box.h+115;}}
-   const usedIn=new Map(),usedOut=new Map();const edges=analysis.graph.edges.map(e=>{const a=byId.get(e.from),b=byId.get(e.to),width=e.value*scale,sy=a.y+(usedOut.get(a.id)||0),ty=b.y+(usedIn.get(b.id)||0);usedOut.set(a.id,(usedOut.get(a.id)||0)+width);usedIn.set(b.id,(usedIn.get(b.id)||0)+width);const x1=a.x+a.w,x2=b.x,c=(x1+x2)/2;return {...e,width,sy,ty,x1,x2,path:width?`M${x1},${sy} C${c},${sy} ${c},${ty} ${x2},${ty} L${x2},${ty+width} C${c},${ty+width} ${c},${sy+width} ${x1},${sy+width} Z`:null};});flows={nodes,edges,scale,width:Math.max(1120,400+maxDepth*340),height:Math.max(...nodes.map(n=>n.y+n.h+130))};
+  function records(v,path,min,max){
+    fail(Array.isArray(v)&&v.length>=min&&v.length<=max,path,`expected ${min}–${max} records`);
+    const ids=new Set();
+    v.forEach((x,i)=>{
+      object(x,`${path}[${i}]`);
+      fail(typeof x.id==='string'&&/^[a-z][a-z0-9_-]*$/.test(x.id),`${path}[${i}].id`,'invalid ID');
+      fail(!ids.has(x.id),`${path}[${i}].id`,'duplicate ID');
+      ids.add(x.id);
+    });
+    return ids;
   }
-  const errors=[],warnings=[];for(const s of stages)if(!Number.isFinite(s.w)||s.w<0)errors.push({code:'INVALID_BAR',id:s.id});
-  // Monotonic cubic X can be inverted. Sample both slab boundaries and midpoint;
-  // Y is monotonic too, so these bound the ribbon across the full node slab.
-  function bandAt(e,x){let lo=0,hi=1;const c=(e.x1+e.x2)/2;for(let i=0;i<52;i++){const t=(lo+hi)/2,u=1-t,v=u*u*u*e.x1+3*u*u*t*c+3*u*t*t*c+t*t*t*e.x2;if(v<x)lo=t;else hi=t;}const t=(lo+hi)/2,u=1-t;const y=u*u*u*e.sy+3*u*u*t*e.sy+3*u*t*t*e.ty+t*t*t*e.ty;return [y,y+e.width];}
-  if(flows)for(const e of flows.edges){if(!Number.isFinite(e.width)||e.width<0)errors.push({code:'INVALID_RIBBON',id:e.id});if(!e.width)continue;for(const n of flows.nodes){if(n.id===e.from||n.id===e.to||!n.h||n.x>=e.x2||n.x+n.w<=e.x1)continue;const left=bandAt(e,Math.max(n.x,e.x1)),right=bandAt(e,Math.min(n.x+n.w,e.x2)),top=Math.min(left[0],right[0]),bottom=Math.max(left[1],right[1]);if(Math.min(bottom,n.y+n.h)-Math.max(top,n.y)>1e-7)errors.push({code:'RIBBON_NODE_OVERLAP',edge:e.id,node:n.id,overlapY:Math.min(bottom,n.y+n.h)-Math.max(top,n.y),message:'A nonincident ribbon intersects this node; restructure or split the supplied graph before rendering.'});}}
-  if(flows)warnings.push({code:'RIBBON_CROSSINGS_NOT_CAUSAL',message:'Ribbon crossings are not graph joins. Only authored node endpoints define transitions; inspect crossing readability visually.'});
-  return {analysis,stages,flows,width:1120,height:60+stages.length*125,geometry:{status:errors.length?'failed':'checked',scope:'Finite proportional bars and DAG port stacking; text bounds, crossing readability and visual acceptance require browser inspection',errors,warnings,measurements:{stageScale:analysis.stages[0].count?740/analysis.stages[0].count:0,flowScale:flows?.scale??null,nodes:flows?.nodes.length||0,edges:flows?.edges.length||0}}};
- }
- // RFC 4180 and spreadsheet formula mitigation; only authored text is prefixed.
- function funnelCSV(d){const a=analyzeFunnel(d),rows=[['type','id','label','count','previous_denominator','entry_or_scope_denominator','from_previous','from_entry_or_scope','not_progressed_within_window','definition','source_ids']];const unknown=x=>x===null?'unknown':x;const safe=s=>/^[\s\u0000-\u001f]*[=+\-@]/.test(String(s))?"'"+s:s;
-  for(const s of a.stages)rows.push(['stage',s.id,safe(s.title),unknown(s.count),s.previousApplicable?unknown(s.previousDenominator):'not_applicable',unknown(s.entryDenominator),s.previousApplicable?unknown(s.fromPrevious):'not_applicable',unknown(s.fromEntry),s.previousApplicable?unknown(s.notProgressed):'not_applicable',safe(s.definition),safe(s.sourceIds.join(' '))]);for(const e of a.graph?.edges||[])rows.push(['flow',e.id,safe(e.label),e.value,e.denominator,a.graph.rootTotal,unknown(e.fromNode),unknown(e.fromScope),'','',safe(e.sourceIds.join(' '))]);if(a.repeat)rows.push(['repeat','','repeat purchase',a.repeat.purchased,a.repeat.eligible,'',unknown(a.repeat.rate),'','',safe(a.repeat.definition),safe(a.repeat.sourceIds.join(' '))]);rows.push(['scope','','people','','','','','','',safe(JSON.stringify(d.scope)),'']);if(d.transitions)rows.push(['flow_scope','','','','','','','','',safe(JSON.stringify(d.transitions.scope)),'']);if(a.repeat)rows.push(['repeat_pending','','immature first purchasers',a.repeat.pending,'','','','','',`windowDays=${a.repeat.windowDays}`,'']);return rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n')+'\r\n';
- }
- return {validateFunnel,analyzeFunnel,layoutFunnel,funnelCSV};
+  function date(v,path){
+    fail(typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v),path,'expected YYYY-MM-DD');
+    const node=Date.parse(v+'T00:00:00Z');
+    fail(Number.isFinite(node)&&new Date(node).toISOString().slice(0,10)===v,path,'invalid calendar date');
+    return node/86400000;
+  }
+  function graphOrder(graphData){
+    const incoming=new Map(graphData.nodes.map(node=>[node.id,[]])),outgoing=new Map(graphData.nodes.map(node=>[node.id,[]]));
+    graphData.edges.forEach(edge=>{
+      incoming.get(edge.to).push(edge);
+      outgoing.get(edge.from).push(edge);
+    });
+    const degree=new Map(graphData.nodes.map(node=>[node.id,incoming.get(node.id).length])),queue=graphData.nodes.filter(node=>!degree.get(node.id)).map(node=>node.id),order=[];
+    for(let i=0;i<queue.length;i++){
+      const id=queue[i];
+      order.push(id);
+      for(const edge of outgoing.get(id)){
+        degree.set(edge.to,degree.get(edge.to)-1);
+        if(!degree.get(edge.to))queue.push(edge.to);
+      }
+    }
+    return {incoming,outgoing,order};
+  }
+  function validateFunnel(data){
+    keys(data,['version','kind','locale','title','subtitle','disclaimer','scope','sources','stages','transitions','repeat'],'funnel');
+    fail(data.version===1,'version','expected 1');
+    fail(data.kind==='sales-funnel','kind','expected sales-funnel');
+    fail(['ru','en'].includes(data.locale),'locale','expected ru or en');
+    for(const k of ['title','subtitle','disclaimer'])text(data[k],k,k==='disclaimer'?1000:240);
+    const scope=data.scope;
+    keys(scope,['unit','entry','cohortStart','cohortEnd','asOf','timezone','conversionDays','identityRule','orderRule'],'scope');
+    fail(scope.unit==='people','scope.unit','only people supported');
+    fail(scope.entry==='closed','scope.entry','only closed ordered cohorts supported');
+    const start=date(scope.cohortStart,'scope.cohortStart'),end=date(scope.cohortEnd,'scope.cohortEnd'),asOf=date(scope.asOf,'scope.asOf');
+    fail(start<=end,'scope.cohortEnd','must follow cohortStart');
+    positive(scope.conversionDays,'scope.conversionDays');
+    fail(asOf>=end+scope.conversionDays,'scope.asOf','closed cohort requires full conversion window after cohortEnd');
+    text(scope.timezone,'scope.timezone',100);
+    fail(!/^[+-]/.test(scope.timezone),'scope.timezone','expected an IANA timezone, not a fixed offset');
+    try{
+      new Intl.DateTimeFormat('en',{timeZone:scope.timezone}).format();
+    }catch{
+      fail(false,'scope.timezone','invalid IANA timezone');
+    }
+    for(const field of ['identityRule','orderRule'])text(scope[field],`scope.${field}`);
+    const sources=records(data.sources,'sources',1,100);
+    data.sources.forEach((record,i)=>{
+      keys(record,['id','label','text','kind'],`sources[${i}]`);
+      text(record.label,`sources[${i}].label`,160);
+      text(record.text,`sources[${i}].text`,8000);
+      fail(['user-input','requirement','research','runtime','code','other'].includes(record.kind),`sources[${i}].kind`,'unsupported source kind');
+    });
+    function refs(v,path){
+      fail(Array.isArray(v)&&v.length>0,path,'at least one source required');
+      v.forEach(id=>fail(sources.has(id),path,`unknown source ${id}`));
+      fail(new Set(v).size===v.length,path,'duplicate source');
+    }
+    const stages=records(data.stages,'stages',2,12);
+    let previous=null;
+    data.stages.forEach((record,i)=>{
+      const path=`stages[${i}]`;
+      keys(record,['id','title','count','sourceIds','definition'],path);
+      text(record.title,path+'.title',100);
+      text(record.definition,path+'.definition');
+      refs(record.sourceIds,path+'.sourceIds');
+      if(record.count!==null){
+        count(record.count,path+'.count');
+        fail(previous===null||record.count<=previous,path+'.count','closed ordered cohort counts must not increase, including across unknown stages');
+        previous=record.count;
+      }
+    });
+    if(data.transitions!==undefined){
+      const graphData=data.transitions;
+      keys(graphData,['scope','nodes','edges'],'transitions');
+      keys(graphData.scope,['stageId','rootTotal','denominator','description'],'transitions.scope');
+      fail(stages.has(graphData.scope.stageId),'transitions.scope.stageId','unknown stage');
+      count(graphData.scope.rootTotal,'transitions.scope.rootTotal');
+      const stage=data.stages.find(stage=>stage.id===graphData.scope.stageId);
+      fail(stage.count!==null&&stage.count===graphData.scope.rootTotal,'transitions.scope.rootTotal','must equal referenced known stage count');
+      text(graphData.scope.denominator,'transitions.scope.denominator');
+      text(graphData.scope.description,'transitions.scope.description');
+      const nodes=records(graphData.nodes,'transitions.nodes',2,32);
+      records(graphData.edges,'transitions.edges',1,48);
+      graphData.nodes.forEach((node,i)=>{
+        const path=`transitions.nodes[${i}]`;
+        keys(node,['id','title','value','stageId','outcome','sourceIds'],path);
+        text(node.title,path+'.title',100);
+        count(node.value,path+'.value');
+        refs(node.sourceIds,path+'.sourceIds');
+        if(node.stageId!==undefined)fail(stages.has(node.stageId),path+'.stageId','unknown stage');
+        if(node.outcome!==undefined)fail(['progress','lost','pending','unknown'].includes(node.outcome),path+'.outcome','invalid outcome');
+      });
+      graphData.edges.forEach((edge,i)=>{
+        const path=`transitions.edges[${i}]`;
+        keys(edge,['id','from','to','value','label','sourceIds'],path);
+        fail(nodes.has(edge.from)&&nodes.has(edge.to),path,'unknown node reference');
+        fail(edge.from!==edge.to,path,'self edge; unroll retry');
+        count(edge.value,path+'.value');
+        text(edge.label,path+'.label',400);
+        refs(edge.sourceIds,path+'.sourceIds');
+      });
+      const {incoming,outgoing,order}=graphOrder(graphData);
+      fail(order.length===graphData.nodes.length,'transitions.edges','cycle; unroll retry nodes');
+      let rootTotal=0,sinkTotal=0;
+      graphData.nodes.forEach((node,i)=>{
+        const incomingEdges=incoming.get(node.id);
+        const outgoingEdges=outgoing.get(node.id);
+        const path=`transitions.nodes[${i}]`;
+        fail(incomingEdges.length||outgoingEdges.length,path,'isolated node');
+        for(const [edges,label] of [[incomingEdges,'incoming'],[outgoingEdges,'outgoing']]){
+          if(edges.length){
+            const total=edges.reduce((sum,edge)=>sum+edge.value,0);
+            fail(total===node.value,path+'.value',`${label} flow must conserve node value`);
+          }
+        }
+        if(!incomingEdges.length)rootTotal+=node.value;
+        if(!outgoingEdges.length){
+          sinkTotal+=node.value;
+          fail(node.outcome!==undefined,path+'.outcome','sink must explicitly classify outcome');
+        }else fail(node.outcome===undefined,path+'.outcome','only sinks classify final outcomes');
+      });
+      fail(Number.isSafeInteger(rootTotal)&&rootTotal===graphData.scope.rootTotal,'transitions.scope.rootTotal','must equal sum of explicit graph roots');
+      fail(sinkTotal===rootTotal,'transitions.nodes','sink total must equal roots');
+    }
+    if(data.repeat!==undefined){
+      const repeat=data.repeat;
+      keys(repeat,['eligible','purchased','pending','windowDays','sourceIds','definition'],'repeat');
+      for(const field of ['eligible','purchased','pending'])count(repeat[field],`repeat.${field}`);
+      positive(repeat.windowDays,'repeat.windowDays');
+      text(repeat.definition,'repeat.definition');
+      refs(repeat.sourceIds,'repeat.sourceIds');
+      const final=data.stages.at(-1).count;
+      fail(final!==null,'repeat','requires known final first-purchase stage');
+      fail(repeat.eligible+repeat.pending===final,'repeat.pending','eligible + pending must equal first purchasers');
+      fail(repeat.purchased<=repeat.eligible,'repeat.purchased','cannot exceed mature eligible cohort');
+      fail(asOf>=start+repeat.windowDays||repeat.eligible===0,'repeat.eligible','no first purchaser can yet have matured');
+      fail(asOf<end+scope.conversionDays+repeat.windowDays||repeat.pending===0,'repeat.pending','all first-purchase windows have elapsed at cutoff');
+    }
+    return data;
+  }
+  const rate=(numerator,denominator)=>numerator===null||denominator===null||denominator===0?null:numerator/denominator;
+  function analyzeFunnel(data){
+    validateFunnel(data);
+    const entry=data.stages[0].count;
+    const stages=data.stages.map((s,i)=>{
+      const previous=i?data.stages[i-1].count:null;
+      return {...s,previousApplicable:i>0,entryDenominator:entry,previousDenominator:previous,fromEntry:rate(s.count,entry),fromPrevious:rate(s.count,previous),notProgressed:i&&s.count!==null&&previous!==null?previous-s.count:null};
+    });
+    let graph=null;
+    if(data.transitions){
+      const graphData=data.transitions,{incoming,outgoing,order}=graphOrder(graphData),outcomes={progress:0,lost:0,pending:0,unknown:0};
+      const roots=graphData.nodes.filter(node=>!incoming.get(node.id).length).map(node=>node.id),sinks=graphData.nodes.filter(node=>!outgoing.get(node.id).length);
+      sinks.forEach(node=>outcomes[node.outcome]+=node.value);
+      graph={rootTotal:graphData.scope.rootTotal,sinkTotal:sinks.reduce((s,node)=>s+node.value,0),roots,sinks:sinks.map(node=>node.id),outcomes,order,nodes:graphData.nodes.map(node=>({...node,fromScope:rate(node.value,graphData.scope.rootTotal)})),edges:graphData.edges.map(edge=>({...edge,denominator:graphData.nodes.find(node=>node.id===edge.from).value,fromNode:rate(edge.value,graphData.nodes.find(node=>node.id===edge.from).value),fromScope:rate(edge.value,graphData.scope.rootTotal)}))};
+    }
+    return {stages,graph,repeat:data.repeat?{...data.repeat,rate:rate(data.repeat.purchased,data.repeat.eligible)}:null,limits:['Counts and identity/cohort definitions are authored aggregates; person-level identity, ordering and maturation are not independently verified.','Stage residual is not progressed within the conversion window, not an inferred loss or cause.']};
+  }
+  function layoutFunnel(data){
+    const analysis=analyzeFunnel(data),stages=analysis.stages.map((s,i)=>({...s,x:310,y:60+i*125,w:s.fromEntry===null?0:740*s.fromEntry,h:30}));
+    let flows=null;
+    if(analysis.graph){
+      const graphData=data.transitions;
+      const {incoming,outgoing,order}=graphOrder(graphData);
+      const depth=new Map();
+      order.forEach(id=>depth.set(id,Math.max(0,...incoming.get(id).map(edge=>depth.get(edge.from)+1))));
+      const maxDepth=Math.max(...depth.values());
+      const scale=graphData.scope.rootTotal?520/graphData.scope.rootTotal:0;
+      const nodes=[];
+      const byId=new Map();
+      for(const node of graphData.nodes)if(!outgoing.get(node.id).length)depth.set(node.id,maxDepth);
+      for(let column=0;column<=maxDepth;column++){
+        let y=80;
+        for(const node of graphData.nodes.filter(node=>depth.get(node.id)===column)){
+          if(outgoing.get(node.id).length&&incoming.get(node.id).length){
+            const starts=incoming.get(node.id).map(edge=>{
+              const source=byId.get(edge.from);
+              const sourceEdges=outgoing.get(edge.from);
+              const priorEdges=sourceEdges.slice(0,sourceEdges.indexOf(edge));
+              const priorValue=priorEdges.reduce((sum,priorEdge)=>sum+priorEdge.value,0);
+              return source.y+priorValue*scale;
+            });
+            y=Math.max(y,Math.min(...starts));
+          }
+          const box={...node,x:40+column*340,y,h:node.value*scale,w:20,depth:column};
+          nodes.push(box);
+          byId.set(node.id,box);
+          y+=box.h+115;
+        }
+      }
+      const usedIn=new Map(),usedOut=new Map();
+      const edges=analysis.graph.edges.map(edge=>{
+        const sourceNode=byId.get(edge.from);
+        const targetNode=byId.get(edge.to);
+        const width=edge.value*scale;
+        const sy=sourceNode.y+(usedOut.get(sourceNode.id)||0);
+        const ty=targetNode.y+(usedIn.get(targetNode.id)||0);
+        usedOut.set(sourceNode.id,(usedOut.get(sourceNode.id)||0)+width);
+        usedIn.set(targetNode.id,(usedIn.get(targetNode.id)||0)+width);
+        const x1=sourceNode.x+sourceNode.w;
+        const x2=targetNode.x;
+        const controlX=(x1+x2)/2;
+        return {...edge,width,sy,ty,x1,x2,path:width?`M${x1},${sy} C${controlX},${sy} ${controlX},${ty} ${x2},${ty} L${x2},${ty+width} C${controlX},${ty+width} ${controlX},${sy+width} ${x1},${sy+width} Z`:null};
+      });
+      flows={nodes,edges,scale,width:Math.max(1120,400+maxDepth*340),height:Math.max(...nodes.map(node=>node.y+node.h+130))};
+    }
+    const errors=[],warnings=[];
+    for(const s of stages)if(!Number.isFinite(s.w)||s.w<0)errors.push({code:'INVALID_BAR',id:s.id});
+    // Monotonic cubic X can be inverted. Sample both slab boundaries and midpoint;
+    // Y is monotonic too, so these bound the ribbon across the full node slab.
+    function bandAt(edge,x){
+      let lower=0,upper=1;
+      const controlX=(edge.x1+edge.x2)/2;
+      for(let i=0;i<52;i++){
+        const t=(lower+upper)/2,u=1-t,sampleX=u*u*u*edge.x1+3*u*u*t*controlX+3*u*t*t*controlX+t*t*t*edge.x2;
+        if(sampleX<x)lower=t;
+        else upper=t;
+      }
+      const t=(lower+upper)/2,u=1-t;
+      const y=u*u*u*edge.sy+3*u*u*t*edge.sy+3*u*t*t*edge.ty+t*t*t*edge.ty;
+      return [y,y+edge.width];
+    }
+    if(flows)for(const edge of flows.edges){
+      if(!Number.isFinite(edge.width)||edge.width<0)errors.push({code:'INVALID_RIBBON',id:edge.id});
+      if(!edge.width)continue;
+      for(const node of flows.nodes){
+        if(node.id===edge.from||node.id===edge.to||!node.h||node.x>=edge.x2||node.x+node.w<=edge.x1)continue;
+        const left=bandAt(edge,Math.max(node.x,edge.x1));
+        const right=bandAt(edge,Math.min(node.x+node.w,edge.x2));
+        const top=Math.min(left[0],right[0]);
+        const bottom=Math.max(left[1],right[1]);
+        if(Math.min(bottom,node.y+node.h)-Math.max(top,node.y)>1e-7)errors.push({code:'RIBBON_NODE_OVERLAP',edge:edge.id,node:node.id,overlapY:Math.min(bottom,node.y+node.h)-Math.max(top,node.y),message:'A nonincident ribbon intersects this node; restructure or split the supplied graph before rendering.'});
+      }
+    }
+    if(flows)warnings.push({code:'RIBBON_CROSSINGS_NOT_CAUSAL',message:'Ribbon crossings are not graph joins. Only authored node endpoints define transitions; inspect crossing readability visually.'});
+    return {analysis,stages,flows,width:1120,height:60+stages.length*125,geometry:{status:errors.length?'failed':'checked',scope:'Finite proportional bars and DAG port stacking; text bounds, crossing readability and visual acceptance require browser inspection',errors,warnings,measurements:{stageScale:analysis.stages[0].count?740/analysis.stages[0].count:0,flowScale:flows?.scale??null,nodes:flows?.nodes.length||0,edges:flows?.edges.length||0}}};
+  }
+  // RFC 4180 and spreadsheet formula mitigation; only authored text is prefixed.
+  function funnelCSV(data){
+    const a=analyzeFunnel(data),rows=[['type','id','label','count','previous_denominator','entry_or_scope_denominator','from_previous','from_entry_or_scope','not_progressed_within_window','definition','source_ids']];
+    const unknown=x=>x===null?'unknown':x;
+    const safe=s=>/^[\s\u0000-\u001f]*[=+\-@]/.test(String(s))?"'"+s:s;
+    for(const s of a.stages)rows.push(['stage',s.id,safe(s.title),unknown(s.count),s.previousApplicable?unknown(s.previousDenominator):'not_applicable',unknown(s.entryDenominator),s.previousApplicable?unknown(s.fromPrevious):'not_applicable',unknown(s.fromEntry),s.previousApplicable?unknown(s.notProgressed):'not_applicable',safe(s.definition),safe(s.sourceIds.join(' '))]);
+    for(const edge of a.graph?.edges||[])rows.push(['flow',edge.id,safe(edge.label),edge.value,edge.denominator,a.graph.rootTotal,unknown(edge.fromNode),unknown(edge.fromScope),'','',safe(edge.sourceIds.join(' '))]);
+    if(a.repeat)rows.push(['repeat','','repeat purchase',a.repeat.purchased,a.repeat.eligible,'',unknown(a.repeat.rate),'','',safe(a.repeat.definition),safe(a.repeat.sourceIds.join(' '))]);
+    rows.push(['scope','','people','','','','','','',safe(JSON.stringify(data.scope)),'']);
+    if(data.transitions)rows.push(['flow_scope','','','','','','','','',safe(JSON.stringify(data.transitions.scope)),'']);
+    if(a.repeat)rows.push(['repeat_pending','','immature first purchasers',a.repeat.pending,'','','','','',`windowDays=${a.repeat.windowDays}`,'']);
+    return rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n')+'\r\n';
+  }
+  return {validateFunnel,analyzeFunnel,layoutFunnel,funnelCSV};
 });

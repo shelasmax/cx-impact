@@ -7,8 +7,8 @@
     "assets/map-core.js": "a2feb8b9ad065286484efaf4ef6191ff56f30e8f6cb34aa0b0de7c8ef17076af",
     "assets/comparison-core.js": "3b118fc2211c8d5c849756faf2c6de1d59d543386fc6f45b47a89ba5d7a989f5",
     "assets/design-core.js": "1db4c0a91930fff0b6ab4c2b0efa5770500c5d267669232366ec356adc2c0188",
-    "assets/funnel-core.js": "565ed2ba01b663ff1ce22229d59c335232ad17cfc933cb484d587316366f34a0",
-    "assets/funnel-viewer.js": "4138d487bc42a759bee9f45e550449834c1fcbf6869a6c8bcd4c4dc9b364f4a6",
+    "assets/funnel-core.js": "2beba277d91d9275df4125b7f2972d40b117669c4c0af134d7b02d0550f89fc5",
+    "assets/funnel-viewer.js": "05653d58c1b3576d0250abf9bf8e83bbce022104d5bd6a3c7a60b0b8d6bc0c1b",
     "assets/map-viewer.js": "fdba15f313fb025a5146260be007154ec201b21a6f2f906bc7ea631220bc1685",
     "rebuild.mjs": "a771f095fb9e38fc8d5c53bc5708814de0a00abe10a08e796fd17acd44a225da"
   },

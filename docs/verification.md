@@ -4,6 +4,10 @@
 
 This is local review work on top of 0.5.0, not a published release. VERSION remains unchanged. The six public HTML/source snapshots and six bicycle previews/SVG exports were regenerated from the current runtime.
 
+The full browser matrix and legacy/visual coverage below are historical evidence at commit `3bac994`. The final follow-up expanded only funnel implementation readability and reset traversal on appearance changes. The 62 Node tests and focused Chrome regressions were rerun afterward; the full appearance/legacy matrix was not rerun. Forty direct before/after comparisons across bilingual original, unknown, absent, empty and alternate-repeat-denominator inputs preserved complete model/layout/CSV results. Public HTML/source bundles were regenerated; unchanged preview PNG/SVG files were retained.
+
+The final focused run additionally verifies both actual split target IDs, their claim/source bodies, highlights and separate keyboard activation; distinct old/new source text sharing a source ID; and active single-successor playback reset after design, explicit color or effective System color changes. Each reset closes the player, clears selection, cancels delayed advancement and reopens paused at the root. Complete SVG reopen/export checks and existing focused edge cases also pass. This scope does not constitute a repeated 64-configuration appearance matrix.
+
 The isolated `tests/browser-scenarios-funnel-check.cjs` renders original synthetic inputs into a unique temporary run folder. It requires an already installed Playwright module and Chrome; it installs nothing and closes Chrome on failures. Set `CX_PLAYWRIGHT_MODULE` to the existing module and optionally `CX_SCENARIOS_QA_DIR` to an output parent. `CX_SCENARIOS_QA_FOCUSED=1` runs only the focused regressions and storage checks. Reports record exact combinations, Chrome version, input/export/runtime hashes and screenshot paths. Keep those reports and downloads outside publication inputs.
 
 | Layer | Local scope |

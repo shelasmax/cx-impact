@@ -146,10 +146,43 @@ async function download(page,id,path){const event=page.waitForEvent('download');
    await svg.close();
   }
   if(kind==='map'){
-   const node=page.locator('[data-scenario-region="target"] [data-node]').first();await node.focus();await page.keyboard.press('Enter');
-   assert.match(await page.locator('#detail-sources').textContent(),/Authored TO BE/);await page.keyboard.press('Escape');
+   const changed = data.correspondence.nodes.find(group => group.current.length === 1 && group.target.length === 1);
+   for (const side of ['current', 'target']) {
+    const claim = data[side].process.nodes.find(node => node.id === changed[side][0]);
+    await page.locator(`[data-scenario-region="${side}"] [data-node="${claim.id}"]`).focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#detail-title').textContent(), claim.title);
+    const sourceText = await page.locator('#detail-sources').textContent();
+    for (const id of claim.sourceIds) {
+     const expected = data[side].sources.find(source => source.id === id).text;
+     const other = data[side === 'current' ? 'target' : 'current'].sources.find(source => source.id === id).text;
+     assert.notEqual(expected, other, 'fixture must exercise changed source bodies sharing an ID');
+     assert.ok(sourceText.includes(expected), `${side}: exact source body`);
+     assert.ok(!sourceText.includes(other), `${side}: other scenario source must not leak into primary sources`);
+    }
+    await page.keyboard.press('Escape');
+   }
    const unmatched=page.locator('[data-scenario-region="current"] [data-node="n-legacy"]');await unmatched.focus();await page.keyboard.press('Enter');assert.match(await page.locator('#detail-related').textContent(),/No correspondence|unmatched/i);await page.keyboard.press('Escape');
-   const split=page.locator('[data-scenario-region="current"] [data-node="n-order"]');await split.focus();await page.keyboard.press('Enter');assert.ok((await page.locator('#detail-related').textContent()).includes('TO BE'));await page.keyboard.press('Escape');
+   const splitGroup = data.correspondence.nodes.find(group => group.current.length === 1 && group.target.length === 2);
+   assert.equal(splitGroup.target.length, 2);
+   await page.locator(`[data-scenario-region="current"] [data-node="${splitGroup.current[0]}"]`).focus();
+   await page.keyboard.press('Enter');
+   const relatedText = await page.locator('#detail-related').textContent();
+   assert.deepEqual(await page.locator('[data-scenario-region="target"] [data-node][data-counterpart]').evaluateAll(nodes => nodes.map(node => node.dataset.node).sort()), [...splitGroup.target].sort());
+   for (const id of splitGroup.target) {
+    const claim = data.target.process.nodes.find(node => node.id === id);
+    assert.ok(relatedText.includes(claim.title), `split counterpart claim ${id}`);
+    for (const sourceId of claim.sourceIds) assert.ok(relatedText.includes(data.target.sources.find(source => source.id === sourceId).text), `split counterpart source ${id}`);
+   }
+   await page.keyboard.press('Escape');
+   for (const id of splitGroup.target) {
+    const claim = data.target.process.nodes.find(node => node.id === id);
+    await page.locator(`[data-scenario-region="target"] [data-node="${id}"]`).focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#detail-title').textContent(), claim.title);
+    for (const sourceId of claim.sourceIds) assert.ok((await page.locator('#detail-sources').textContent()).includes(data.target.sources.find(source => source.id === sourceId).text), `activated target source ${id}`);
+    await page.keyboard.press('Escape');
+   }
    await page.locator('#compare-toggle').click();assert.equal(await page.locator('[data-scenario="target"]').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('[data-scenario-region]').count(),0);
    const raw=await download(page,'export',path.join(dir,'ordinary-restored.svg'));assert.doesNotMatch(raw,/data-comparison="true"/);
   } else {
@@ -159,6 +192,47 @@ async function download(page,id,path){const event=page.waitForEvent('download');
   }
  }
  await page.close();report.completeExports=['paired cjm','paired blueprint','paired process','funnel stages','funnel flows','restored ordinary'];
+}
+// A chain keeps playback active long enough to observe all appearance reset triggers.
+{
+ const fixture = JSON.parse(fs.readFileSync(path.join(dir, 'funnel.json')));
+ const ids = ['checkout', 'second', 'third', 'complete'];
+ fixture.transitions.nodes = ids.map((id, index) => ({id, title:id, value:600, sourceIds:['synthetic'], ...(index === 3 ? {outcome:'progress'} : {})}));
+ fixture.transitions.edges = ids.slice(1).map((id, index) => ({id:'chain-' + index, from:ids[index], to:id, value:600, label:'Continue to ' + id, sourceIds:['synthetic']}));
+ const input = path.join(dir, 'playback-chain.json');
+ fs.writeFileSync(input, JSON.stringify(fixture));
+ render(input, 'playback-chain');
+ const page = await browser.newPage({viewport:{width:1366,height:900}, reducedMotion:'no-preference', colorScheme:'light'});
+ for (const trigger of ['design', 'explicit color', 'effective system color']) {
+  await page.goto(pathToFileURL(path.join(dir, 'playback-chain.html')).href);
+  await page.emulateMedia({colorScheme:'light', reducedMotion:'no-preference'});
+  await page.locator('[data-theme-choice="system"]').click();
+  await page.locator('#funnel-tab-flows').click();
+  await page.locator('#path-toggle').click();
+  await page.locator('#path-play').click();
+  assert.equal(await page.locator('#path-play').getAttribute('aria-pressed'), 'true', `${trigger}: active single-successor timer`);
+  assert.equal(await page.locator('[data-walk]').getAttribute('data-funnel-node'), 'second');
+  if (trigger === 'design') await page.locator('[data-design-choice="workshop"]').click();
+  else if (trigger === 'explicit color') await page.locator('[data-theme-choice="dark"]').click();
+  else {
+   await page.emulateMedia({colorScheme:'dark'});
+   await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
+  }
+  assert.equal(await page.locator('#path-play').getAttribute('aria-pressed'), 'false', `${trigger}: cancels playback`);
+  assert.equal(await page.locator('#path-toggle').getAttribute('aria-expanded'), 'false');
+  assert.equal(await page.locator('#journey-player').isVisible(), false);
+  assert.equal(await page.locator('[data-walk]').count(), 0);
+  const position = await page.locator('#path-position').textContent();
+  await page.waitForTimeout(1350);
+  assert.equal(await page.locator('#path-position').textContent(), position, `${trigger}: no delayed advancement`);
+  assert.equal(await page.locator('[data-walk]').count(), 0);
+  await page.locator('#path-toggle').click();
+  assert.equal(await page.locator('[data-walk]').getAttribute('data-funnel-node'), 'checkout', `${trigger}: reopening starts at root`);
+  assert.equal(await page.locator('#path-play').getAttribute('aria-pressed'), 'false');
+ }
+ await page.close();
+ report.appearancePlaybackReset = ['design', 'explicit color', 'effective system color'];
+ console.log('PASS appearance playback reset: three triggers, active timer, no delayed advancement, reopen at root');
 }
 // Focused source/context, CSV, null/zero/absent-data regressions, EN at 1366x900.
 {
