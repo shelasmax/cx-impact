@@ -260,12 +260,13 @@
     labels.forEach((e,i)=>{for(const n of rects)if(overlap(e.labelBox,n,2))errors.push({code:'LABEL_NODE_COLLISION',edge:e.id,node:n.id});for(const b of labels.slice(i+1))if(overlap(e.labelBox,b.labelBox,2))errors.push({code:'LABEL_LABEL_COLLISION',edge:e.id,other:b.id});});
     return {status:errors.length?'failed':'checked',errors,warnings};
   }
-  function layoutProcess(map) {
+  function layoutProcess(map, projection) {
     const p=map.process;if(!p)return null;
-    const left=194,colWidth=245,nodeWidth=197,top=Math.max(120,...map.stages.map(s=>wrap(s.title,203,17).length*24+66))+26;
-    const heights=p.lanes.map(lane=>Math.max(106,...p.nodes.filter(n=>n.laneId===lane.id).map(n=>wrap(n.title,nodeWidth-28,16).length*22+(n.artifact?wrap(n.artifact,nodeWidth-28,12).length*17:0)+49)));
+    const stageIds=projection?.stageIds||map.stages.map(s=>s.id), laneSlots=projection?.lanes||p.lanes;
+    const left=194,colWidth=245,nodeWidth=197,top=projection?.top||Math.max(120,...map.stages.map(s=>wrap(s.title,203,17).length*24+66))+26;
+    const heights=laneSlots.map(lane=>Math.max(projection?(lane.height||106):106,...p.nodes.filter(n=>n.laneId===lane.id).map(n=>wrap(n.title,nodeWidth-28,16).length*22+(n.artifact?wrap(n.artifact,nodeWidth-28,12).length*17:0)+49)));
     const ys=[];let cursor=top;for(const h of heights){ys.push(cursor);cursor+=h+100;}
-    const nodes=p.nodes.map(n=>{const row=p.lanes.findIndex(l=>l.id===n.laneId),col=map.stages.findIndex(s=>s.id===n.stageId);return {...n,x:left+col*colWidth+18,y:ys[row]+24,w:nodeWidth,h:heights[row],row,col};});
+    const nodes=p.nodes.map(n=>{const row=laneSlots.findIndex(l=>l.id===n.laneId),col=stageIds.indexOf(n.stageId);return {...n,x:left+col*colWidth+18,y:ys[row]+24,w:nodeWidth,h:heights[row],row,col};});
     const index=new Map(nodes.map(n=>[n.id,n])),edges=[],labelRects=[],oldSegments=[],warnings=[];
     const incident=new Map(nodes.map(n=>[n.id,p.edges.map((e,i)=>({e,i})).filter(({e})=>e.from===n.id||e.to===n.id).map(({i})=>i)]));
     let calloutY=cursor+40;
@@ -281,9 +282,9 @@
       if(labelBox)labelRects.push(labelBox);
       edges.push({...edge,id,points,labelBox});oldSegments.push(...segments(points));
     });
-    const width=Math.max(left+colWidth*map.stages.length+32,...labelRects.map(r=>r.x+r.w+24),...edges.flatMap(e=>e.points.map(p=>p.x+24)));
+    const width=Math.max(left+colWidth*stageIds.length+32,...labelRects.map(r=>r.x+r.w+24),...edges.flatMap(e=>e.points.map(p=>p.x+24)));
     const height=Math.max(cursor+30,...labelRects.map(r=>r.y+r.h+30),...edges.flatMap(e=>e.points.map(p=>p.y+24)));
-    const result={left,colWidth,top,width,height,nodes,edges,lanes:p.lanes.map((l,i)=>({...l,y:ys[i],h:heights[i]+94})),warnings};result.geometry=checkGeometry(result);return result;
+    const result={left,colWidth,top,width,height,nodes,edges,lanes:p.lanes.map(l=>{const i=laneSlots.findIndex(s=>s.id===l.id);return {...l,y:ys[i],h:heights[i]+94};}),warnings};result.geometry=checkGeometry(result);return result;
   }
   // Viewer traversal uses the authored graph; it never chooses a branch or synthesizes an edge.
   function playbackChoices(graph,currentId,visited=[]) {

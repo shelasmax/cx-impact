@@ -169,3 +169,31 @@ Use a quiet canvas, clear stage columns and role lanes. Status must be text as w
 ## References
 
 [Archify](https://github.com/tt-a1i/archify) and [OpenDiagram](https://github.com/Itz-Agasta/OpenDiagram) inform visual delivery, not dependencies. [NN/g service blueprint guidance](https://www.nngroup.com/articles/service-blueprints-definition/) describes the layers. [XP Mapping](https://github.com/Byndyusoft/xp-mapping) is background; none of its text, code or templates is bundled here.
+
+## Optional paired AS IS / TO BE comparison
+
+A `mode: "comparison"` document still opens on current state and retains current/target switching. **Compare AS IS / TO BE** is opt-in. A flat map shows a disabled control explaining that both explicit scenarios are required. Russian and English interface text follows the scenario locale.
+
+Correspondence is optional and authored; labels and identical IDs never establish a match:
+
+```json
+{
+  "correspondence": {
+    "stages": [{"current": ["order"], "target": ["order", "validate"]}],
+    "nodes": [{"current": ["n-order"], "target": ["n-order", "n-validate"]}],
+    "lanes": [{"current": ["buyer"], "target": ["buyer"]}]
+  }
+}
+```
+
+Each group requires nonempty arrays on both sides. IDs must exist in the relevant scenario and kind, and can appear only once per side. Omitted groups leave items unmatched. Group members follow authored order. The viewer aligns groups while preserving both scenario orders where possible; contradictory ordering receives an explicit diagnostic. Alignment is not an execution sequence. A split uses enough adjacent slots for all members, leaving an explicitly labeled gap on the shorter side. Stage and lane matching are independent of node matching.
+
+The paired CJM, blueprint and process views share stage columns. Grid row heights and process lane slots accommodate both sides. The two regions are stacked at all screen sizes, use common zoom and horizontal scrolling, and provide shared stage navigation and AS IS / TO BE jump controls. This preserves readable native-size text at 1366px. Process playback is available in the ordinary scenario view; comparison uses alignment navigation. Turning comparison off restores the previously selected ordinary scenario and closes stale details.
+
+Text labels and symbols distinguish `Δ Changed`, `= Unchanged`, `− Only AS IS · unmatched`, and `+ Only TO BE · unmatched`. “Only” means that side of the authored alignment; it does **not** prove removal or addition in the real service. Comparison includes claim text, status, referenced source bodies and outgoing process conditions. IDs and layout coordinates are excluded. Source updates can therefore mark otherwise identical claims changed. Changes describe scenario content, not revisions, measured improvement or verified future outcomes.
+
+Card details retain the selected scenario's original claims and sources and display all supplied counterparts, including one-to-many groups. For transitions, the drawer shows outgoing transitions of the explicitly matched origin nodes, without inventing an edge-to-edge match. Missing claims retain their existing unknown treatment. Each region retains its own boundaries, scope, source access and complete branch conditions.
+
+SVG export includes both regions, headings, legends and namespaced markers in one static SVG; transient selection and motion are removed. JSON export retains the original complete comparison document. CLI inspection checks both projected process layouts and reports ordering diagnostics; browser checks cover text bounds in both regions. Neither is semantic or visual acceptance. The portable `.source` bundle includes `assets/comparison-core.js` and rebuilds with built-in Node APIs.
+
+Original synthetic examples: `examples/scenarios/online-sales.en.json` and `examples/scenarios/online-sales.ru.json` inside the skill package. They demonstrate source updates, changed branches, a split and unmatched stages.

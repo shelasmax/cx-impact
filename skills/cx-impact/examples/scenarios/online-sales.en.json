@@ -1,0 +1,993 @@
+{
+  "version": 1,
+  "locale": "en",
+  "mode": "comparison",
+  "current": {
+    "version": 1,
+    "locale": "en",
+    "mode": "current",
+    "title": "Online sales: order and payment",
+    "subtitle": "Original synthetic scenario; no real customer observations",
+    "actor": "Online buyer",
+    "goal": "Place an order and confirm payment",
+    "disclaimer": "Synthetic authored example. Target proposals are not verified outcomes. No frequencies or emotions are inferred.",
+    "scope": {
+      "scenario": "Single online order",
+      "start": "Choose an item",
+      "end": "Receive confirmation",
+      "asOf": "2026-09-08"
+    },
+    "sources": [
+      {
+        "id": "brief",
+        "label": "Synthetic scenario brief",
+        "text": "Authored AS IS: payment follows order entry; confirmation requires payment approval.",
+        "kind": "user-input"
+      }
+    ],
+    "stages": [
+      {
+        "id": "browse",
+        "title": "Choose item",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Choose item",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "order",
+        "title": "Enter order",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Enter order",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "legacy",
+        "title": "Manual order note",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Manual order note",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "pay",
+        "title": "Pay",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Pay",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "done",
+        "title": "Confirmation",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Confirmation",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      }
+    ],
+    "process": {
+      "lanes": [
+        {
+          "id": "buyer",
+          "title": "Buyer"
+        },
+        {
+          "id": "shop",
+          "title": "Shop service"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n-browse",
+          "stageId": "browse",
+          "laneId": "buyer",
+          "title": "Choose item",
+          "kind": "action",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-order",
+          "stageId": "order",
+          "laneId": "buyer",
+          "title": "Enter order",
+          "kind": "action",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-legacy",
+          "stageId": "legacy",
+          "laneId": "shop",
+          "title": "Manual order note",
+          "kind": "action",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-pay",
+          "stageId": "pay",
+          "laneId": "buyer",
+          "title": "Pay",
+          "kind": "decision",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-done",
+          "stageId": "done",
+          "laneId": "shop",
+          "title": "Confirmation",
+          "kind": "outcome",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-browse-order",
+          "from": "n-browse",
+          "to": "n-order",
+          "label": "Continue",
+          "condition": "Previous step completed",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-order-legacy",
+          "from": "n-order",
+          "to": "n-legacy",
+          "label": "Continue",
+          "condition": "Previous step completed",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-legacy-pay",
+          "from": "n-legacy",
+          "to": "n-pay",
+          "label": "Continue",
+          "condition": "Previous step completed",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-pay-done",
+          "from": "n-pay",
+          "to": "n-done",
+          "label": "Approval received",
+          "condition": "Payment approval is recorded",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ]
+    }
+  },
+  "target": {
+    "version": 1,
+    "locale": "en",
+    "mode": "target",
+    "title": "Online sales: order and payment",
+    "subtitle": "Original synthetic scenario; no real customer observations",
+    "actor": "Online buyer",
+    "goal": "Place an order and confirm payment",
+    "disclaimer": "Synthetic authored example. Target proposals are not verified outcomes. No frequencies or emotions are inferred.",
+    "scope": {
+      "scenario": "Single online order",
+      "start": "Choose an item",
+      "end": "Receive confirmation",
+      "asOf": "2026-09-08"
+    },
+    "sources": [
+      {
+        "id": "brief",
+        "label": "Synthetic scenario brief",
+        "text": "Authored TO BE proposal: validate the order separately, offer retry and confirm only after payment provider approval.",
+        "kind": "requirement"
+      }
+    ],
+    "stages": [
+      {
+        "id": "browse",
+        "title": "Choose item",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Choose item",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "order",
+        "title": "Enter order",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Enter order",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "validate",
+        "title": "Validate order",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Validate order",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "pay",
+        "title": "Pay",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Pay",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "retry",
+        "title": "Retry payment",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Retry payment",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "done",
+        "title": "Confirmation",
+        "goal": {
+          "text": "Complete this order step",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Confirmation",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Online store",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Order status on screen",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Show order information",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Save order state",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Order storage",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      }
+    ],
+    "process": {
+      "lanes": [
+        {
+          "id": "buyer",
+          "title": "Buyer"
+        },
+        {
+          "id": "shop",
+          "title": "Shop service"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n-browse",
+          "stageId": "browse",
+          "laneId": "buyer",
+          "title": "Choose item",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-order",
+          "stageId": "order",
+          "laneId": "buyer",
+          "title": "Enter order",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-validate",
+          "stageId": "validate",
+          "laneId": "shop",
+          "title": "Validate order",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-pay",
+          "stageId": "pay",
+          "laneId": "buyer",
+          "title": "Pay",
+          "kind": "decision",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-retry",
+          "stageId": "retry",
+          "laneId": "buyer",
+          "title": "Retry payment",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-done",
+          "stageId": "done",
+          "laneId": "shop",
+          "title": "Confirmation",
+          "kind": "outcome",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-browse-order",
+          "from": "n-browse",
+          "to": "n-order",
+          "label": "Continue",
+          "condition": "Previous step completed",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-order-validate",
+          "from": "n-order",
+          "to": "n-validate",
+          "label": "Continue",
+          "condition": "Previous step completed",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-validate-pay",
+          "from": "n-validate",
+          "to": "n-pay",
+          "label": "Continue",
+          "condition": "Previous step completed",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-pay-retry",
+          "from": "n-pay",
+          "to": "n-retry",
+          "label": "Retry requested",
+          "condition": "Provider has not approved payment; buyer explicitly requests a retry",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-retry-done",
+          "from": "n-retry",
+          "to": "n-done",
+          "label": "Continue",
+          "condition": "Previous step completed",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-paid",
+          "from": "n-pay",
+          "to": "n-done",
+          "label": "Approved",
+          "condition": "Payment provider confirms payment and order reference matches",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ]
+    }
+  },
+  "correspondence": {
+    "stages": [
+      {
+        "current": [
+          "browse"
+        ],
+        "target": [
+          "browse"
+        ]
+      },
+      {
+        "current": [
+          "order"
+        ],
+        "target": [
+          "order",
+          "validate"
+        ]
+      },
+      {
+        "current": [
+          "pay"
+        ],
+        "target": [
+          "pay"
+        ]
+      },
+      {
+        "current": [
+          "done"
+        ],
+        "target": [
+          "done"
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "current": [
+          "n-browse"
+        ],
+        "target": [
+          "n-browse"
+        ]
+      },
+      {
+        "current": [
+          "n-order"
+        ],
+        "target": [
+          "n-order",
+          "n-validate"
+        ]
+      },
+      {
+        "current": [
+          "n-pay"
+        ],
+        "target": [
+          "n-pay"
+        ]
+      },
+      {
+        "current": [
+          "n-done"
+        ],
+        "target": [
+          "n-done"
+        ]
+      }
+    ],
+    "lanes": [
+      {
+        "current": [
+          "buyer"
+        ],
+        "target": [
+          "buyer"
+        ]
+      },
+      {
+        "current": [
+          "shop"
+        ],
+        "target": [
+          "shop"
+        ]
+      }
+    ]
+  }
+}

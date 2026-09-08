@@ -4,6 +4,7 @@ import { dirname, resolve, basename, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import Core from '../assets/map-core.js';
+import Comparison from '../assets/comparison-core.js';
 
 const statuses = new Set(Object.keys(Core.statusLabels));
 const cellFields = ['goal','action','channel','experience','barrier','opportunity','evidence','frontstage','backstage','support'];
@@ -31,7 +32,7 @@ export function validateMap(data) {
   check(data.locale === undefined || ['ru','en'].includes(data.locale), 'locale: use ru or en');
   if(data.mode === 'comparison') {
     check(data.current?.mode === 'current' && data.target?.mode === 'target', 'Comparison requires explicit current and target maps');
-    validateMap(data.current); validateMap(data.target); return data;
+    validateMap(data.current); validateMap(data.target); Comparison.validateComparison(data); return data;
   }
   for (const key of ['title','subtitle','actor','goal','disclaimer']) text(data[key], key, key === 'disclaimer' ? 700 : 200);
   check(!data.mode || ['current','target'].includes(data.mode), 'mode: use current, target or comparison');
@@ -115,13 +116,15 @@ export function inspectMap(data) {
     }
     const layout=Core.layoutProcess(map);if(layout)geometry.push({mode:map.mode||'unspecified',...layout.geometry});
   }
-  return {structure:{status:'checked',warnings},geometry:{status:geometry.some(g=>g.status==='failed')?'failed':'checked',maps:geometry},visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},reproducibility:{status:'not_checked'}};
+  const comparison=data.mode==='comparison'?Comparison.layoutComparison(data,Core):null;
+  const paired=comparison?{status:comparison.regions.some(r=>r.layout?.geometry.status==='failed')?'failed':'checked',scope:'Projected stage columns and lane slots; SVG text and visual review require browser checks',diagnostics:comparison.prepared.diagnostics,regions:comparison.regions.map(r=>({side:r.side,projection:r.projection,geometry:r.layout?.geometry||{status:'not_applicable'}}))}:undefined;
+  return {structure:{status:'checked',warnings},geometry:{status:geometry.some(g=>g.status==='failed')||paired?.status==='failed'?'failed':'checked',maps:geometry,...(paired?{comparison:paired}:{})},visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},reproducibility:{status:'not_checked'}};
 }
 function safeJSON(value) {return JSON.stringify(value).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');}
 export async function renderMap(data, options={}) {
   validateMap(data);
   let template=await readFile(options.template || new URL('../assets/map.html',import.meta.url),'utf8');
-  const files={'/*__CX_MAP_DATA__*/':safeJSON(data),'/*__CX_MAP_CORE__*/':await readFile(new URL('../assets/map-core.js',import.meta.url),'utf8'),'/*__CX_MAP_VIEWER__*/':await readFile(new URL('../assets/map-viewer.js',import.meta.url),'utf8')};
+  const files={'/*__CX_MAP_DATA__*/':safeJSON(data),'/*__CX_MAP_CORE__*/':(await Promise.all(['map-core.js','comparison-core.js'].map(name=>readFile(new URL('../assets/'+name,import.meta.url),'utf8')))).join('\n'),'/*__CX_MAP_VIEWER__*/':await readFile(new URL('../assets/map-viewer.js',import.meta.url),'utf8')};
   for(const [marker,content] of Object.entries(files)) {check(template.split(marker).length===2,`Template marker ${marker} must occur exactly once`);template=template.replace(marker,()=>content);}
   return template.replace('<html lang="ru">', `<html lang="${data.current?.locale||data.locale||'ru'}">`);
 }
@@ -138,7 +141,7 @@ export async function deliverMap(input, output, options={}) {
     if(previous) {
       check(!previous.templateCustom||options.template,'Existing bundle has a custom template. Use its rebuild.mjs or explicitly supply --template');
       for(const [name,hash] of Object.entries(previous.files||{})) {
-        check(['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/map-viewer.js','rebuild.mjs'].includes(name),'Invalid bundle manifest path');
+        check(['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/map-viewer.js','rebuild.mjs'].includes(name),'Invalid bundle manifest path');
         check(sha(await readFile(join(bundle,name)))===hash,`Local bundle file ${name} was edited. Use its rebuild.mjs or select a new output name`);
       }
     }
@@ -150,7 +153,7 @@ export async function deliverMap(input, output, options={}) {
   }
   if(options.bundle!==false) {
     await mkdir(join(bundle,'assets'),{recursive:true});await mkdir(join(bundle,'scripts'),{recursive:true});
-    const names=['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/map-viewer.js'],hashes={};
+    const names=['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/map-viewer.js'],hashes={};
     for(const name of names){const source=name==='assets/map.html'&&options.template?options.template:join(skillRoot,name);const bytes=await readFile(source);await writeFile(join(bundle,name),bytes);hashes[name]=sha(bytes);}
     const rebuild=`import { fileURLToPath } from 'node:url';\nimport { deliverMap } from './scripts/render-map.mjs';\nawait deliverMap(fileURLToPath(new URL(${JSON.stringify('../'+stem+'.json')},import.meta.url)),fileURLToPath(new URL(${JSON.stringify('../'+stem+'.html')},import.meta.url)),{bundle:false});\n`;
     await writeFile(join(bundle,'rebuild.mjs'),rebuild);

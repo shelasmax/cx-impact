@@ -1,0 +1,993 @@
+{
+  "version": 1,
+  "locale": "ru",
+  "mode": "comparison",
+  "current": {
+    "version": 1,
+    "locale": "ru",
+    "mode": "current",
+    "title": "Онлайн-продажи: заказ и оплата",
+    "subtitle": "Оригинальный синтетический сценарий; реальных наблюдений нет",
+    "actor": "Покупатель интернет-магазина",
+    "goal": "Оформить заказ и подтвердить оплату",
+    "disclaimer": "Синтетический авторский пример. Предложения целевого сценария не подтверждают результат. Частота и эмоции не выведены.",
+    "scope": {
+      "scenario": "Один онлайн-заказ",
+      "start": "Выбор товара",
+      "end": "Получение подтверждения",
+      "asOf": "2026-09-08"
+    },
+    "sources": [
+      {
+        "id": "brief",
+        "label": "Синтетическое описание сценария",
+        "text": "Авторский AS IS: оплата после ввода заказа; подтверждение требует одобрения платежа.",
+        "kind": "user-input"
+      }
+    ],
+    "stages": [
+      {
+        "id": "browse",
+        "title": "Выбрать товар",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выбрать товар",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "order",
+        "title": "Ввести заказ",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Ввести заказ",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "legacy",
+        "title": "Ручная заметка о заказе",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Ручная заметка о заказе",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "pay",
+        "title": "Оплатить",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Оплатить",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "done",
+        "title": "Подтверждение",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Подтверждение",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      }
+    ],
+    "process": {
+      "lanes": [
+        {
+          "id": "buyer",
+          "title": "Покупатель"
+        },
+        {
+          "id": "shop",
+          "title": "Сервис магазина"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n-browse",
+          "stageId": "browse",
+          "laneId": "buyer",
+          "title": "Выбрать товар",
+          "kind": "action",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-order",
+          "stageId": "order",
+          "laneId": "buyer",
+          "title": "Ввести заказ",
+          "kind": "action",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-legacy",
+          "stageId": "legacy",
+          "laneId": "shop",
+          "title": "Ручная заметка о заказе",
+          "kind": "action",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-pay",
+          "stageId": "pay",
+          "laneId": "buyer",
+          "title": "Оплатить",
+          "kind": "decision",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-done",
+          "stageId": "done",
+          "laneId": "shop",
+          "title": "Подтверждение",
+          "kind": "outcome",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-browse-order",
+          "from": "n-browse",
+          "to": "n-order",
+          "label": "Продолжить",
+          "condition": "Предыдущий шаг завершён",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-order-legacy",
+          "from": "n-order",
+          "to": "n-legacy",
+          "label": "Продолжить",
+          "condition": "Предыдущий шаг завершён",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-legacy-pay",
+          "from": "n-legacy",
+          "to": "n-pay",
+          "label": "Продолжить",
+          "condition": "Предыдущий шаг завершён",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-pay-done",
+          "from": "n-pay",
+          "to": "n-done",
+          "label": "Одобрение получено",
+          "condition": "Одобрение платежа записано",
+          "status": "declared",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ]
+    }
+  },
+  "target": {
+    "version": 1,
+    "locale": "ru",
+    "mode": "target",
+    "title": "Онлайн-продажи: заказ и оплата",
+    "subtitle": "Оригинальный синтетический сценарий; реальных наблюдений нет",
+    "actor": "Покупатель интернет-магазина",
+    "goal": "Оформить заказ и подтвердить оплату",
+    "disclaimer": "Синтетический авторский пример. Предложения целевого сценария не подтверждают результат. Частота и эмоции не выведены.",
+    "scope": {
+      "scenario": "Один онлайн-заказ",
+      "start": "Выбор товара",
+      "end": "Получение подтверждения",
+      "asOf": "2026-09-08"
+    },
+    "sources": [
+      {
+        "id": "brief",
+        "label": "Синтетическое описание сценария",
+        "text": "Авторское предложение TO BE: отдельная проверка заказа, повторная попытка и подтверждение только после одобрения провайдера.",
+        "kind": "requirement"
+      }
+    ],
+    "stages": [
+      {
+        "id": "browse",
+        "title": "Выбрать товар",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Выбрать товар",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "order",
+        "title": "Ввести заказ",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Ввести заказ",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "validate",
+        "title": "Проверить заказ",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Проверить заказ",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "pay",
+        "title": "Оплатить",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Оплатить",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "retry",
+        "title": "Повторить оплату",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Повторить оплату",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      },
+      {
+        "id": "done",
+        "title": "Подтверждение",
+        "goal": {
+          "text": "Завершить этот шаг заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "action": {
+          "text": "Подтверждение",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "channel": {
+          "text": "Интернет-магазин",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "evidence": {
+          "text": "Статус заказа на экране",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "frontstage": {
+          "text": "Показать данные заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "backstage": {
+          "text": "Сохранить состояние заказа",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        "support": {
+          "text": "Хранилище заказов",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      }
+    ],
+    "process": {
+      "lanes": [
+        {
+          "id": "buyer",
+          "title": "Покупатель"
+        },
+        {
+          "id": "shop",
+          "title": "Сервис магазина"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n-browse",
+          "stageId": "browse",
+          "laneId": "buyer",
+          "title": "Выбрать товар",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-order",
+          "stageId": "order",
+          "laneId": "buyer",
+          "title": "Ввести заказ",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-validate",
+          "stageId": "validate",
+          "laneId": "shop",
+          "title": "Проверить заказ",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-pay",
+          "stageId": "pay",
+          "laneId": "buyer",
+          "title": "Оплатить",
+          "kind": "decision",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-retry",
+          "stageId": "retry",
+          "laneId": "buyer",
+          "title": "Повторить оплату",
+          "kind": "action",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "n-done",
+          "stageId": "done",
+          "laneId": "shop",
+          "title": "Подтверждение",
+          "kind": "outcome",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-browse-order",
+          "from": "n-browse",
+          "to": "n-order",
+          "label": "Продолжить",
+          "condition": "Предыдущий шаг завершён",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-order-validate",
+          "from": "n-order",
+          "to": "n-validate",
+          "label": "Продолжить",
+          "condition": "Предыдущий шаг завершён",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-validate-pay",
+          "from": "n-validate",
+          "to": "n-pay",
+          "label": "Продолжить",
+          "condition": "Предыдущий шаг завершён",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-pay-retry",
+          "from": "n-pay",
+          "to": "n-retry",
+          "label": "Запрошен повтор",
+          "condition": "Провайдер не одобрил платёж; покупатель явно запрашивает повтор",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-retry-done",
+          "from": "n-retry",
+          "to": "n-done",
+          "label": "Продолжить",
+          "condition": "Предыдущий шаг завершён",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        },
+        {
+          "id": "e-paid",
+          "from": "n-pay",
+          "to": "n-done",
+          "label": "Одобрено",
+          "condition": "Провайдер подтвердил платёж, ссылка на заказ совпадает",
+          "status": "proposal",
+          "sourceIds": [
+            "brief"
+          ]
+        }
+      ]
+    }
+  },
+  "correspondence": {
+    "stages": [
+      {
+        "current": [
+          "browse"
+        ],
+        "target": [
+          "browse"
+        ]
+      },
+      {
+        "current": [
+          "order"
+        ],
+        "target": [
+          "order",
+          "validate"
+        ]
+      },
+      {
+        "current": [
+          "pay"
+        ],
+        "target": [
+          "pay"
+        ]
+      },
+      {
+        "current": [
+          "done"
+        ],
+        "target": [
+          "done"
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "current": [
+          "n-browse"
+        ],
+        "target": [
+          "n-browse"
+        ]
+      },
+      {
+        "current": [
+          "n-order"
+        ],
+        "target": [
+          "n-order",
+          "n-validate"
+        ]
+      },
+      {
+        "current": [
+          "n-pay"
+        ],
+        "target": [
+          "n-pay"
+        ]
+      },
+      {
+        "current": [
+          "n-done"
+        ],
+        "target": [
+          "n-done"
+        ]
+      }
+    ],
+    "lanes": [
+      {
+        "current": [
+          "buyer"
+        ],
+        "target": [
+          "buyer"
+        ]
+      },
+      {
+        "current": [
+          "shop"
+        ],
+        "target": [
+          "shop"
+        ]
+      }
+    ]
+  }
+}
