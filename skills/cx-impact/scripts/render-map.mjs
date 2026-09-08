@@ -129,7 +129,7 @@ export async function renderMap(data, options={}) {
   validateMap(data);
   let template=await readFile(options.template || new URL('../assets/map.html',import.meta.url),'utf8');
   const funnel=data.kind==='sales-funnel';
-  const runtime=(await Promise.all(['map-core.js','comparison-core.js',...(funnel?['funnel-core.js']:[])].map(name=>readFile(new URL('../assets/'+name,import.meta.url),'utf8')))).join('\n');
+  const runtime=(await Promise.all(['map-core.js','comparison-core.js','design-core.js',...(funnel?['funnel-core.js']:[])].map(name=>readFile(new URL('../assets/'+name,import.meta.url),'utf8')))).join('\n');
   const raw=funnel?Buffer.from(options.sourceBytes??JSON.stringify(data,null,2)+'\n').toString('base64'):null;
   const files={'/*__CX_MAP_DATA__*/':safeJSON(data),'/*__CX_MAP_CORE__*/':runtime+(funnel?'\nglobalThis.CXFunnelSourceBase64='+JSON.stringify(raw)+';':''),'/*__CX_MAP_VIEWER__*/':await readFile(new URL('../assets/'+(funnel?'funnel-viewer.js':'map-viewer.js'),import.meta.url),'utf8')};
   for(const [marker,content] of Object.entries(files)) {check(template.split(marker).length===2,`Template marker ${marker} must occur exactly once`);template=template.replace(marker,()=>content);}
@@ -148,7 +148,7 @@ export async function deliverMap(input, output, options={}) {
     if(previous) {
       check(!previous.templateCustom||options.template,'Existing bundle has a custom template. Use its rebuild.mjs or explicitly supply --template');
       for(const [name,hash] of Object.entries(previous.files||{})) {
-        check(['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/funnel-core.js','assets/funnel-viewer.js','assets/map-viewer.js','rebuild.mjs'].includes(name),'Invalid bundle manifest path');
+        check(['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/design-core.js','assets/funnel-core.js','assets/funnel-viewer.js','assets/map-viewer.js','rebuild.mjs'].includes(name),'Invalid bundle manifest path');
         check(sha(await readFile(join(bundle,name)))===hash,`Local bundle file ${name} was edited. Use its rebuild.mjs or select a new output name`);
       }
     }
@@ -160,7 +160,7 @@ export async function deliverMap(input, output, options={}) {
   }
   if(options.bundle!==false) {
     await mkdir(join(bundle,'assets'),{recursive:true});await mkdir(join(bundle,'scripts'),{recursive:true});
-    const names=['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/funnel-core.js','assets/funnel-viewer.js','assets/map-viewer.js'],hashes={};
+    const names=['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/design-core.js','assets/funnel-core.js','assets/funnel-viewer.js','assets/map-viewer.js'],hashes={};
     for(const name of names){const source=name==='assets/map.html'&&options.template?options.template:join(skillRoot,name);const bytes=await readFile(source);await writeFile(join(bundle,name),bytes);hashes[name]=sha(bytes);}
     const rebuild=`import { fileURLToPath } from 'node:url';\nimport { deliverMap } from './scripts/render-map.mjs';\nawait deliverMap(fileURLToPath(new URL(${JSON.stringify('../'+stem+'.json')},import.meta.url)),fileURLToPath(new URL(${JSON.stringify('../'+stem+'.html')},import.meta.url)),{bundle:false});\n`;
     await writeFile(join(bundle,'rebuild.mjs'),rebuild);

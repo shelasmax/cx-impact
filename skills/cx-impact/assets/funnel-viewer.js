@@ -1,13 +1,13 @@
 /* Autonomous funnel viewer in the shared CX Impact shell. MIT; see package LICENSE. */
 'use strict';
-const data=JSON.parse(document.getElementById('map-data').textContent),Funnel=globalThis.CXFunnel,Core=globalThis.CXMap;
+const data=JSON.parse(document.getElementById('map-data').textContent),Funnel=globalThis.CXFunnel,Core=globalThis.CXMap,Design=globalThis.CXDesign;
 const layout=Funnel.layoutFunnel(data),analysis=layout.analysis,$=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
 const bi=(ru,en)=>data.locale==='en'?en:ru,unknown=bi('Неизвестно','Unknown');
 const number=v=>v===null?unknown:new Intl.NumberFormat(data.locale).format(v),percent=v=>v===null?unknown:new Intl.NumberFormat(data.locale,{style:'percent',maximumFractionDigits:1}).format(v);
 const labels={stages:bi('Этапы','Stages'),flows:bi('Потоки','Flows'),table:bi('Таблица','Table')},outcomes={progress:bi('Продвинулись','Progress'),lost:bi('Потеря · задана','Lost · supplied'),pending:bi('Ожидание','Pending'),unknown};
 let view='stages',zoom=1,fitMode=false,focusReturn=null,svg=null,colors={},font='',themeChoice='system',designChoice='classic',walk=null,timer=null;
 const preference=matchMedia('(prefers-color-scheme: dark)'),reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const scopeText=()=>`${bi('Люди · закрытая когорта','People · closed cohort')} ${data.scope.cohortStart} — ${data.scope.cohortEnd} · ${data.scope.timezone} · ${bi('Срез','As of')} ${data.scope.asOf} · ${bi('Первая покупка: дней','First purchase: days')} ${data.scope.conversionDays}`;
+const scopeText=()=>`${bi('Люди · закрытая когорта','People · closed cohort')} ${data.scope.cohortStart} — ${data.scope.cohortEnd} · ${data.scope.timezone} · ${bi('Срез','As of')} ${data.scope.asOf} · ${bi('Окно первой покупки','First-purchase window')}: ${data.scope.conversionDays} ${bi('дней','days')}`;
 const limits=bi('Агрегаты и определения заданы автором. Идентификация, порядок событий и зрелость каждого человека независимо не проверены. Остаток означает «не продвинулись в окне», а не причину или потерю.','Aggregates and definitions are authored. Person-level identity, event order and maturity are not independently verified. Residual means not progressed within the window, not a cause or loss.');
 function element(tag,parent,attrs={}){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,String(v));if(parent)parent.append(n);return n;}
 function paragraph(parent,text,tag='p'){const p=document.createElement(tag);p.textContent=text;parent.append(p);return p;}
@@ -19,18 +19,90 @@ function details(item,body,flowNodeId=null){pause();$('detail-stage').textConten
 $('close').onclick=closeDetails;$('drawer-backdrop').onclick=closeDetails;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('drawer').hidden)closeDetails();});$('drawer').addEventListener('keydown',e=>{if(e.key!=='Tab')return;const list=[...$('drawer').querySelectorAll('button')],first=list[0],last=list.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}});
 const previousNumber=(s,v)=>s.previousApplicable?number(v):bi('— (вход)','— (entry)'),previousPercent=(s,v)=>s.previousApplicable?percent(v):bi('— (не применимо)','— (not applicable)');
 const stageBody=s=>`${s.definition}\n${bi('Людей','People')}: ${number(s.count)}\n${bi('От предыдущего','From previous')}: ${previousPercent(s,s.fromPrevious)} (${number(s.count)} / ${previousNumber(s,s.previousDenominator)})\n${bi('От входа','From entry')}: ${percent(s.fromEntry)} (${number(s.count)} / ${number(s.entryDenominator)})\n${bi('Не продвинулись в окне','Not progressed within window')}: ${previousNumber(s,s.notProgressed)}`;
-function drawStages(g){for(const s of layout.stages){const group=element('g',g,{'data-funnel-stage':s.id,'data-count':s.count===null?'unknown':s.count});text(group,s.title,32,s.y,250,18,colors.text,650);text(group,`${number(s.count)} ${bi('чел.','people')}`,310,s.y-10,760,19,colors.text,650);if(s.w>0)rect(group,s.x,s.y,s.w,s.h,colors.accent);else text(group,s.count===0?'0':unknown,s.x,s.y+23,740,16,colors.muted);text(group,`${bi('От предыдущего','From previous')}: ${previousPercent(s,s.fromPrevious)} (${previousNumber(s,s.previousDenominator)}) · ${bi('От входа','From entry')}: ${percent(s.fromEntry)} (${number(s.entryDenominator)})`,310,s.y+54,780,15);text(group,`${bi('Не продвинулись в окне','Not progressed within window')}: ${previousNumber(s,s.notProgressed)}`,310,s.y+80,780,14,colors.muted);activate(group,()=>details(s,stageBody(s)),`${s.title}: ${number(s.count)}`);}}
+function drawStages(g){
+  for(const s of layout.stages){
+    const group=element('g',g,{'data-funnel-stage':s.id,'data-count':s.count===null?'unknown':s.count});
+    if(designChoice!=='classic'){
+      rect(group,16,s.y-32,1088,120,colors.surface).setAttribute('data-design-group','stage');
+    }
+    text(group,s.title,32,s.y,250,18,colors.text,650);
+    group.querySelector('text').setAttribute('data-design-display','true');
+    text(group,`${number(s.count)} ${bi('чел.','people')}`,310,s.y-10,760,19,colors.text,650);
+    if(s.w>0)rect(group,s.x,s.y,s.w,s.h,colors.accent);
+    else text(group,s.count===0?'0':unknown,s.x,s.y+23,740,16,colors.muted);
+    const rates=`${bi('От предыдущего','From previous')}: ${previousPercent(s,s.fromPrevious)} (${previousNumber(s,s.previousDenominator)}) · ${bi('От входа','From entry')}: ${percent(s.fromEntry)} (${number(s.entryDenominator)})`;
+    text(group,rates,310,s.y+54,780,16);
+    text(group,`${bi('Не продвинулись в окне','Not progressed within window')}: ${previousNumber(s,s.notProgressed)}`,310,s.y+80,780,16,colors.muted);
+    activate(group,()=>details(s,stageBody(s)),`${s.title}: ${number(s.count)}`);
+  }
+}
 function flowColor(outcome){return colors[outcome||'accent']||colors.accent;}
 function drawFlows(g){const f=layout.flows;if(!f){text(g,bi('Данные переходов не заданы. Этапы не определяют потоки; используйте Этапы или Таблицу.','Transition data not supplied. Stage totals do not determine flows; use Stages or Table.'),32,60,1000,20);return;}
  for(const e of f.edges){const target=f.nodes.find(n=>n.id===e.to),group=element('g',g,{'data-funnel-edge':e.id,'data-count':e.value,'data-width':e.width});if(e.width>0){const p=element('path',group,{d:e.path,fill:flowColor(target.outcome),'fill-opacity':.4});p.setAttribute('data-ribbon','true');}else text(group,`${e.label}: 0`,e.x1+8,e.sy+18,250,12,colors.muted);const title=element('title',group);title.textContent=`${e.label}: ${number(e.value)}`;activate(group,()=>details(e,`${e.label}\n${number(e.value)} / ${number(e.denominator)} = ${percent(e.fromNode)}\n${bi('От подкогорты','From subset')}: ${number(e.value)} / ${number(analysis.graph.rootTotal)} = ${percent(e.fromScope)}\n${data.transitions.scope.description}`,e.to),title.textContent);}
- for(const n of f.nodes){const group=element('g',g,{'data-funnel-node':n.id,'data-count':n.value});if(n.h>0)rect(group,n.x,n.y,n.w,n.h,flowColor(n.outcome));else text(group,'0',n.x,n.y+18,40,14);const label=`${n.title} · ${number(n.value)}`,labelHeight=Core.wrap(label,300,16).length*22.4;rect(group,n.x-4,n.y-labelHeight-40,310,labelHeight+38,colors.surface);text(group,label,n.x,n.y-labelHeight-18,300,16,colors.text,650);text(group,n.outcome?outcomes[n.outcome]:analysis.graph.roots.includes(n.id)?bi('Вход подкогорты','Subset entry'):bi('Промежуточный узел','Intermediate node'),n.x,n.y-16,300,13,colors.muted);activate(group,()=>details(n,`${n.title}: ${number(n.value)}\n${n.outcome?outcomes[n.outcome]:bi('Входящий и исходящий объём сбалансированы','Incoming and outgoing values conserve flow')}\n${data.transitions.scope.denominator}\n${data.transitions.scope.description}`,n.id),`${n.title}: ${number(n.value)}`);}
+ for(const n of f.nodes){const group=element('g',g,{'data-funnel-node':n.id,'data-count':n.value});if(n.h>0)rect(group,n.x,n.y,n.w,n.h,flowColor(n.outcome));else text(group,'0',n.x,n.y+18,40,14);const label=`${n.title} · ${number(n.value)}`,labelHeight=Core.wrap(label,300,16).length*22.4;rect(group,n.x-4,n.y-labelHeight-40,310,labelHeight+38,colors.surface).setAttribute('data-design-group','label');text(group,label,n.x,n.y-labelHeight-18,300,16,colors.text,650);text(group,n.outcome?outcomes[n.outcome]:analysis.graph.roots.includes(n.id)?bi('Вход подкогорты','Subset entry'):bi('Промежуточный узел','Intermediate node'),n.x,n.y-16,300,16,colors.muted);activate(group,()=>details(n,`${n.title}: ${number(n.value)}\n${n.outcome?outcomes[n.outcome]:bi('Входящий и исходящий объём сбалансированы','Incoming and outgoing values conserve flow')}\n${data.transitions.scope.denominator}\n${data.transitions.scope.description}`,n.id),`${n.title}: ${number(n.value)}`);}
 }
 function table(){const wrapper=document.createElement('div');wrapper.className='funnel-table';const table=document.createElement('table');wrapper.append(table);const caption=document.createElement('caption');caption.textContent=bi('Исходные количества и явные знаменатели. Неизвестно ≠ 0.','Raw counts and explicit denominators. Unknown ≠ 0.');table.append(caption);const head=table.createTHead().insertRow();for(const label of [bi('Этап / поток','Stage / flow'),bi('Людей','People'),bi('Предыдущий / узел','Previous / node'),bi('Вход / подкогорта','Entry / subset'),bi('От предыдущего','From previous'),bi('От входа','From entry'),bi('Не продвинулись в окне','Not progressed within window')]){const th=document.createElement('th');th.scope='col';th.textContent=label;head.append(th);}const body=table.createTBody();function row(item,values,description){const tr=body.insertRow();const td=tr.insertCell(),button=document.createElement('button');button.className='tool';button.textContent=item.title||item.label;button.onclick=()=>{focusReturn=button;details(item,description);};td.append(button);for(const v of values)tr.insertCell().textContent=v;}
  for(const s of analysis.stages)row(s,[number(s.count),previousNumber(s,s.previousDenominator),number(s.entryDenominator),previousPercent(s,s.fromPrevious),percent(s.fromEntry),previousNumber(s,s.notProgressed)],stageBody(s));for(const e of analysis.graph?.edges||[])row(e,[number(e.value),number(e.denominator),number(analysis.graph.rootTotal),percent(e.fromNode),percent(e.fromScope),'—'],`${e.label}\n${data.transitions.scope.description}`);$('viewport').append(wrapper);}
 function repeatText(){const r=analysis.repeat;return r?`${bi('Повторная покупка','Repeat purchase')}: ${number(r.purchased)} / ${number(r.eligible)} = ${percent(r.rate)} · ${bi('Окно, дней','Window, days')}: ${r.windowDays} · ${bi('Ожидают полного окна','Await full window')}: ${number(r.pending)}. ${r.definition}`:bi('Повторная покупка: данные не заданы.','Repeat purchase: no data supplied.');}
-function render(){closeDetails();$('viewport').replaceChildren();$('viewport').scrollTop=0;$('viewport').scrollLeft=0;svg=null;document.querySelectorAll('[data-funnel-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.funnelView===view)));$('view-title').textContent=labels[view];$('map-panel').setAttribute('aria-labelledby','funnel-tab-'+view);$('export').disabled=view==='table';$('export').title=view==='table'?bi('SVG доступен в Этапах и Потоках; таблицу экспортируйте в CSV.','SVG is available in Stages and Flows; export the table as CSV.'):'';$('path-toggle').disabled=view!=='flows'||!layout.flows;$('legend').textContent=bi('Остаток ≠ потеря · причины не выведены','Residual ≠ loss · no inferred causes');
- if(view==='table')table();else{const width=view==='flows'&&layout.flows?layout.flows.width:layout.width;svg=element('svg',$('viewport'),{xmlns:NS,role:'img','aria-label':data.title,'data-funnel-view':view,width});rect(svg,0,0,width,1,colors.surface).setAttribute('data-background','true');let y=45;y+=text(svg,data.title,32,y,width-64,26,colors.text,700)+12;y+=text(svg,scopeText(),32,y,width-64,15,colors.muted)+12;if(view==='flows'&&data.transitions){y+=text(svg,`${data.transitions.scope.denominator} · ${data.transitions.scope.description}`,32,y,width-64,16)+15;}const group=element('g',svg,{transform:`translate(0 ${y})`,'data-funnel-body':'true'});if(view==='stages')drawStages(group);else drawFlows(group);y+=(view==='stages'?layout.height:layout.flows?.height||130)+40;if(view==='flows'&&analysis.graph){y+=text(svg,bi('Переходы · авторские данные','Transitions · authored data'),32,y,width-64,18,colors.text,700)+18;for(const e of analysis.graph.edges)y+=text(svg,`${e.label}: ${number(e.value)} / ${number(e.denominator)} = ${percent(e.fromNode)} · ${bi('От подкогорты','From subset')}: ${percent(e.fromScope)} · [${e.sourceIds.join(', ')}]`,32,y,width-64,15)+12;y+=18;}y+=text(svg,data.scope.identityRule,32,y,width-64,14)+10;y+=text(svg,data.scope.orderRule,32,y,width-64,14)+20;y+=text(svg,repeatText(),32,y,width-64,16)+22;y+=text(svg,limits,32,y,width-64,14,colors.muted)+22;y+=text(svg,bi('Источники','Sources'),32,y,width-64,18,colors.text,700)+15;for(const s of data.sources)y+=text(svg,`[${s.id}] ${s.label} · ${s.kind}: ${s.text}`,32,y,width-64,14)+12;y+=text(svg,data.disclaimer,32,y,width-64,14,colors.muted)+20;text(svg,'CX Impact · MIT License · Copyright (c) 2026 CX Impact contributors',32,y,width-64,12,colors.muted);y+=45;svg.setAttribute('viewBox',`0 0 ${width} ${y}`);svg.dataset.naturalWidth=width;svg.dataset.naturalHeight=y;svg.querySelector('[data-background]').setAttribute('height',y);}
- $('stage-count').textContent=`${data.stages.length} ${bi('этапов','stages')}`;size();updateWalk();window.cxFunnelChecks={structure:{status:'checked'},geometry:layout.geometry,visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},view};}
+function render(){
+  closeDetails();
+  $('viewport').replaceChildren();
+  $('viewport').scrollTop=0;
+  $('viewport').scrollLeft=0;
+  svg=null;
+  document.querySelectorAll('[data-funnel-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.funnelView===view)));
+  $('view-title').textContent=labels[view];
+  $('map-panel').setAttribute('aria-labelledby','funnel-tab-'+view);
+  $('export').disabled=view==='table';
+  $('export').title=view==='table'?bi('SVG доступен в Этапах и Потоках; таблицу экспортируйте в CSV.','SVG is available in Stages and Flows; export the table as CSV.'):'';
+  $('path-toggle').disabled=view!=='flows'||!layout.flows;
+  $('legend').textContent=bi('Остаток ≠ потеря · причины не выведены','Residual ≠ loss · no inferred causes');
+  if(view==='table')table();
+  else {
+    const width=view==='flows'&&layout.flows?layout.flows.width:layout.width;
+    svg=element('svg',$('viewport'),{xmlns:NS,role:'img','aria-label':data.title,'data-funnel-view':view,width});
+    element('title',svg).textContent=data.title;
+    element('desc',svg).textContent=scopeText();
+    rect(svg,0,0,width,1,colors.surface).setAttribute('data-background','true');
+    // Full scope stays visible in the footer and exports; the chart opens with its counting unit.
+    let y=30;
+    y+=text(svg,data.title,32,y,width-64,20,colors.text,700)+8;
+    svg.querySelector('text').setAttribute('data-design-display','true');
+    if(view==='flows'&&data.transitions)y+=text(svg,data.transitions.scope.denominator,32,y,width-64,16,colors.muted)+8;
+    const group=element('g',svg,{transform:`translate(0 ${y})`,'data-funnel-body':'true'});
+    if(view==='stages')drawStages(group);else drawFlows(group);
+    y+=(view==='stages'?layout.height:layout.flows?.height||130)+40;
+    y+=text(svg,data.title,32,y,width-64,26,colors.text,700)+18;
+    svg.lastElementChild.setAttribute('data-design-display','true');
+    y+=text(svg,scopeText(),32,y,width-64,16,colors.muted)+18;
+    if(view==='flows'&&data.transitions)y+=text(svg,data.transitions.scope.description,32,y,width-64,16)+18;
+    if(view==='flows'&&analysis.graph){
+      y+=text(svg,bi('Переходы · авторские данные','Transitions · authored data'),32,y,width-64,18,colors.text,700)+18;
+      for(const e of analysis.graph.edges){
+        const label=`${e.label}: ${number(e.value)} / ${number(e.denominator)} = ${percent(e.fromNode)} · ${bi('От подкогорты','From subset')}: ${percent(e.fromScope)} · [${e.sourceIds.join(', ')}]`;
+        y+=text(svg,label,32,y,width-64,16)+12;
+      }
+      y+=18;
+    }
+    y+=text(svg,data.scope.identityRule,32,y,width-64,16)+10;
+    y+=text(svg,data.scope.orderRule,32,y,width-64,16)+20;
+    y+=text(svg,repeatText(),32,y,width-64,16)+22;
+    y+=text(svg,limits,32,y,width-64,16,colors.muted)+22;
+    y+=text(svg,bi('Источники','Sources'),32,y,width-64,18,colors.text,700)+15;
+    for(const s of data.sources)y+=text(svg,`[${s.id}] ${s.label} · ${s.kind}: ${s.text}`,32,y,width-64,16)+12;
+    y+=text(svg,data.disclaimer,32,y,width-64,16,colors.muted)+20;
+    text(svg,'CX Impact · MIT License · Copyright (c) 2026 CX Impact contributors',32,y,width-64,12,colors.muted);
+    y+=45;
+    svg.setAttribute('viewBox',`0 0 ${width} ${y}`);
+    svg.dataset.naturalWidth=width;
+    svg.dataset.naturalHeight=y;
+    svg.querySelector('[data-background]').setAttribute('height',y);
+    Design.apply(svg,designChoice,getComputedStyle(document.documentElement));
+  }
+  $('stage-count').textContent=`${data.stages.length} ${bi('этапов','stages')}`;
+  size();updateWalk();
+  window.cxFunnelChecks={structure:{status:'checked'},geometry:layout.geometry,visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},view};
+}
 function size(){if(svg){if(fitMode)zoom=Math.min(1,($('viewport').clientWidth-32)/Number(svg.dataset.naturalWidth));svg.setAttribute('width',Number(svg.dataset.naturalWidth)*zoom);svg.setAttribute('height',Number(svg.dataset.naturalHeight)*zoom);}$('scale').textContent=Math.round(zoom*100)+'%';}
 function pause(){clearTimeout(timer);timer=null;$('path-play').setAttribute('aria-pressed','false');}
 function resetWalk(){pause();walk=analysis.graph?.roots[0]||null;updateWalk();}
@@ -41,8 +113,8 @@ function download(bytes,type,name){const blob=new Blob([bytes],{type}),url=URL.c
 $('source').onclick=()=>download(Uint8Array.from(atob(globalThis.CXFunnelSourceBase64),c=>c.charCodeAt(0)),'application/json','cx-impact-funnel.json');
 $('export').onclick=()=>{if(!svg)return;const clone=svg.cloneNode(true);for(const n of clone.querySelectorAll('[tabindex],[data-walk]')){n.removeAttribute('tabindex');n.removeAttribute('data-walk');n.removeAttribute('style');}clone.setAttribute('width',svg.dataset.naturalWidth);clone.setAttribute('height',svg.dataset.naturalHeight);download('<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(clone),'image/svg+xml',`cx-impact-funnel-${view}.svg`);};
 function applyAppearance(){document.documentElement.dataset.theme=themeChoice==='system'?(preference.matches?'dark':'light'):themeChoice;document.documentElement.dataset.design=designChoice;const css=getComputedStyle(document.documentElement);font=css.getPropertyValue('--font-body').trim()||'sans-serif';colors=Object.fromEntries(Object.entries({text:'fg',muted:'muted',surface:'surface',accent:'accent',progress:'evidence',lost:'danger',pending:'hypothesis',unknown:'unknown'}).map(([k,v])=>[k,css.getPropertyValue('--'+v).trim()||css.getPropertyValue('--accent').trim()]));document.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===themeChoice)));document.querySelectorAll('[data-design-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.designChoice===designChoice)));render();}
-try{const s=localStorage.getItem('cx-impact-theme');if(['light','dark','system'].includes(s))themeChoice=s;const d=localStorage.getItem('cx-impact-design');if(['classic','graphite'].includes(d))designChoice=d;}catch{}
-for(const b of document.querySelectorAll('[data-theme-choice]'))b.onclick=()=>{themeChoice=b.dataset.themeChoice;try{localStorage.setItem('cx-impact-theme',themeChoice);}catch{}applyAppearance();};for(const b of document.querySelectorAll('[data-design-choice]'))b.onclick=()=>{designChoice=b.dataset.designChoice;try{localStorage.setItem('cx-impact-design',designChoice);}catch{}applyAppearance();};preference.addEventListener('change',()=>{if(themeChoice==='system')applyAppearance();});reduced.addEventListener('change',()=>{pause();updateWalk();});
+themeChoice=Design.readChoice('theme');designChoice=Design.readChoice('design');
+for(const b of document.querySelectorAll('[data-theme-choice]'))b.onclick=()=>{themeChoice=b.dataset.themeChoice;Design.saveChoice('theme',themeChoice);applyAppearance();};for(const b of document.querySelectorAll('[data-design-choice]'))b.onclick=()=>{designChoice=b.dataset.designChoice;Design.saveChoice('design',designChoice);applyAppearance();};preference.addEventListener('change',()=>{if(themeChoice==='system')applyAppearance();});reduced.addEventListener('change',()=>{pause();updateWalk();});
 for(const n of document.querySelectorAll('[data-i18n]'))n.textContent=Core.translate(n.dataset.i18n,data);for(const n of document.querySelectorAll('[data-i18n-aria]'))n.setAttribute('aria-label',Core.translate(n.dataset.i18nAria,data));
 $('title').textContent=data.title;document.title=`CX Impact · ${data.title}`;$('subtitle').textContent=data.subtitle;$('scope').textContent=scopeText();$('map-mode').textContent=bi('Количественная воронка · люди','Quantitative funnel · people');document.querySelector('.actor').hidden=true;$('disclaimer').textContent=data.disclaimer;$('goal').textContent='';$('comparison-switch').hidden=true;
 const tabs=document.querySelector('.tabs');tabs.replaceChildren();for(const [key,label]of Object.entries(labels)){const b=document.createElement('button');b.className='tab';b.id='funnel-tab-'+key;b.dataset.funnelView=key;b.setAttribute('role','tab');b.textContent=label;b.onclick=()=>{pause();walk=null;$('journey-player').hidden=true;$('path-toggle').setAttribute('aria-expanded','false');view=key;render();};tabs.append(b);}tabs.setAttribute('aria-label',bi('Вид воронки','Funnel view'));tabs.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const buttons=[...tabs.children],i=buttons.indexOf(document.activeElement),next=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3;buttons[next].click();buttons[next].focus();});

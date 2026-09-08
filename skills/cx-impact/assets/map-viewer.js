@@ -3,7 +3,7 @@ const originalData=JSON.parse(document.getElementById('map-data').textContent);
 const Core=globalThis.CXMap, $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
 const scenarioData=key=>({...originalData[key],locale:originalData[key].locale||originalData.locale});
 let data=originalData.mode==='comparison'?scenarioData('current'):originalData;
-const Comparison=globalThis.CXComparison;
+const Comparison=globalThis.CXComparison,Design=globalThis.CXDesign;
 const pairLayout=originalData.mode==='comparison'?Comparison.layoutComparison(originalData,Core):null;
 let comparing=false,renderingSide=null;
 const bilingual=(ru,en)=>data.locale==='en'?en:ru;
@@ -100,8 +100,10 @@ function createSvg(contentHeight,width=LEFT+COL*stageCount()+32){
   txt(svg,modeLabel(data.mode),8,54,{size:10,width:175,fill:colors.muted});
   data.stages.forEach((stage,i)=>{
     const classic=designChoice==='classic',x=LEFT+stageColumn(stage)*COL,g=el('g',{'data-card':'stage','data-stage':stage.id},svg);
-    rect(g,x,10,COL-GAP,TOP-30,classic?(i===0?colors.accentSoft:colors.stage):colors.surface,classic?colors.border:'none');
-    txt(g,String(i+1).padStart(2,'0'),x+14,31,{size:classic?11:22,fill:colors.accent,family:classic?font:'Georgia, serif'});txt(g,stage.title,x+14,55,{size:17,weight:600,width:COL-42});
+    rect(g,x,10,COL-GAP,TOP-30,classic?(i===0?colors.accentSoft:colors.stage):colors.surface,classic?colors.border:'none').setAttribute('data-design-group','stage');
+    txt(g,String(i+1).padStart(2,'0'),x+14,31,{size:classic?11:22,fill:colors.accent,family:classic?font:designChoice==='signal'?'monospace':'Georgia, serif',class:'stage-index'});
+    g.querySelector('.stage-index').setAttribute('data-design-index','true');
+    txt(g,stage.title,x+14,55,{size:17,weight:600,width:COL-42});
     if(comparing){const group=pairLayout.prepared.groups.stages.find(g=>g[renderingSide].includes(stage.id));g.dataset.comparisonGroup=group.id;txt(g,comparisonLabel(group),x+14,TOP-43,{size:10,width:COL-42,fill:colors.muted});}
     activate(g,()=>openDrawer(stage,stage.title,cell(stage,'goal'),{barriers:Core.barriersFor(data,stage)}),stage.title);
     if(!comparing&&i<data.stages.length-1)el('path',{d:`M${x+COL-GAP+2} 48 h8`,stroke:colors.strong,'stroke-width':1.2,'marker-end':`url(#${markerId('flow')})`},svg);
@@ -176,7 +178,7 @@ function renderProcess(){
   if(!data.process){const svg=createSvg(290);txt(svg,t('Участники и переходы не описаны.'),LEFT,TOP+45,{size:22,width:700});txt(svg,t('Нужно уточнить: кто выполняет шаг, что передаёт и кому.'),LEFT,TOP+85,{size:16,width:900});footer(svg,275);return svg;}
   layout=comparing?pairLayout.regions.find(r=>r.side===renderingSide).layout:Core.layoutProcess(data);const svg=createSvg(layout.height+20,layout.width);
   for(const lane of layout.lanes){
-    rect(svg,0,lane.y,layout.width-8,lane.h,lane===layout.lanes[0]?colors.surface:colors.subtle,'none',6);
+    rect(svg,0,lane.y,layout.width-8,lane.h,lane===layout.lanes[0]?colors.surface:colors.subtle,'none',6).setAttribute('data-design-group','lane');
     txt(svg,lane.title,10,lane.y+35,{size:14,weight:600,width:166});
     if(lane.role)txt(svg,lane.role,10,lane.y+88,{size:11,width:170,fill:colors.muted});
   }
@@ -192,7 +194,13 @@ function renderProcess(){
       const b=edge.labelBox,g=el('g',{'data-edge-label':edge.id},edges);rect(g,b.x,b.y,b.w,b.h,colors.raised,colors.border,4);
       txt(g,(b.callout?edge.id+': ':'')+edge.label,b.x+8,b.y+19,{size:12,lh:17,lines:b.lines,width:b.w-16,fill:style.color});
       activate(g,show,description);
-      for(const target of [g,path]){target.addEventListener('mouseenter',()=>path.setAttribute('stroke-width',4));target.addEventListener('mouseleave',()=>path.setAttribute('stroke-width',2));target.addEventListener('focus',()=>path.setAttribute('stroke-width',4));target.addEventListener('blur',()=>path.setAttribute('stroke-width',2));}
+      for(const target of [g,path]){
+        const restoreStroke=()=>path.setAttribute('stroke-width',path.getAttribute('data-static-stroke-width')||2);
+        target.addEventListener('mouseenter',()=>path.setAttribute('stroke-width',4));
+        target.addEventListener('mouseleave',restoreStroke);
+        target.addEventListener('focus',()=>path.setAttribute('stroke-width',4));
+        target.addEventListener('blur',restoreStroke);
+      }
     }
   }
   for(const node of layout.nodes){
@@ -311,7 +319,9 @@ function render(){
   closeDrawer(false);layout=null;updateHeading();$('view-title').textContent=t(viewNames[view]);
   TOP=comparing?pairLayout.top:Math.max(120,...data.stages.map(s=>wrap(s.title,COL-42,17).length*24+66));
   document.querySelectorAll('[data-view]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.view===view));b.tabIndex=b.dataset.view===view?0:-1;b.setAttribute('aria-controls','map-panel');});
-  $('map-panel').setAttribute('aria-labelledby',`tab-${view}`);$('viewport').replaceChildren(comparing?renderComparison():view==='process'?renderProcess():renderGrid());$('comparison-navigation').hidden=!comparing;if($('path-toggle'))$('path-toggle').disabled=comparing;renderLegend();setScale();$('viewport').scrollTo(0,0);checkRenderedGeometry();updateWalk();
+  $('map-panel').setAttribute('aria-labelledby',`tab-${view}`);$('viewport').replaceChildren(comparing?renderComparison():view==='process'?renderProcess():renderGrid());
+  Design.apply($('viewport').querySelector('svg'),designChoice,getComputedStyle(document.documentElement));
+  $('comparison-navigation').hidden=!comparing;if($('path-toggle'))$('path-toggle').disabled=comparing;renderLegend();setScale();$('viewport').scrollTo(0,0);checkRenderedGeometry();updateWalk();
 }
 for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>{view=b.dataset.view;render();};
 document.querySelector('.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const keys=['cjm','blueprint','process'],i=keys.indexOf(view);view=keys[e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3];render();$(`tab-${view}`).focus();});
@@ -341,7 +351,7 @@ function exportedSVG(){
   const svg=$('viewport').querySelector('svg').cloneNode(true);svg.removeAttribute('style');svg.removeAttribute('data-walk');
   for(const n of svg.querySelectorAll('[data-viewer-only], style'))n.remove();
   for(const n of svg.querySelectorAll('[data-active], [data-traced], [data-counterpart]')){n.removeAttribute('data-active');n.removeAttribute('data-traced');n.removeAttribute('data-counterpart');}
-  for(const path of svg.querySelectorAll('[data-edge]'))path.setAttribute('stroke-width',2);
+  for(const path of svg.querySelectorAll('[data-edge]'))path.setAttribute('stroke-width',path.getAttribute('data-static-stroke-width')||2);
   for(const n of svg.querySelectorAll('[tabindex]')){n.removeAttribute('tabindex');n.removeAttribute('role');n.removeAttribute('style');}
   return new XMLSerializer().serializeToString(svg);
 }
@@ -451,9 +461,7 @@ function initWalk(){
 }
 
 const themePreference=window.matchMedia('(prefers-color-scheme: dark)');
-let themeChoice='system',designChoice='classic';
-try{const saved=localStorage.getItem('cx-impact-theme');if(['light','dark','system'].includes(saved))themeChoice=saved;}catch{}
-try{const saved=localStorage.getItem('cx-impact-design');if(['classic','graphite'].includes(saved))designChoice=saved;}catch{}
+let themeChoice=Design.readChoice('theme'),designChoice=Design.readChoice('design');
 function resolvedTheme(){return themeChoice==='system'?(themePreference.matches?'dark':'light'):themeChoice;}
 function readTheme(){
   const css=getComputedStyle(document.documentElement);
@@ -475,8 +483,8 @@ function applyTheme(redraw=true){
 }
 function initTheme(){
   applyTheme(false);
-  for(const b of document.querySelectorAll('[data-theme-choice]'))b.onclick=()=>{themeChoice=b.dataset.themeChoice;try{localStorage.setItem('cx-impact-theme',themeChoice);}catch{}applyTheme();};
-  for(const b of document.querySelectorAll('[data-design-choice]'))b.onclick=()=>{designChoice=b.dataset.designChoice;try{localStorage.setItem('cx-impact-design',designChoice);}catch{}applyTheme();};
+  for(const b of document.querySelectorAll('[data-theme-choice]'))b.onclick=()=>{themeChoice=b.dataset.themeChoice;Design.saveChoice('theme',themeChoice);applyTheme();};
+  for(const b of document.querySelectorAll('[data-design-choice]'))b.onclick=()=>{designChoice=b.dataset.designChoice;Design.saveChoice('design',designChoice);applyTheme();};
   themePreference.addEventListener('change',()=>{if(themeChoice==='system')applyTheme();});
 }
 
