@@ -26,7 +26,8 @@
     }
     return data;
   }
-  // Content comparison deliberately excludes identity and positioning. Source bodies
+  // Content comparison excludes coordinates and raw identity. Node assignments are
+  // compared separately through explicit correspondence below. Source bodies
   // and linked barrier content participate, so a reused source ID cannot hide changes.
   const placement=new Set(['id','x','y','w','h','row','col','stageId','laneId']);
   function content(value,map){
@@ -42,9 +43,9 @@
     return out;
   }
   function facets(value){
-    const out={text:[],status:[],sources:[],conditions:[],other:[]};
+    const out={text:[],status:[],sources:[],conditions:[],assignments:[],other:[]};
     function visit(v,path=''){
-      if(v&&typeof v==='object'){for(const [k,x]of Object.entries(v)){if(k==='sources')out.sources.push([path,x]);else if(k==='condition'||(path.includes('.outgoing')&&['label','to','kind'].includes(k)))out.conditions.push([path,k,x]);else if(k==='status')out.status.push([path,x]);else if(['text','title','detail','label'].includes(k))out.text.push([path,k,x]);else visit(x,path+'.'+k);}}
+      if(v&&typeof v==='object'){for(const [k,x]of Object.entries(v)){if(k==='sources')out.sources.push([path,x]);else if(k==='assignments')out.assignments.push([path,x]);else if(k==='condition'||(path.includes('.outgoing')&&['label','to','kind'].includes(k)))out.conditions.push([path,k,x]);else if(k==='status')out.status.push([path,x]);else if(['text','title','detail','label'].includes(k))out.text.push([path,k,x]);else visit(x,path+'.'+k);}}
       else out.other.push([path,v]);
     }visit(value);return out;
   }
@@ -59,9 +60,9 @@
       const ordered=[];while(ordered.length<list.length){let next=list.find(g=>!ordered.includes(g)&&indegree.get(g)===0);if(!next){next=list.find(g=>!ordered.includes(g));diagnostics.push({code:'ALIGNMENT_ORDER_CONFLICT',kind,group:next.id,message:'Correspondence conflicts with authored order; alignment order is not an execution sequence.'});}ordered.push(next);for(const b of links.get(next))indegree.set(b,indegree.get(b)-1);}
       let start=0;groups[kind]=ordered.map(g=>{for(const side of sides)g[side].sort((a,b)=>items(data[side],kind).findIndex(x=>x.id===a)-items(data[side],kind).findIndex(x=>x.id===b));const span=Math.max(g.current.length,g.target.length);return {...g,start:(start+=span)-span,span};});
     }
-    function nodeKey(id,side){const g=groups.nodes.find(g=>g[side].includes(id));return g?.match==='explicit'?g.id:`${side}:${id}`;}
+    function assignmentKey(kind,id,side){const g=groups[kind].find(g=>g[side].includes(id));return g?.match==='explicit'?g.id:`${side}:${id}`;}
     for(const kind of kinds)for(const g of groups[kind]){
-      const values=sides.map(side=>g[side].map(id=>{const item=items(data[side],kind).find(x=>x.id===id),v=content(item,data[side]);if(kind==='nodes')v.outgoing=(data[side].process?.edges||[]).filter(e=>e.from===id).map(e=>({...content(e,data[side]),from:undefined,to:nodeKey(e.to,side)}));return v;}));
+      const values=sides.map(side=>g[side].map(id=>{const item=items(data[side],kind).find(x=>x.id===id),v=content(item,data[side]);if(kind==='nodes'){v.assignments={stage:assignmentKey('stages',item.stageId,side),lane:assignmentKey('lanes',item.laneId,side)};v.outgoing=(data[side].process?.edges||[]).filter(e=>e.from===id).map(e=>({...content(e,data[side]),from:undefined,to:assignmentKey('nodes',e.to,side)}));}return v;}));
       g.status=!g.current.length?'only-in-target':!g.target.length?'only-in-current':JSON.stringify(values[0])===JSON.stringify(values[1])?'unchanged':'changed';
       const f=values.map(facets);g.changes=g.status==='changed'?Object.keys(f[0]).filter(k=>JSON.stringify(f[0][k])!==JSON.stringify(f[1][k])):[];
     }

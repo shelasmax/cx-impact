@@ -879,8 +879,8 @@
           "id": "e-retry-done",
           "from": "n-retry",
           "to": "n-done",
-          "label": "Continue",
-          "condition": "Previous step completed",
+          "label": "Approved",
+          "condition": "Payment provider confirms payment and order reference matches",
           "status": "proposal",
           "sourceIds": [
             "brief"

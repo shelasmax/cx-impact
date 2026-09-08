@@ -17,3 +17,21 @@ test('shared projection aligns process columns and lanes without mutating scenar
 test('contradictory authored order is diagnosed and never loses a group',async()=>{const C=await load(),m=matched();m.target.stages.reverse();const r=C.prepareComparison(m);assert.ok(r.diagnostics.some(d=>d.code==='ALIGNMENT_ORDER_CONFLICT'));assert.equal(r.groups.stages.length,m.current.stages.length);});
 test('public RU/EN synthetic scenarios preserve splits, unmatched stages and changed branch conditions',async()=>{const C=await load();for(const locale of ['ru','en']){const m=JSON.parse(await readFile(new URL(`../skills/cx-impact/examples/scenarios/online-sales.${locale}.json`,import.meta.url),'utf8'));validateMap(m);const r=C.prepareComparison(m);assert.ok(r.groups.stages.some(g=>g.current.length===1&&g.target.length===2));assert.ok(r.groups.stages.some(g=>g.status==='only-in-current'));assert.ok(r.groups.stages.some(g=>g.status==='only-in-target'));assert.ok(r.groups.nodes.some(g=>g.changes.includes('conditions')));assert.equal(inspectMap(m).geometry.status,'checked');}});
 test('optional projection does not change ordinary handling of extra authored lane fields',async()=>{const {default:Core}=await import('../skills/cx-impact/assets/map-core.js'),m=fixture().current,before=Core.layoutProcess(m);m.process.lanes[0].height=999;assert.deepEqual(Core.layoutProcess(m),{...before,lanes:before.lanes.map((lane,i)=>i?lane:{...lane,height:999})});});
+test('semantic node assignments change independently of coordinates and normalize explicit counterpart IDs',async()=>{
+  const C=await load();
+  for(const [field,kind]of [['laneId','lanes'],['stageId','stages']]){
+    const m=matched(),node=m.target.process.nodes[0],original=node[field];
+    const records=kind==='stages'?m.target.stages:m.target.process.lanes;
+    node[field]=records.find(x=>x.id!==original).id;
+    const changed=C.prepareComparison(m).groups.nodes.find(g=>g.target.includes(node.id));
+    assert.equal(changed.status,'changed',`${field} reassignment is content`);
+    assert.ok(changed.changes.includes('assignments'));
+    const renamed=matched(),record=(kind==='stages'?renamed.target.stages:renamed.target.process.lanes).find(x=>x.id===original),newId=original+'-renamed';
+    record.id=newId;for(const n of renamed.target.process.nodes)if(n[field]===original)n[field]=newId;
+    const correspondence=renamed.correspondence[kind].find(g=>g.target.includes(original));correspondence.target=correspondence.target.map(id=>id===original?newId:id);
+    assert.ok(C.prepareComparison(renamed).groups.nodes.every(g=>g.status==='unchanged'),`${field} corresponding ID rename is not content`);
+  }
+});
+test('retry confirmation requires the same explicit provider approval as direct confirmation in both fixtures',async()=>{
+  for(const locale of ['en','ru']){const m=JSON.parse(await readFile(new URL(`../skills/cx-impact/examples/scenarios/online-sales.${locale}.json`,import.meta.url),'utf8')),retry=m.target.process.edges.find(e=>e.id==='e-retry-done'),approved=m.target.process.edges.find(e=>e.id==='e-paid');assert.equal(retry.condition,approved.condition);assert.equal(retry.label,approved.label);}
+});

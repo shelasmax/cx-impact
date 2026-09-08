@@ -254,7 +254,7 @@ function renderComparison(){
 }
 function updateComparisonControl(){
   const b=$('compare-toggle');if(b)b.setAttribute('aria-pressed',String(comparing));
-  if(comparing)document.querySelectorAll('[data-scenario]').forEach(b=>b.setAttribute('aria-pressed','false'));
+  document.querySelectorAll('[data-scenario]').forEach(b=>b.setAttribute('aria-pressed',String(!comparing&&b.dataset.scenario===data.mode)));
 }
 function initComparison(){
   const box=$('comparison-switch');box.hidden=false;
@@ -283,15 +283,27 @@ function setScale(){
   if(fitMode){const css=getComputedStyle($('viewport'));zoom=Math.min(1,($('viewport').clientWidth-parseFloat(css.paddingLeft)-parseFloat(css.paddingRight))/svg.viewBox.baseVal.width);}
   svg.style.width=`${svg.viewBox.baseVal.width*zoom}px`;$('scale').textContent=`${Math.round(zoom*100)}%`;$('minus').disabled=zoom<=.2;$('plus').disabled=zoom>=2;
 }
+function warningSummaries(warnings){
+  const groups=new Map();
+  for(const warning of warnings){
+    const message=warning.code==='ALIGNMENT_ORDER_CONFLICT'?bilingual('Соответствие конфликтует с порядком этапов; выравнивание не задаёт порядок выполнения.','Correspondence conflicts with stage order; alignment is not an execution sequence.'):warning.message||warning.code;
+    const key=warning.code+':'+message;
+    if(!groups.has(key))groups.set(key,{message,count:0,locations:new Set()});
+    const group=groups.get(key);group.count++;
+    const side=warning.side==='current'?'AS IS':warning.side==='target'?'TO BE':warning.side;
+    const location=[side,warning.edge||warning.group].filter(Boolean).join(': ');if(location)group.locations.add(location);
+  }
+  return [...groups.values()].map(g=>`${g.message} (${g.count}${g.locations.size?' · '+[...g.locations].join(', '):''})`);
+}
 function checkRenderedGeometry(){
   const svg=$('viewport').querySelector('svg'),regions=comparing?pairLayout.regions.map(r=>({side:r.side,geometry:(view==='process'?r.layout?.geometry:null)||{status:'not_applicable',errors:[],warnings:[]}})):[{side:data.mode,geometry:layout?.geometry||{errors:[],warnings:[]}}],errors=regions.flatMap(r=>r.geometry.errors.map(e=>({...e,side:r.side})));
   for(const card of svg.querySelectorAll('[data-card], [data-edge-label]')){
     const box=card.querySelector('rect').getBBox();
     for(const text of card.querySelectorAll('text')){const b=text.getBBox();if(b.x<box.x-1||b.y<box.y-1||b.x+b.width>box.x+box.width+1||b.y+b.height>box.y+box.height+1)errors.push({code:'TEXT_OUTSIDE_CARD',card:card.dataset.node||card.dataset.cell||'stage',text:text.textContent});}
   }
-  const warnings=regions.flatMap(r=>r.geometry.warnings||[]);if(comparing)warnings.push(...pairLayout.prepared.diagnostics);
+  const warnings=regions.flatMap(r=>(r.geometry.warnings||[]).map(w=>({...w,side:r.side})));if(comparing)warnings.push(...pairLayout.prepared.diagnostics);
   window.cxMapChecks={structure:{status:'checked',scope:'Validated during HTML generation'},geometry:{status:errors.length?'failed':'checked',errors,warnings,regions,scope:comparing?'Both aligned SVG regions; text bounds checked in browser':'Selected map'},visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},mode:comparing?'comparison':data.mode||'unspecified',view};
-  const note=$('geometry-note');note.hidden=!errors.length&&!warnings.length;note.textContent=[...errors.map(e=>`${t('Проверьте размещение:')} ${e.code} (${e.card||e.edge||''})`),...warnings.map(w=>w.code==='ALIGNMENT_ORDER_CONFLICT'?bilingual('Соответствие конфликтует с порядком этапов; выравнивание не задаёт порядок выполнения.','Correspondence conflicts with stage order; alignment is not an execution sequence.'):w.message||w.code)].join(' · ');
+  const note=$('geometry-note');note.hidden=!errors.length&&!warnings.length;note.textContent=[...errors.map(e=>`${t('Проверьте размещение:')} ${e.code} (${e.card||e.edge||''})`),...warningSummaries(warnings)].join(' · ');
   return window.cxMapChecks;
 }
 function render(){
