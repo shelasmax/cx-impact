@@ -29,7 +29,7 @@ Classic retains Avenir Next / Trebuchet MS typography, green stage headers, alte
 
 All four designs use the current `logo.png` lockup in the masthead. The original PNG is embedded unchanged in the HTML template, including its ivory backing; the surrounding frame clips only excess background and preserves the complete mark and wordmark. Do not substitute CSS symbols, recolor the logo with theme tokens or fetch it remotely. This adds about 1.2 MB to each standalone HTML file and keeps offline viewing and snapshot rebuilds independent.
 
-Design (Classic / Graphite) and color mode (Light / Dark / System) are independent controls. The default is Classic + System. Both choices persist independently when browser storage is available and affect the entire map and exported SVG, without changing authored JSON. The tables below describe Graphite; the Classic token overrides live alongside it in the same template.
+Design (Classic / Graphite / Workshop / Signal) and color mode (Light / Dark / System) are independent controls. The default is Classic + System. Both choices persist independently when browser storage is available and affect the entire map and exported SVG, without changing authored JSON. The tables below describe Graphite; the Classic token overrides live alongside it in the same template.
 
 ### Design decisions and benchmarks
 
@@ -100,7 +100,7 @@ Natural 100% remains one SVG unit per CSS pixel. Fit-to-width is a complete over
 | Component | Anatomy | Interaction and states |
 |---|---|---|
 | View tab | Ordinal, name, selected underline | Default, hover, keyboard focus, selected; arrow/Home/End navigation |
-| Design choice | Classic, Graphite text buttons | Classic default; changes fonts, cards and palette; independent of color mode |
+| Design choice | Classic, Graphite, Workshop, Signal text buttons | Classic default; changes fonts, cards and palette; independent of color mode |
 | Theme choice | Light, Dark, System text buttons | Pressed state in text semantics and underline; saves preference when storage is available |
 | Evidence cell | Claim, optional channel, explicit evidence footer | Full-card pointer and keyboard activation; status is preserved in details |
 | Process node | Action, output, evidence, decision corner mark or outcome surface | Hover/focus outline; active walk border; original graph remains unchanged |

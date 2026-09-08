@@ -27,9 +27,24 @@ CX Impact helps product engineers, designers and service teams connect what a cu
 
 **One scenario. Three complementary views. Clear boundaries between evidence and assumptions.**
 
+## Scenarios, funnels and four designs — unreleased local work
+
+Comparison is opt-in: render an explicit current/target document, then enable **Compare AS IS / TO BE**. Authored stage/node/lane correspondence supports splits and unmatched items; there is no automatic matching. Details preserve each side’s sources. SVG exports stack both scenarios; comparison off restores ordinary viewing.
+
+Sales funnels are a separate document (`kind: "sales-funnel"`) with Stages, Flows and Table. Counts represent unique people in a closed ordered cohort. Missing counts stay unknown; stage residuals do not prove loss. Flows require a supplied bounded, conserved DAG with unrolled retries and checked geometry. Repeat purchase uses its own mature eligible denominator. Aggregate checks cannot verify identity or individual maturity; no monetary effects are inferred. JSON preserves exact funnel source bytes; CSV contains counts/denominators; SVG supports visual views only.
+
+Classic remains default. Graphite, Workshop and Signal also support independent Light/Dark/System; finite walkthroughs start off and honor reduced motion. Fit is an overview; use 100% and canvas scrolling to read dense maps.
+
+```sh
+node skills/cx-impact/scripts/render-map.mjs skills/cx-impact/examples/scenarios/online-sales.en.json output/comparison.html
+node skills/cx-impact/scripts/render-map.mjs skills/cx-impact/examples/funnels/online-sales.en.json output/funnel.html
+```
+
+Read the [funnel contract](skills/cx-impact/references/funnels.md), [map format](skills/cx-impact/references/maps.md) and [verification scope](docs/verification.md). All bundled examples are synthetic. These changes are local review work; VERSION remains 0.5.0 and the existing published release does not contain them.
+
 ## What you get
 
-Choose between the original green **Classic** design (default) and the new **Graphite Field Notes** design. Each supports Light, Dark and System modes, plus finite path walkthroughs with explicit branch choices. SVG exports preserve the selected appearance and embed the current CX Impact logo for offline use. JSON exports retain the original data. See the [design specification](docs/brand/README.md#graphite-field-notes--map-viewer).
+Choose **Classic** (the original green default), **Graphite Field Notes**, **Workshop** or **Signal**. Each supports Light, Dark and System modes, plus finite path walkthroughs with explicit branch choices. SVG exports preserve the selected appearance and embed the current CX Impact logo for offline use. JSON exports retain the original data. See the [design specification](docs/brand/README.md#graphite-field-notes--map-viewer).
 
 | View | The question it helps answer |
 |---|---|

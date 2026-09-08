@@ -1,5 +1,24 @@
 # Verification scope
 
+## Unreleased · paired scenarios, quantitative funnels and four designs
+
+This is local review work on top of 0.5.0, not a published release. VERSION remains unchanged. The six public HTML/source snapshots and six bicycle previews/SVG exports were regenerated from the current runtime.
+
+The isolated `tests/browser-scenarios-funnel-check.cjs` renders original synthetic inputs into a unique temporary run folder. It requires an already installed Playwright module and Chrome; it installs nothing and closes Chrome on failures. Set `CX_PLAYWRIGHT_MODULE` to the existing module and optionally `CX_SCENARIOS_QA_DIR` to an output parent. `CX_SCENARIOS_QA_FOCUSED=1` runs only the focused regressions and storage checks. Reports record exact combinations, Chrome version, input/export/runtime hashes and screenshot paths. Keep those reports and downloads outside publication inputs.
+
+| Layer | Local scope |
+|---|---|
+| Browser matrix | Chrome 152.0.7977.83 on macOS; each document kind covers both RU/EN, both 1366×900 and 1920×1080, four designs and light/dark: 32 configurations per kind. Maps exercise CJM/blueprint/process with comparison off/on (192 view states); funnels exercise Stages/Flows/Table (96 view states). Ordinary target restoration is additionally focused, not a full second matrix. |
+| Containment and appearance | Native100% and Fit, page/toolbar overflow, geometry, independent preferences, invalid/denied storage, System media changes and reduced motion. Thirteen semantic text/surface token pairs are asserted at ≥4.5:1 for all four designs/light-dark, including loss/pending/unknown text tokens. This does not certify every ribbon/background combination or accessibility generally. |
+| Details and exports | Keyboard details/Escape/focus return, tab navigation and visible control focus; target source closure, unmatched/split selection; contextual flow regression; original map JSON equality and exact funnel JSON bytes; formula-safe quoted CSV. Complete SVGs from all five visual views are reopened and compared for full text/native dimensions and original logo bytes. Additional process/flow SVG exports cover every design/theme/locale/size configuration. Table SVG remains explicitly unavailable. |
+| Quantitative edge cases | EN1366 focused checks cover absent transitions, null counts, explicit zero graph values, empty cohort, immature repeat and 400 eligible/20 pending denominator, initial-stage not-applicable and recovery traversal. These variants are representative, not a full design/locale cross-product. |
+| Legacy compatibility | Six legacy synthetic maps × three views × both sizes: 36 Classic/System states, using newly rendered isolated bundles. Source-only helpers and custom-template compatibility also have Node regression coverage. |
+| Reproducibility | Explicit 29-member archive (including VERSION), member/byte/integrity checks, extracted check-only/render of both bicycle demos and all ten packaged fixtures, and exact standalone/copy-away rebuilds. Local visible review ZIP excludes itself, resolves extracted relative links and rebuilds four map/funnel companions offline. |
+| Visual inspection | Agent inspection of representative final paired grids/process, target navigation, stages/flows/table and four designs at laptop/desktop sizes, plus the refreshed public previews. Native-size scrolling is intentional; Fit is an overview. |
+
+No browser engine other than Chrome, screen reader, touch interaction, arbitrary maximum-size DAG, custom palette, customer-data correctness or human acceptance is claimed. Geometry and browser assertions cannot establish semantic quality, identity resolution, cohort maturity or financial impact. Private reports/raw logs are not publication inputs.
+
+
 ## v0.5.0 · First use, revisions and check-only validation
 
 Version 0.5.0 adds three worked exercises in English and Russian, a documented revision workflow, `--check`, and pilot/evaluation materials. It keeps input version 1 and existing viewer behavior; only the core version metadata advances to 0.5.0. The six previously published HTML snapshots retain their embedded versions.

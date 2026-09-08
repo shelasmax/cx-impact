@@ -1,6 +1,6 @@
 # CX Impact skill
 
-Create customer journey maps, service blueprints and experience-process maps with a coding agent. The primary output is standalone interactive HTML with editable JSON and branded SVG export. Choose Classic (the original green design, default) or Graphite Field Notes, each with light, dark and system modes. Finite path walkthroughs pause at branches and support reduced motion; exported SVG stays complete and static.
+Create customer journey maps, service blueprints and experience-process maps with a coding agent. The primary output is standalone interactive HTML with editable JSON and branded SVG export. Choose Classic (the original green design, default), Graphite Field Notes, Workshop or Signal, each with light, dark and system modes. Finite path walkthroughs pause at branches and support reduced motion; exported SVG stays complete and static.
 
 ## Install
 
@@ -64,3 +64,19 @@ Paths above are examples. Read [the data format](references/maps.md) before auth
 Preserve an existing installation before upgrading and replace it as a unit. Do not overwrite a map's customized `.source/` directory: its `rebuild.mjs` preserves that map's exact renderer and template. Remove only the installed skill directory to uninstall; generated maps remain separate.
 
 [Project and releases](https://github.com/shelasmax/cx-impact). Experimental preview, licensed under [MIT](LICENSE).
+
+## Paired scenarios and quantitative funnels
+
+Enable Compare AS IS / TO BE for an explicit comparison document. Supply correspondence; identical IDs are not automatic matches. The paired SVG stacks both scenarios and retains their source attribution. Comparison can be turned off for ordinary reading.
+
+A separate `kind: "sales-funnel"` document provides Stages, Flows and Table. Use supplied unique-people counts in a closed cohort; explicit bounded DAG flows with unrolled retries; and a separate mature repeat-purchase denominator. Unknown is not zero, residual is not established loss, and no financial outcome is inferred. Read [English funnel format](references/funnels.md) or [русский формат](references/funnels.ru.md).
+
+From this package directory:
+
+```sh
+node scripts/render-map.mjs examples/scenarios/online-sales.en.json output/comparison.html
+node scripts/render-map.mjs examples/funnels/online-sales.en.json output/funnel.html
+node scripts/render-map.mjs --check examples/funnels/online-sales.ru.json
+```
+
+These additions are unreleased local review work. The package version remains 0.5.0. Mechanical checks are not semantic or human acceptance.

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Opt-in aligned AS IS / TO BE with explicit one-to-many correspondence, original per-side sources and complete stacked SVG.
+- Independent quantitative people-cohort funnel: stages, explicit recovery flows, table, separate mature repeat cohort, JSON/CSV/SVG exports and bilingual synthetic examples.
+- Four independent visual designs: Classic (default), Graphite, Workshop and Signal; light/dark/system and static reduced-motion behavior.
+- Updated isolated browser acceptance, public snapshots and explicit package extraction/rebuild checks. Local review build only; VERSION 0.5.0 is unchanged.
+
 ## [0.5.0] — 2026-09-07
 
 - Three bilingual first-use examples for product managers and analysts, including synthetic source material, authored JSON and an existing-map revision.

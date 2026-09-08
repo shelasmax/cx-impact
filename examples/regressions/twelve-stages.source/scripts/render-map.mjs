@@ -4,6 +4,8 @@ import { dirname, resolve, basename, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import Core from '../assets/map-core.js';
+import Comparison from '../assets/comparison-core.js';
+import Funnel from '../assets/funnel-core.js';
 
 const statuses = new Set(Object.keys(Core.statusLabels));
 const cellFields = ['goal','action','channel','experience','barrier','opportunity','evidence','frontstage','backstage','support'];
@@ -27,11 +29,13 @@ function refs(values, allowed, label) {
   for(const id of values || []) check(allowed.has(id), `${label}: unknown reference ${id}`);
 }
 export function validateMap(data) {
+  if(data?.kind==='sales-funnel')return Funnel.validateFunnel(data);
+  check(data?.kind===undefined,'kind: unsupported document kind');
   check(data && data.version === 1, 'Expected map version 1');
   check(data.locale === undefined || ['ru','en'].includes(data.locale), 'locale: use ru or en');
   if(data.mode === 'comparison') {
     check(data.current?.mode === 'current' && data.target?.mode === 'target', 'Comparison requires explicit current and target maps');
-    validateMap(data.current); validateMap(data.target); return data;
+    validateMap(data.current); validateMap(data.target); Comparison.validateComparison(data); return data;
   }
   for (const key of ['title','subtitle','actor','goal','disclaimer']) text(data[key], key, key === 'disclaimer' ? 700 : 200);
   check(!data.mode || ['current','target'].includes(data.mode), 'mode: use current, target or comparison');
@@ -105,6 +109,7 @@ export function validateMap(data) {
   return data;
 }
 export function inspectMap(data) {
+  if(data?.kind==='sales-funnel'){const layout=Funnel.layoutFunnel(data);return {structure:{status:'checked',warnings:layout.analysis.limits},geometry:layout.geometry,visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},reproducibility:{status:'not_checked'}};}
   validateMap(data);const warnings=[],geometry=[];
   for(const map of Core.scenarios(data)) {
     if(!map.mode)warnings.push({code:'MODE_UNSPECIFIED',message:'Legacy JSON: mode is not inferred. Add mode and scope when known.'});
@@ -115,13 +120,18 @@ export function inspectMap(data) {
     }
     const layout=Core.layoutProcess(map);if(layout)geometry.push({mode:map.mode||'unspecified',...layout.geometry});
   }
-  return {structure:{status:'checked',warnings},geometry:{status:geometry.some(g=>g.status==='failed')?'failed':'checked',maps:geometry},visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},reproducibility:{status:'not_checked'}};
+  const comparison=data.mode==='comparison'?Comparison.layoutComparison(data,Core):null;
+  const paired=comparison?{status:comparison.regions.some(r=>r.layout?.geometry.status==='failed')?'failed':'checked',scope:'Projected stage columns and lane slots; SVG text and visual review require browser checks',diagnostics:comparison.prepared.diagnostics,regions:comparison.regions.map(r=>({side:r.side,projection:r.projection,geometry:r.layout?.geometry||{status:'not_applicable'}}))}:undefined;
+  return {structure:{status:'checked',warnings},geometry:{status:geometry.some(g=>g.status==='failed')||paired?.status==='failed'?'failed':'checked',maps:geometry,...(paired?{comparison:paired}:{})},visual:{status:'not_checked'},interactions:{status:'not_checked'},export:{status:'not_checked'},reproducibility:{status:'not_checked'}};
 }
 function safeJSON(value) {return JSON.stringify(value).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');}
 export async function renderMap(data, options={}) {
   validateMap(data);
   let template=await readFile(options.template || new URL('../assets/map.html',import.meta.url),'utf8');
-  const files={'/*__CX_MAP_DATA__*/':safeJSON(data),'/*__CX_MAP_CORE__*/':await readFile(new URL('../assets/map-core.js',import.meta.url),'utf8'),'/*__CX_MAP_VIEWER__*/':await readFile(new URL('../assets/map-viewer.js',import.meta.url),'utf8')};
+  const funnel=data.kind==='sales-funnel';
+  const runtime=(await Promise.all(['map-core.js','comparison-core.js','design-core.js',...(funnel?['funnel-core.js']:[])].map(name=>readFile(new URL('../assets/'+name,import.meta.url),'utf8')))).join('\n');
+  const raw=funnel?Buffer.from(options.sourceBytes??JSON.stringify(data,null,2)+'\n').toString('base64'):null;
+  const files={'/*__CX_MAP_DATA__*/':safeJSON(data),'/*__CX_MAP_CORE__*/':runtime+(funnel?'\nglobalThis.CXFunnelSourceBase64='+JSON.stringify(raw)+';':''),'/*__CX_MAP_VIEWER__*/':await readFile(new URL('../assets/'+(funnel?'funnel-viewer.js':'map-viewer.js'),import.meta.url),'utf8')};
   for(const [marker,content] of Object.entries(files)) {check(template.split(marker).length===2,`Template marker ${marker} must occur exactly once`);template=template.replace(marker,()=>content);}
   return template.replace('<html lang="ru">', `<html lang="${data.current?.locale||data.locale||'ru'}">`);
 }
@@ -130,7 +140,7 @@ export async function deliverMap(input, output, options={}) {
   check(extname(output)==='.html','Output must have .html extension');
   const raw=await readFile(input),data=JSON.parse(raw),report=inspectMap(data);
   check(report.geometry.status!=='failed','Geometry has collisions; output was not replaced');
-  const html=await renderMap(data,options),dir=dirname(resolve(output)),stem=basename(output,'.html'),adjacent=join(dir,stem+'.json');
+  const html=await renderMap(data,{...options,sourceBytes:raw}),dir=dirname(resolve(output)),stem=basename(output,'.html'),adjacent=join(dir,stem+'.json');
   const bundle=join(dir,stem+'.source');
   if(options.bundle!==false) {
     let previous;
@@ -138,7 +148,7 @@ export async function deliverMap(input, output, options={}) {
     if(previous) {
       check(!previous.templateCustom||options.template,'Existing bundle has a custom template. Use its rebuild.mjs or explicitly supply --template');
       for(const [name,hash] of Object.entries(previous.files||{})) {
-        check(['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/map-viewer.js','rebuild.mjs'].includes(name),'Invalid bundle manifest path');
+        check(['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/design-core.js','assets/funnel-core.js','assets/funnel-viewer.js','assets/map-viewer.js','rebuild.mjs'].includes(name),'Invalid bundle manifest path');
         check(sha(await readFile(join(bundle,name)))===hash,`Local bundle file ${name} was edited. Use its rebuild.mjs or select a new output name`);
       }
     }
@@ -150,7 +160,7 @@ export async function deliverMap(input, output, options={}) {
   }
   if(options.bundle!==false) {
     await mkdir(join(bundle,'assets'),{recursive:true});await mkdir(join(bundle,'scripts'),{recursive:true});
-    const names=['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/map-viewer.js'],hashes={};
+    const names=['scripts/render-map.mjs','assets/map.html','assets/map-core.js','assets/comparison-core.js','assets/design-core.js','assets/funnel-core.js','assets/funnel-viewer.js','assets/map-viewer.js'],hashes={};
     for(const name of names){const source=name==='assets/map.html'&&options.template?options.template:join(skillRoot,name);const bytes=await readFile(source);await writeFile(join(bundle,name),bytes);hashes[name]=sha(bytes);}
     const rebuild=`import { fileURLToPath } from 'node:url';\nimport { deliverMap } from './scripts/render-map.mjs';\nawait deliverMap(fileURLToPath(new URL(${JSON.stringify('../'+stem+'.json')},import.meta.url)),fileURLToPath(new URL(${JSON.stringify('../'+stem+'.html')},import.meta.url)),{bundle:false});\n`;
     await writeFile(join(bundle,'rebuild.mjs'),rebuild);
@@ -164,10 +174,18 @@ export async function deliverMap(input, output, options={}) {
   return {output:resolve(output),bytes:Buffer.byteLength(html),report};
 }
 if(process.argv[1]&&await realpath(process.argv[1]).catch(()=>null)===fileURLToPath(import.meta.url)) {
+  const args=process.argv.slice(2),checkOnly=args[0]==='--check';
   try {
-    const [input,output,...flags]=process.argv.slice(2);check(input&&output,'Usage: node render-map.mjs map.json map.html [--template template.html] [--no-bundle]');
-    let template;for(let i=0;i<flags.length;i++){if(flags[i]==='--template'){template=flags[++i];check(template,'Missing template path');}else check(flags[i]==='--no-bundle',`Unknown flag ${flags[i]}`);}
-    const result=await deliverMap(input,output,{template,bundle:!flags.includes('--no-bundle')});
-    console.log(`Rendered ${result.output} (${result.bytes} bytes). Structure and geometry checked; visual, interactions and export require separate checks.`);
-  }catch(error){console.error(`Map not rendered: ${error.message}`);process.exitCode=1;}
+    if(checkOnly) {
+      check(args.length===2&&args[1]&&!args[1].startsWith('--'),'Usage: node render-map.mjs --check map.json (no output path or rendering flags)');
+      const report=inspectMap(JSON.parse(await readFile(args[1],'utf8')));
+      console.log(JSON.stringify(report,null,2));
+      if(report.geometry.status==='failed')process.exitCode=1;
+    } else {
+      const [input,output,...flags]=args;check(input&&output,'Usage: node render-map.mjs map.json map.html [--template template.html] [--no-bundle]\n       node render-map.mjs --check map.json');
+      let template;for(let i=0;i<flags.length;i++){if(flags[i]==='--template'){template=flags[++i];check(template,'Missing template path');}else check(flags[i]==='--no-bundle',`Unknown flag ${flags[i]}`);}
+      const result=await deliverMap(input,output,{template,bundle:!flags.includes('--no-bundle')});
+      console.log(`Rendered ${result.output} (${result.bytes} bytes). Structure and geometry checked; visual, interactions and export require separate checks.`);
+    }
+  }catch(error){console.error(`Map not ${checkOnly?'checked':'rendered'}: ${error.message}`);process.exitCode=1;}
 }

@@ -14,11 +14,16 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL_FILES = (
     'SKILL.md', 'README.md', 'LICENSE',
     'references/maps.md', 'references/evidence.md',
+    'references/funnels.md', 'references/funnels.ru.md',
+    'examples/scenarios/online-sales.en.json', 'examples/scenarios/online-sales.ru.json',
+    'examples/funnels/online-sales.en.json', 'examples/funnels/online-sales.ru.json',
     'references/quickstart.md', 'references/quickstart.ru.md',
     'examples/first-use/target.en.json', 'examples/first-use/target.ru.json',
     'examples/first-use/current.en.json', 'examples/first-use/current.ru.json',
     'examples/first-use/updated.en.json', 'examples/first-use/updated.ru.json',
     'assets/map.html', 'assets/map-core.js', 'assets/map-viewer.js', 'assets/report.md',
+    'assets/comparison-core.js', 'assets/funnel-core.js', 'assets/funnel-viewer.js',
+    'assets/design-core.js',
     'scripts/render-map.mjs',
 )
 
@@ -49,9 +54,12 @@ def build() -> None:
     with tempfile.TemporaryDirectory(prefix='cx-impact-release-') as tmp:
         workspace = Path(tmp)
         with zipfile.ZipFile(archive) as z:
-            if set(z.namelist()) != expected or z.testzip() is not None:
+            if len(z.namelist()) != len(expected) or set(z.namelist()) != expected or z.testzip() is not None:
                 raise SystemExit('Archive contents failed verification')
             z.extractall(workspace)
+        for name in SKILL_FILES:
+            if (workspace / 'cx-impact' / name).read_bytes() != (ROOT / 'skills/cx-impact' / name).read_bytes():
+                raise SystemExit(f'Archive byte mismatch: {name}')
         for folder, stem in [('examples/bicycle-service','bicycle-service-demo'), ('examples/bicycle-service-en','bicycle-service-demo-en')]:
             source = workspace / (stem + '.json')
             shutil.copyfile(ROOT / folder / 'map.json', source)
@@ -72,15 +80,31 @@ def build() -> None:
             shutil.copyfile(html, out / (stem + '.html'))
             shutil.copyfile(source, out / (stem + '.json'))
         for name in SKILL_FILES:
-            if not name.startswith('examples/first-use/') or not name.endswith('.json'):
+            if not name.startswith('examples/') or not name.endswith('.json'):
                 continue
             source = workspace / 'cx-impact' / name
-            html = workspace / 'first-use' / (source.stem + '.html')
+            html = workspace / 'rendered' / source.parent.name / (source.stem + '.html')
+            checked = subprocess.run(['node', str(workspace / 'cx-impact/scripts/render-map.mjs'), '--check', str(source)], check=True, capture_output=True, text=True)
+            if json.loads(checked.stdout)['geometry']['status'] != 'checked' or html.exists():
+                raise SystemExit('Packaged fixture check-only failed')
             subprocess.run(['node', str(workspace / 'cx-impact/scripts/render-map.mjs'), str(source), str(html)], check=True, stdout=subprocess.DEVNULL)
             before = html.read_bytes()
+            if b'MIT License' not in before or b'data:image/png;base64,' not in before or b'/*__CX_MAP_' in before:
+                raise SystemExit('Packaged fixture branding/markers failed')
+            if html.with_suffix('.json').read_bytes() != source.read_bytes():
+                raise SystemExit('Packaged fixture source bytes changed')
+            # Move the complete snapshot away from the installation before rebuilding.
+            copied = workspace / 'copied' / source.parent.name
+            copied.mkdir(parents=True, exist_ok=True)
+            shutil.copytree(html.with_suffix('.source'), copied / (source.stem + '.source'))
+            for suffix in ['.html', '.json', '.checks.json']:
+                shutil.copyfile(html.with_suffix(suffix), copied / (source.stem + suffix))
+            subprocess.run(['node', str(copied / (source.stem + '.source/rebuild.mjs'))], check=True, stdout=subprocess.DEVNULL)
+            if (copied / (source.stem + '.html')).read_bytes() != before:
+                raise SystemExit('Copied source bundle failed exact rebuild')
             subprocess.run(['node', str(html.with_suffix('.source') / 'rebuild.mjs')], check=True, stdout=subprocess.DEVNULL)
             if html.read_bytes() != before:
-                raise SystemExit('Packaged first-use example did not rebuild deterministically')
+                raise SystemExit('Packaged fixture did not rebuild deterministically')
     assets = [archive, *[out / (stem + suffix) for stem in ['bicycle-service-demo','bicycle-service-demo-en'] for suffix in ['.html','.json']]]
     (out / 'SHA256SUMS').write_text(''.join(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n' for p in assets))
     print(f'Built {archive.name}: {len(expected)} allowlisted files; extracted renderer and exact rebuild passed.')
