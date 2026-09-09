@@ -1,5 +1,21 @@
 # Verification scope
 
+## Unreleased · funnel columns
+
+The stage-chart redesign passes 63 Node tests and a dedicated Chrome matrix at 1366×900 and 1920×1080. `tests/browser-funnel-columns-check.cjs` exercises six original synthetic variants (ordinary, tiny positive/zero, unknown, empty, twelve long-titled stages and two stages with a maximum-safe-integer entry) × RU/EN × both sizes × all four designs × light/dark: 192 cases. It checks actual text bounds/collisions, full titles, proportional heights and a shared zero baseline, explicit tiny-rate labels, natural/Fit containment, keyboard details/focus return and 32 reopened stage SVGs. Representative final screens were visually inspected in all four designs, including tiny values and twelve-stage scrolling.
+
+The existing full `browser-scenarios-funnel-check.cjs` suite also passed after the redesign: 64 design/theme/locale/size configuration groups, 36 legacy view/size states, complete exports, independent preferences, playback reset and focused quantitative regressions.
+
+Run the optional check with an existing Playwright module and Chrome:
+
+```sh
+CX_PLAYWRIGHT_MODULE=/path/to/existing/playwright/index.js node tests/browser-funnel-columns-check.cjs
+```
+
+It writes only to a unique temporary folder (optionally under an existing `CX_FUNNEL_COLUMNS_QA_DIR`), installs nothing and closes Chrome on failure. The report records the exact 192 combinations, runtime hashes and Chrome version. Chrome only: no screen-reader, other-browser or human semantic acceptance claim.
+
+Publication integrity and the standard release builder were also checked in an isolated allowlisted copy with newly captured synthetic illustrations: 29 package members, extracted render/check-only, exact rebuilds, 16 screenshot hashes and the extracted showcase passed. This copy is a test artifact, not a release. The tracked v0.6.0 gallery and release bundle remain frozen. Building a new showcase at the repository root will intentionally reject that historical gallery as stale until screenshots for the next release are prepared; do not overwrite historical images merely to bypass this guard.
+
 ## v0.6.0 · paired scenarios, quantitative funnels and four designs
 
 The complete browser matrix below was rerun on the v0.6.0 runtime before publication, including the final appearance/playback reset and exact counterpart/source regressions. All 64 configuration groups, 36 legacy states and focused regressions passed. The six public HTML/source snapshots were regenerated with version 0.6.0; earlier bicycle preview images remain representative because this release-preparation change only updates version metadata.

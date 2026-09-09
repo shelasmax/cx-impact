@@ -259,7 +259,7 @@ async function download(page,id,path){const event=page.waitForEvent('download');
   if(variant==='unknown'){assert.equal(await page.locator('[data-funnel-stage="product"]').getAttribute('data-count'),'unknown');assert.equal(await page.locator('[data-funnel-stage="product"] rect:not([data-design-group])').count(),0);}
   if(variant==='absent'||variant==='unknown'){await page.locator('#funnel-tab-flows').click();assert.equal(await page.locator('[data-ribbon]').count(),0);await page.locator('#funnel-tab-table').click();assert.equal(await page.locator('tbody tr').count(),5);}
   if(variant==='zero'){await page.locator('#funnel-tab-flows').click();assert.equal(await page.locator('[data-funnel-edge="zero-edge"] [data-ribbon]').count(),0);assert.equal(await page.locator('[data-funnel-node="zero"]>rect:not([data-design-group])').count(),0);}
-  if(variant==='eligible400')assert.match(await page.locator('#funnel-repeat').textContent(),/105 \/ 400 = 26.3%/);
+  if(variant==='eligible400')assert.match(await page.locator('#funnel-repeat').textContent(),/105 \/ 400 = 26.25%/);
   if(variant==='empty')assert.equal(await page.locator('[data-funnel-stage] rect:not([data-design-group])').count(),0);
   if(variant==='immature')assert.match(await page.locator('#funnel-repeat').textContent(),/Unknown/);
   if(variant==='csv'){const value=await download(page,'funnel-csv',path.join(dir,'quoted.csv'));assert.ok(value.includes(`"' =HYPERLINK(""bad"")"`));assert.ok(value.includes(`"'@sum(1)\nsecond line"`));for(const text of ['+SUM(1)','-1+1','\t=SUM(1)'])assert.ok(value.includes(JSON.stringify("'"+text).replace('\\t','\t')));}
