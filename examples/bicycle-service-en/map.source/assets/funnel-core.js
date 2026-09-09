@@ -184,7 +184,13 @@
     return {stages,graph,repeat:data.repeat?{...data.repeat,rate:rate(data.repeat.purchased,data.repeat.eligible)}:null,limits:['Counts and identity/cohort definitions are authored aggregates; person-level identity, ordering and maturation are not independently verified.','Stage residual is not progressed within the conversion window, not an inferred loss or cause.']};
   }
   function layoutFunnel(data){
-    const analysis=analyzeFunnel(data),stages=analysis.stages.map((s,i)=>({...s,x:310,y:60+i*125,w:s.fromEntry===null?0:740*s.fromEntry,h:30}));
+    const analysis=analyzeFunnel(data),width=Math.max(1120,64+200*analysis.stages.length);
+    const baseline=292,plotHeight=180,pitch=(width-64)/analysis.stages.length;
+    const stageScale=analysis.stages[0].count?plotHeight/analysis.stages[0].count:0;
+    const stages=analysis.stages.map((s,i)=>{
+      const h=s.fromEntry===null?0:s.count*stageScale;
+      return {...s,x:32+i*pitch,y:baseline-h,w:pitch-24,h};
+    });
     let flows=null;
     if(analysis.graph){
       const graphData=data.transitions;
@@ -232,7 +238,7 @@
       flows={nodes,edges,scale,width:Math.max(1120,400+maxDepth*340),height:Math.max(...nodes.map(node=>node.y+node.h+130))};
     }
     const errors=[],warnings=[];
-    for(const s of stages)if(!Number.isFinite(s.w)||s.w<0)errors.push({code:'INVALID_BAR',id:s.id});
+    for(const s of stages)if(!Number.isFinite(s.h)||s.h<0||s.h>plotHeight+1e-7||s.w<=0||!Number.isFinite(s.y))errors.push({code:'INVALID_BAR',id:s.id});
     // Monotonic cubic X can be inverted. Sample both slab boundaries and midpoint;
     // Y is monotonic too, so these bound the ribbon across the full node slab.
     function bandAt(edge,x){
@@ -260,7 +266,7 @@
       }
     }
     if(flows)warnings.push({code:'RIBBON_CROSSINGS_NOT_CAUSAL',message:'Ribbon crossings are not graph joins. Only authored node endpoints define transitions; inspect crossing readability visually.'});
-    return {analysis,stages,flows,width:1120,height:60+stages.length*125,geometry:{status:errors.length?'failed':'checked',scope:'Finite proportional bars and DAG port stacking; text bounds, crossing readability and visual acceptance require browser inspection',errors,warnings,measurements:{stageScale:analysis.stages[0].count?740/analysis.stages[0].count:0,flowScale:flows?.scale??null,nodes:flows?.nodes.length||0,edges:flows?.edges.length||0}}};
+    return {analysis,stages,flows,width,baseline,geometry:{status:errors.length?'failed':'checked',scope:'Finite proportional columns on a shared zero baseline and DAG port stacking; text bounds, crossing readability and visual acceptance require browser inspection',errors,warnings,measurements:{stageScale,flowScale:flows?.scale??null,nodes:flows?.nodes.length||0,edges:flows?.edges.length||0}}};
   }
   // RFC 4180 and spreadsheet formula mitigation; only authored text is prefixed.
   function funnelCSV(data){

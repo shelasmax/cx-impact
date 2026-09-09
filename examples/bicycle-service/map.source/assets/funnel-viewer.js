@@ -3,7 +3,7 @@
 const data=JSON.parse(document.getElementById('map-data').textContent),Funnel=globalThis.CXFunnel,Core=globalThis.CXMap,Design=globalThis.CXDesign;
 const layout=Funnel.layoutFunnel(data),analysis=layout.analysis,$=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
 const bi=(ru,en)=>data.locale==='en'?en:ru,unknown=bi('Неизвестно','Unknown');
-const number=v=>v===null?unknown:new Intl.NumberFormat(data.locale).format(v),percent=v=>v===null?unknown:new Intl.NumberFormat(data.locale,{style:'percent',maximumFractionDigits:1}).format(v);
+const number=v=>v===null?unknown:new Intl.NumberFormat(data.locale).format(v),percent=v=>v===null?unknown:(v>0&&v<.0001?'< ':'')+new Intl.NumberFormat(data.locale,{style:'percent',maximumFractionDigits:2}).format(v>0&&v<.0001?.0001:v);
 const labels={stages:bi('Этапы','Stages'),flows:bi('Потоки','Flows'),table:bi('Таблица','Table')},outcomes={progress:bi('Продвинулись','Progress'),lost:bi('Потеря · задана','Lost · supplied'),pending:bi('Ожидание','Pending'),unknown};
 let view='stages',zoom=1,fitMode=false,focusReturn=null,svg=null,colors={},font='',themeChoice='system',designChoice='classic',walk=null,timer=null;
 const preference=matchMedia('(prefers-color-scheme: dark)'),reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -101,21 +101,68 @@ $('drawer').addEventListener('keydown',e=>{
 const previousNumber=(s,v)=>s.previousApplicable?number(v):bi('— (вход)','— (entry)'),previousPercent=(s,v)=>s.previousApplicable?percent(v):bi('— (не применимо)','— (not applicable)');
 const stageBody=s=>`${s.definition}\n${bi('Людей','People')}: ${number(s.count)}\n${bi('От предыдущего','From previous')}: ${previousPercent(s,s.fromPrevious)} (${number(s.count)} / ${previousNumber(s,s.previousDenominator)})\n${bi('От входа','From entry')}: ${percent(s.fromEntry)} (${number(s.count)} / ${number(s.entryDenominator)})\n${bi('Не продвинулись в окне','Not progressed within window')}: ${previousNumber(s,s.notProgressed)}`;
 function drawStages(g){
-  for(const s of layout.stages){
-    const group=element('g',g,{'data-funnel-stage':s.id,'data-count':s.count===null?'unknown':s.count});
-    if(designChoice!=='classic'){
-      rect(group,16,s.y-32,1088,120,colors.surface).setAttribute('data-design-group','stage');
-    }
-    text(group,s.title,32,s.y,250,18,colors.text,650);
-    group.querySelector('text').setAttribute('data-design-display','true');
-    text(group,`${number(s.count)} ${bi('чел.','people')}`,310,s.y-10,760,19,colors.text,650);
-    if(s.w>0)rect(group,s.x,s.y,s.w,s.h,colors.accent);
-    else text(group,s.count===0?'0':unknown,s.x,s.y+23,740,16,colors.muted);
-    const rates=`${bi('От предыдущего','From previous')}: ${previousPercent(s,s.fromPrevious)} (${previousNumber(s,s.previousDenominator)}) · ${bi('От входа','From entry')}: ${percent(s.fromEntry)} (${number(s.entryDenominator)})`;
-    text(group,rates,310,s.y+54,780,16);
-    text(group,`${bi('Не продвинулись в окне','Not progressed within window')}: ${previousNumber(s,s.notProgressed)}`,310,s.y+80,780,16,colors.muted);
-    activate(group,()=>details(s,stageBody(s)),`${s.title}: ${number(s.count)}`);
+  const entry=analysis.stages[0],exit=analysis.stages.at(-1);
+  const summary=element('g',g,{'data-funnel-summary':'true'});
+  const metrics=[
+    [bi('Конверсия','Conversion'),percent(exit.fromEntry),bi('из первого в последний этап','first to last stage')],
+    [bi('На входе','Entered'),number(entry.count),entry.title],
+    [bi('На выходе','Completed'),number(exit.count),exit.title]
+  ];
+  for(const [i,[label,value,description]] of metrics.entries()){
+    const item=element('g',summary,{'data-funnel-metric':i});
+    text(item,label,32+i*256,12,232,14,colors.muted);
+    // Large cohort integers still fit without wrapping into the explanatory row.
+    const size=Core.measure(value,30)>232?22:30;
+    text(item,value,32+i*256,49,232,size,colors.text,650);
+    const title=element('title',item);title.textContent=description;
   }
+  text(summary,bi('Доля от входа · люди','Share of entry · people'),layout.width-304,12,272,14,colors.muted);
+  text(summary,bi('Выберите этап, чтобы открыть\nрасчёт и источники','Select a stage to inspect\nits calculation and sources'),layout.width-304,37,272,13,colors.muted);
+  element('path',g,{d:`M32 58 H${layout.width-32}`,fill:'none',stroke:colors.border});
+  element('path',g,{d:`M32 ${layout.baseline} H${layout.width-56}`,fill:'none',stroke:colors.border,'data-funnel-baseline':layout.baseline});
+  const titleHeight=Math.max(...layout.stages.map(s=>Core.wrap(s.title,s.w-28,15).length*21));
+  const rowY=layout.baseline+32+titleHeight+10;
+  for(const [i,s] of layout.stages.entries()){
+    const group=element('g',g,{'data-funnel-stage':s.id,'data-count':s.count===null?'unknown':s.count});
+    // An invisible hit area keeps zero/tiny/unknown stages easy to select. It is
+    // a path, not a quantitative bar, and has no visible fill in exported SVG.
+    element('path',group,{d:`M${s.x} 76 H${s.x+s.w} V${rowY+113} H${s.x} Z`,fill:'transparent','data-stage-hit':'true'});
+    function centered(value,y,size,fill,weight){
+      const height=text(group,value,s.x+s.w/2,y,s.w,size,fill,weight);
+      group.lastElementChild.setAttribute('text-anchor','middle');
+      return height;
+    }
+    centered(percent(s.fromEntry),s.y-34,18,colors.text,650);
+    group.lastElementChild.setAttribute('data-stage-share','true');
+    centered(number(s.count),s.y-12,14,colors.muted,500);
+    if(s.h>0){
+      const bar=rect(group,s.x,s.y,s.w,s.h,colors.accent);
+      bar.setAttribute('rx',designChoice==='classic'||designChoice==='workshop'?2:0);
+      bar.setAttribute('data-stage-bar','true');
+    }else {
+      // Small neutral status markers are separate from magnitude. The labels
+      // above retain the exact zero or Unknown value without crowding the title.
+      const marker=s.count===0
+        ?element('circle',group,{cx:s.x+s.w/2,cy:layout.baseline+3,r:2,fill:'none',stroke:colors.muted})
+        :element('path',group,{d:`M${s.x+s.w/2-6} ${layout.baseline+3} h12`,fill:'none',stroke:colors.muted,'stroke-dasharray':'2 2'});
+      marker.setAttribute('data-stage-empty',s.count===0?'zero':'unknown');
+    }
+    text(group,String(i+1).padStart(2,'0'),s.x,layout.baseline+29,24,12,colors.muted,600);
+    group.lastElementChild.setAttribute('data-design-index','true');
+    text(group,s.title,s.x+28,layout.baseline+29,s.w-28,15,colors.text,650);
+    group.lastElementChild.setAttribute('data-stage-title','true');
+    element('path',group,{d:`M${s.x} ${rowY-7} H${s.x+s.w}`,fill:'none',stroke:colors.border});
+    text(group,bi('От предыдущего','From previous'),s.x,rowY+13,s.w,12,colors.muted);
+    text(group,s.previousApplicable?percent(s.fromPrevious):'—',s.x,rowY+38,s.w,20,colors.text,600);
+    // Keep the explicit entry distinction in accessible text and SVG exports.
+    element('title',group).textContent=s.previousApplicable?stageBody(s):previousPercent(s,s.fromPrevious);
+    text(group,bi('Не прошли дальше','Did not progress'),s.x,rowY+66,s.w,12,colors.muted);
+    const residual=s.previousApplicable?`${number(s.notProgressed)}${s.notProgressed!==null&&s.previousDenominator>0?' · '+percent(s.notProgressed/s.previousDenominator):''}`:'—';
+    text(group,residual,s.x,rowY+91,s.w,17,s.notProgressed>0?colors.lost:colors.muted,600);
+    activate(group,()=>details(s,stageBody(s)),`${s.title}: ${number(s.count)}. ${stageBody(s)}`);
+  }
+  const noteY=rowY+135;
+  return noteY+text(g,bi('Проценты над столбцами — от входа. Показатели под этапом — переход с предыдущего шага в заданном окне; причины не определены.','Percentages above columns use entry as the denominator. Metrics below each stage describe the transition from the previous step within the defined window; causes are not identified.'),32,noteY,layout.width-64,13,colors.muted);
 }
 function flowColor(outcome){
   return colors[outcome||'accent']||colors.accent;
@@ -191,6 +238,7 @@ function render(){
   svg=null;
   document.querySelectorAll('[data-funnel-view]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.funnelView===view)));
   $('view-title').textContent=labels[view];
+  document.querySelector('.boardhead small').textContent=view==='stages'?bi('Выберите этап, чтобы увидеть расчёт и источники','Select a stage to see its calculation and sources'):bi('Выберите элемент, чтобы увидеть детали и источники','Select an item to see details and sources');
   $('map-panel').setAttribute('aria-labelledby','funnel-tab-'+view);
   $('export').disabled=view==='table';
   $('export').title=view==='table'?bi('SVG доступен в Этапах и Потоках; таблицу экспортируйте в CSV.','SVG is available in Stages and Flows; export the table as CSV.'):'';
@@ -209,9 +257,8 @@ function render(){
     svg.querySelector('text').setAttribute('data-design-display','true');
     if(view==='flows'&&data.transitions)y+=text(svg,data.transitions.scope.denominator,32,y,width-64,16,colors.muted)+8;
     const group=element('g',svg,{transform:`translate(0 ${y})`,'data-funnel-body':'true'});
-    if(view==='stages')drawStages(group);
-    else drawFlows(group);
-    y+=(view==='stages'?layout.height:layout.flows?.height||130)+40;
+    if(view==='stages')y+=drawStages(group)+40;
+    else {drawFlows(group);y+=(layout.flows?.height||130)+40;}
     y+=text(svg,data.title,32,y,width-64,26,colors.text,700)+18;
     svg.lastElementChild.setAttribute('data-design-display','true');
     y+=text(svg,scopeText(),32,y,width-64,16,colors.muted)+18;
@@ -363,7 +410,7 @@ function applyAppearance(){
   document.documentElement.dataset.design=designChoice;
   const css=getComputedStyle(document.documentElement);
   font=css.getPropertyValue('--font-body').trim()||'sans-serif';
-  colors=Object.fromEntries(Object.entries({text:'fg',muted:'muted',surface:'surface',accent:'accent',progress:'evidence',lost:'danger',pending:'hypothesis',unknown:'unknown'}).map(([k,v])=>[k,css.getPropertyValue('--'+v).trim()||css.getPropertyValue('--accent').trim()]));
+  colors=Object.fromEntries(Object.entries({text:'fg',muted:'muted',surface:'surface',border:'border',accent:'accent',progress:'evidence',lost:'danger',pending:'hypothesis',unknown:'unknown'}).map(([k,v])=>[k,css.getPropertyValue('--'+v).trim()||css.getPropertyValue('--accent').trim()]));
   document.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===themeChoice)));
   document.querySelectorAll('[data-design-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.designChoice===designChoice)));
   render();
@@ -494,6 +541,7 @@ context.className='funnel-context';
 for(const s of [data.scope.identityRule,data.scope.orderRule,limits,...(data.transitions?[data.transitions.scope.denominator,data.transitions.scope.description]:[])])paragraph(context,s);
 repeat.after(context);
 const style=document.createElement('style');
-style.textContent='.funnel-context{margin:20px 0;padding:16px 24px;background:var(--surface);border:1px solid var(--border);border-radius:10px}.funnel-context p{max-width:1100px;line-height:1.6}.funnel-table{padding:20px;overflow:auto}.funnel-table table{border-collapse:collapse;min-width:1000px;width:100%;font-variant-numeric:tabular-nums}.funnel-table th,.funnel-table td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--border);vertical-align:top}.funnel-table caption{text-align:left;padding:0 0 20px}.funnel-table button{white-space:normal;text-align:left}#viewport svg{display:block;flex:none}#viewport [role=button]:focus-visible{outline:3px solid var(--focus);outline-offset:4px}#detail-text{white-space:pre-wrap}.controls{flex-wrap:wrap}.tools{flex-wrap:wrap}';
+// Center the compact chart on wide screens; long funnels retain horizontal scrolling.
+style.textContent='.funnel-context{margin:20px 0;padding:16px 24px;background:var(--surface);border:1px solid var(--border);border-radius:10px}.funnel-context p{max-width:1100px;line-height:1.6}.funnel-table{padding:20px;overflow:auto}.funnel-table table{border-collapse:collapse;min-width:1000px;width:100%;font-variant-numeric:tabular-nums}.funnel-table th,.funnel-table td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--border);vertical-align:top}.funnel-table caption{text-align:left;padding:0 0 20px}.funnel-table button{white-space:normal;text-align:left}#viewport svg{display:block;flex:none}#viewport>svg[data-funnel-view=stages]{margin-inline:auto}#viewport [role=button]:focus-visible{outline:3px solid var(--focus);outline-offset:4px}#detail-text{white-space:pre-wrap}.controls{flex-wrap:wrap}.tools{flex-wrap:wrap}';
 document.head.append(style);
 applyAppearance();

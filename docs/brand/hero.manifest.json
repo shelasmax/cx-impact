@@ -1,0 +1,117 @@
+{
+  "version": "0.6.1",
+  "chrome": "152.0.7977.83",
+  "method": "Browser composition of real SVG captures; excerpts cropped by presentation frames, with no retouching of chart contents.",
+  "records": [
+    {
+      "locale": "en",
+      "view": "cjm",
+      "kind": "comparison",
+      "design": "classic",
+      "theme": "light",
+      "scenario": "current",
+      "source": "skills/cx-impact/examples/scenarios/online-sales.en.json",
+      "sourceSha256": "f20855c85e2083691c0e4239b36c439e949d5bf20b315b552a352a53a9047cdd",
+      "htmlSha256": "e4fb0d20191f0b17970f1df8026d4ac8b7e16fa804b610fc270089fcbad13c5c",
+      "captureSha256": "6c3c9f4d00abf532e39623093df9b6fe89f873bd21e148bc0635a55a715166fe"
+    },
+    {
+      "locale": "en",
+      "view": "stages",
+      "kind": "funnel",
+      "design": "signal",
+      "theme": "light",
+      "scenario": null,
+      "source": "skills/cx-impact/examples/funnels/online-sales.en.json",
+      "sourceSha256": "c32aba98efe0edafef942bc9f34ea8c757777ff50600dddc5b0848d608739c47",
+      "htmlSha256": "d25e6f119c826aed48cef3b670b56ea65232befec70d85d927d9571862300c0e",
+      "captureSha256": "dcffe82f2c0a05377a7e33bf48bbd8809bf87204dcdd5f72f2062627da423842"
+    },
+    {
+      "locale": "en",
+      "view": "blueprint",
+      "kind": "comparison",
+      "design": "graphite",
+      "theme": "light",
+      "scenario": "current",
+      "source": "skills/cx-impact/examples/scenarios/online-sales.en.json",
+      "sourceSha256": "f20855c85e2083691c0e4239b36c439e949d5bf20b315b552a352a53a9047cdd",
+      "htmlSha256": "e4fb0d20191f0b17970f1df8026d4ac8b7e16fa804b610fc270089fcbad13c5c",
+      "captureSha256": "cd6b134468949b788ad924ebcd3e765a97974cdf4c71ff5d60182b2029d55a85"
+    },
+    {
+      "locale": "en",
+      "view": "process",
+      "kind": "comparison",
+      "design": "workshop",
+      "theme": "dark",
+      "scenario": "current",
+      "source": "skills/cx-impact/examples/scenarios/online-sales.en.json",
+      "sourceSha256": "f20855c85e2083691c0e4239b36c439e949d5bf20b315b552a352a53a9047cdd",
+      "htmlSha256": "e4fb0d20191f0b17970f1df8026d4ac8b7e16fa804b610fc270089fcbad13c5c",
+      "captureSha256": "171d9b500023f7fe6adfe5ed00c01bcffa6b5e7d10d9a8b707fc66b9ce05a24d"
+    },
+    {
+      "locale": "en",
+      "composition": "hero.png",
+      "sha256": "a2251e988bcc243c66e4be8b6418c0c20b8736dd9a4422aa63cdacf4433078f0",
+      "width": 1800,
+      "height": 1250
+    },
+    {
+      "locale": "ru",
+      "view": "cjm",
+      "kind": "comparison",
+      "design": "classic",
+      "theme": "light",
+      "scenario": "current",
+      "source": "skills/cx-impact/examples/scenarios/online-sales.ru.json",
+      "sourceSha256": "a91bc6e83ba3fa40be33d5febaf27ca1ffbaa4da350d9323ff9b5055834e80cc",
+      "htmlSha256": "a5a3329424d7d95e66021d926c4884324dea62d2f89f907ed41f41017c8cf4b6",
+      "captureSha256": "2815e29e13d2a113b39048f7981367541b63e979759c4eeaae261f925f6b5156"
+    },
+    {
+      "locale": "ru",
+      "view": "stages",
+      "kind": "funnel",
+      "design": "signal",
+      "theme": "light",
+      "scenario": null,
+      "source": "skills/cx-impact/examples/funnels/online-sales.ru.json",
+      "sourceSha256": "df9870ed46afe90fdbd2e60abf2fac03f48d600e9dedcf1c16789c607f228dbb",
+      "htmlSha256": "008638a14c1ec3ed0fd036e4f3c6b89a6a4ad03ee7f76f5774ac7ccef0dd83c8",
+      "captureSha256": "29ce5839e5c40ecaaf691886aeb60317e00e0d25e6fc04ec02488dc8ec1fa90e"
+    },
+    {
+      "locale": "ru",
+      "view": "blueprint",
+      "kind": "comparison",
+      "design": "graphite",
+      "theme": "light",
+      "scenario": "current",
+      "source": "skills/cx-impact/examples/scenarios/online-sales.ru.json",
+      "sourceSha256": "a91bc6e83ba3fa40be33d5febaf27ca1ffbaa4da350d9323ff9b5055834e80cc",
+      "htmlSha256": "a5a3329424d7d95e66021d926c4884324dea62d2f89f907ed41f41017c8cf4b6",
+      "captureSha256": "f51532b13efac02e05adb01c1ebb7d51caff49b676f4a6af6dd4fc4afc6174b4"
+    },
+    {
+      "locale": "ru",
+      "view": "process",
+      "kind": "comparison",
+      "design": "workshop",
+      "theme": "dark",
+      "scenario": "current",
+      "source": "skills/cx-impact/examples/scenarios/online-sales.ru.json",
+      "sourceSha256": "a91bc6e83ba3fa40be33d5febaf27ca1ffbaa4da350d9323ff9b5055834e80cc",
+      "htmlSha256": "a5a3329424d7d95e66021d926c4884324dea62d2f89f907ed41f41017c8cf4b6",
+      "captureSha256": "58bdb0351feb9b6bc88c2a616ae38544d67fe4a2aef9658ce3d66481b7358200"
+    },
+    {
+      "locale": "ru",
+      "composition": "hero.ru.png",
+      "sha256": "fb2889eb68d7713f91313a5c85cef404d2959462675673c701468b267087dff9",
+      "width": 1800,
+      "height": 1250
+    }
+  ]
+}

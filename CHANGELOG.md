@@ -1,9 +1,11 @@
 # Changelog
 
-## [Unreleased]
+## [0.6.1] — 2026-09-09
 
 - Redesigned funnel stages as equal-width vertical columns with a shared zero baseline, a conversion/entry/exit summary and aligned per-step conversion and residual metrics. Long titles wrap; zero, unknown and tiny positive values remain distinct. All four designs and light/dark themes retain their palette and typography.
 - Funnel percentage labels show up to two decimal places and mark positive rates below 0.01% explicitly. Input version 1, calculations, sources and exact JSON/CSV exports remain compatible.
+
+- Unified English/Russian product descriptions, refreshed release screenshots and a homepage overview composed from actual map and funnel captures.
 
 ## [0.6.0] — 2026-09-08
 

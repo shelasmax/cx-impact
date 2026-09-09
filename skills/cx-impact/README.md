@@ -1,6 +1,6 @@
 # CX Impact skill
 
-Create customer journey maps, service blueprints and experience-process maps with a coding agent. The primary output is standalone interactive HTML with editable JSON and branded SVG export. Choose Classic (the original green design, default), Graphite Field Notes, Workshop or Signal, each with light, dark and system modes. Finite path walkthroughs pause at branches and support reduced motion; exported SVG stays complete and static.
+Create customer journey maps, service blueprints, experience-process maps, optional AS IS / TO BE comparisons and quantitative sales funnels with a coding agent. The primary output is standalone interactive HTML with editable JSON and branded SVG export. Choose Classic (the original green design, default), Graphite Field Notes, Workshop or Signal, each with light, dark and system modes. Finite path walkthroughs pause at branches and support reduced motion; exported SVG stays complete and static.
 
 ## Install
 
@@ -79,4 +79,4 @@ node scripts/render-map.mjs examples/funnels/online-sales.en.json output/funnel.
 node scripts/render-map.mjs --check examples/funnels/online-sales.ru.json
 ```
 
-These features are included in version 0.6.0. Mechanical checks are not semantic or human acceptance.
+Mechanical checks are not semantic or human acceptance.

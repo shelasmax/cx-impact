@@ -1,6 +1,6 @@
 # Verification scope
 
-## Unreleased · funnel columns
+## v0.6.1 · funnel columns and a unified product presentation
 
 The stage-chart redesign passes 63 Node tests and a dedicated Chrome matrix at 1366×900 and 1920×1080. `tests/browser-funnel-columns-check.cjs` exercises six original synthetic variants (ordinary, tiny positive/zero, unknown, empty, twelve long-titled stages and two stages with a maximum-safe-integer entry) × RU/EN × both sizes × all four designs × light/dark: 192 cases. It checks actual text bounds/collisions, full titles, proportional heights and a shared zero baseline, explicit tiny-rate labels, natural/Fit containment, keyboard details/focus return and 32 reopened stage SVGs. Representative final screens were visually inspected in all four designs, including tiny values and twelve-stage scrolling.
 
@@ -14,7 +14,7 @@ CX_PLAYWRIGHT_MODULE=/path/to/existing/playwright/index.js node tests/browser-fu
 
 It writes only to a unique temporary folder (optionally under an existing `CX_FUNNEL_COLUMNS_QA_DIR`), installs nothing and closes Chrome on failure. The report records the exact 192 combinations, runtime hashes and Chrome version. Chrome only: no screen-reader, other-browser or human semantic acceptance claim.
 
-Publication integrity and the standard release builder were also checked in an isolated allowlisted copy with newly captured synthetic illustrations: 29 package members, extracted render/check-only, exact rebuilds, 16 screenshot hashes and the extracted showcase passed. This copy is a test artifact, not a release. The tracked v0.6.0 gallery and release bundle remain frozen. Building a new showcase at the repository root will intentionally reject that historical gallery as stale until screenshots for the next release are prepared; do not overwrite historical images merely to bypass this guard.
+The six public HTML/source snapshots and all 16 bilingual gallery screenshots are regenerated with the 0.6.1 renderer. The homepage overview is a browser composition of four real SVG captures per language; its manifest records the input, rendered HTML and final-image hashes. The release builder validates both product images and their current source/runtime alongside the 16 gallery images, then checks exact showcase contents, local links and four extracted rebuilds. Historical release galleries remain in their own version directories.
 
 ## v0.6.0 · paired scenarios, quantitative funnels and four designs
 

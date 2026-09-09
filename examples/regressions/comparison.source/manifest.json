@@ -1,19 +1,19 @@
 {
-  "rendererVersion": "0.6.0",
+  "rendererVersion": "0.6.1",
   "templateCustom": false,
   "files": {
     "scripts/render-map.mjs": "b87d63e6f1215f242a258123b9dffd6ad30298fe7cb5f02ebdaefebfb08c76e4",
     "assets/map.html": "07f6fbd687bd9ac7041fc1cc3c8a277274c5c7c7b27348e14adfa4bd50734963",
-    "assets/map-core.js": "7958cbd8d2ba0a099f51c02de57c9665e5ace7d1e90ffa3e05be945a8473c500",
+    "assets/map-core.js": "e505cf7e33b244f22f89dd85d74d76046cb607e7c0c767798f3ea8574df3b558",
     "assets/comparison-core.js": "3b118fc2211c8d5c849756faf2c6de1d59d543386fc6f45b47a89ba5d7a989f5",
     "assets/design-core.js": "1db4c0a91930fff0b6ab4c2b0efa5770500c5d267669232366ec356adc2c0188",
-    "assets/funnel-core.js": "2beba277d91d9275df4125b7f2972d40b117669c4c0af134d7b02d0550f89fc5",
-    "assets/funnel-viewer.js": "05653d58c1b3576d0250abf9bf8e83bbce022104d5bd6a3c7a60b0b8d6bc0c1b",
+    "assets/funnel-core.js": "324913901f24e09a460f8115e04cd092554dc52abeb9140cbdf72fcf585e120c",
+    "assets/funnel-viewer.js": "20817960795a38060b1730770dec7e7fe61dabe948421e95237d3994811d4a90",
     "assets/map-viewer.js": "fdba15f313fb025a5146260be007154ec201b21a6f2f906bc7ea631220bc1685",
     "rebuild.mjs": "a771f095fb9e38fc8d5c53bc5708814de0a00abe10a08e796fd17acd44a225da"
   },
   "source": "comparison.json",
   "sourceSha256": "1e4eaba086cab31bf0ed86e34f906489bd63d7ff1f812feb8a836ef45111ada2",
-  "htmlSha256": "828bb24f7ed4504282621b08fdc94b2ad57e52a56fb47e0a096b681de10bde53",
+  "htmlSha256": "a2c275578144da21144c314fffc88955bb288bf22ac194ac6d8d8378ed5e5b40",
   "rebuild": "node \"comparison.source/rebuild.mjs\""
 }

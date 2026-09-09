@@ -1,196 +1,129 @@
-<p align="center">
-  <img src="docs/brand/hero.png" alt="CX Impact promotional illustration: light and dark service maps" width="1200">
-</p>
-<p align="center"><sub>Promotional illustration. Actual generated maps appear below.</sub></p>
+<p align="center"><img src="docs/brand/hero.png" alt="CX Impact: actual customer journey, service blueprint, process and sales funnel outputs" width="1200"></p>
+<p align="center"><sub>Real output excerpts, composed from original synthetic examples.</sub></p>
 
-<h1 align="center">Turn a service description into a map you can discuss.</h1>
-
+<h1 align="center">See the service. Understand the conversion.</h1>
+<p align="center">Customer journeys, service blueprints, processes and sales funnels — in one portable agent skill.</p>
 <p align="center">
-  An open-source agent skill for customer journeys, service blueprints and experience-process maps.
-</p>
-
-<p align="center">
-  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.6.0"><img alt="Release v0.6.0" src="https://img.shields.io/badge/release-v0.6.0-24695a"></a>
+  <a href="https://github.com/shelasmax/cx-impact/releases/tag/v0.6.1"><img alt="Release v0.6.1" src="https://img.shields.io/badge/release-v0.6.1-24695a"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-203a34"></a>
   <a href="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml"><img alt="Checks" src="https://github.com/shelasmax/cx-impact/actions/workflows/checks.yml/badge.svg"></a>
-  <img alt="Experimental preview" src="https://img.shields.io/badge/status-experimental_preview-a06a24">
 </p>
+<p align="center"><a href="#quick-start">Quick start</a> · <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.6.1/cx-impact-0.6.1-showcase.zip">Offline demos</a> · <a href="docs/releases/v0.6.1.en.md">Product guide & screenshots</a> · <a href="README.ru.md">Русский</a></p>
 
-<p align="center">
-  <a href="#quick-start">Quick start</a> ·
-  <a href="https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/bicycle-service-demo-en.html">Download interactive demo</a> ·
-  <a href="docs/installation.md">Installation</a> ·
-  <a href="README.ru.md">Русский</a>
-</p>
+**CX Impact** helps product managers, analysts, designers and service teams turn scattered product knowledge into something they can discuss together. Give your coding agent a description, requirements, research, process documents or relevant code. For a funnel, add counts and measurement definitions. The skill creates interactive maps and charts with sources, assumptions and unknowns kept explicit.
 
-CX Impact helps product engineers, designers and service teams connect what a customer does with the work a service needs to perform. Give your coding agent a product description, documents, research or relevant code. It produces a standalone interactive HTML map, editable JSON and SVG exports.
+Open the result in a browser, inspect a stage or handoff, compare the current and proposed service, or review conversion between sales stages. Every result is a standalone HTML file with editable JSON, static SVG export and its own rebuildable source bundle. Funnels also export numerical tables to CSV.
 
-**One scenario. Three complementary views. Clear boundaries between evidence and assumptions.**
+## One product, complementary views
 
-## New in v0.6.0: scenarios, funnels and four designs
-
-Comparison is opt-in: render an explicit current/target document, then enable **Compare AS IS / TO BE**. Authored stage/node/lane correspondence supports splits and unmatched items; there is no automatic matching. Details preserve each side’s sources. SVG exports stack both scenarios; comparison off restores ordinary viewing.
-
-Sales funnels are a separate document (`kind: "sales-funnel"`) with Stages, Flows and Table. Counts represent unique people in a closed ordered cohort. Missing counts stay unknown; stage residuals do not prove loss. Flows require a supplied bounded, conserved DAG with unrolled retries and checked geometry. Repeat purchase uses its own mature eligible denominator. Aggregate checks cannot verify identity or individual maturity; no monetary effects are inferred. JSON preserves exact funnel source bytes; CSV contains counts/denominators; SVG supports visual views only.
-
-Classic remains default. Graphite, Workshop and Signal also support independent Light/Dark/System; finite walkthroughs start off and honor reduced motion. Fit is an overview; use 100% and canvas scrolling to read dense maps.
-
-```sh
-node skills/cx-impact/scripts/render-map.mjs skills/cx-impact/examples/scenarios/online-sales.en.json output/comparison.html
-node skills/cx-impact/scripts/render-map.mjs skills/cx-impact/examples/funnels/online-sales.en.json output/funnel.html
-```
-
-Read the [funnel contract](skills/cx-impact/references/funnels.md), [map format](skills/cx-impact/references/maps.md) and [verification scope](docs/verification.md). All bundled examples are synthetic. [Release guide and eight screenshots](docs/releases/v0.6.0.en.md) · [Download the offline showcase](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/cx-impact-0.6.0-showcase.zip).
-
-### Compare the change and inspect the numbers
-
-Complete paired CJM in Classic, exported from the English synthetic scenario:
-
-![AS IS and TO BE — English, Classic](docs/releases/v0.6.0/comparison-classic-en.png)
-
-Checkout recovery flows in Signal; ribbon widths use the supplied counts:
-
-![Online sales recovery — English, Signal](docs/releases/v0.6.0/funnel-flows-en.png)
-
-[All eight English screenshots, four designs and usage examples](docs/releases/v0.6.0.en.md) · [Comparison HTML](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/comparison-en.html) · [Funnel HTML](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/funnel-en.html)
-
-## What you get
-
-Choose **Classic** (the original green default), **Graphite Field Notes**, **Workshop** or **Signal**. Each supports Light, Dark and System modes, plus finite path walkthroughs with explicit branch choices. SVG exports preserve the selected appearance and embed the current CX Impact logo for offline use. JSON exports retain the original data. See the [design specification](docs/brand/README.md#graphite-field-notes--map-viewer).
-
-| View | The question it helps answer |
+| View | What it helps you discuss |
 |---|---|
-| **Customer journey map** | What is the customer trying to do, through which touchpoints, and where might the experience break down? |
-| **Service blueprint** | What visible work, backstage work and support make that journey possible? |
-| **Experience-process map** | Who does what, what gets handed over, and what happens at a decision or recovery step? |
+| **Customer journey map (CJM)** | Customer goals, actions and touchpoints; evidence about the experience, possible barriers and improvement proposals. |
+| **Service blueprint** | Customer-facing work, backstage operations and supporting systems aligned to the same journey. |
+| **Experience-process map** | Participants, handoffs, decision conditions, alternative paths and recovery. |
+| **AS IS / TO BE comparison** | The current and proposed scenario across all three map views, with explicit correspondences and each side’s sources. Switch comparison on when needed. |
+| **Sales funnel** | People at each stage, entry-to-exit and step conversion, those who did not progress within the window, supplied recovery flows and repeat purchase. |
 
-Choose a **current state (AS-IS)** or **target state (TO-BE)**. Compare them when you explicitly need both. Shared stage and barrier IDs keep the views connected; requirements, observations, hypotheses, proposals and unknowns retain their meaning.
+The map views share stable stages and evidence. The funnel is a separate quantitative document: journey descriptions do not become invented conversion numbers. A supplied transition graph can show payment retries, explicitly classified losses, pending cases and unknown outcomes; repeat purchase uses its own mature cohort.
 
-## Bicycle workshop: one scenario, three maps
+### Explore real output
 
-An original fictional example, with English content and interface. Experiences and barriers are hypotheses; improvements are proposals. Click a screenshot to inspect it at full size.
+The synthetic online-sales example runs from 10,000 people at entry to 420 first purchases. The column chart shows a **4.2%** overall conversion, with counts, previous-step conversion and the number who did not progress at each transition. Column heights remain proportional, including tiny values; missing data stays unknown.
 
-### 1. Customer journey map (CJM)
+![Sales funnel stages and conversions — English, Signal](docs/releases/v0.6.1/funnel-stages-en.png)
 
-The customer's goals, actions, touchpoints, possible barriers and improvement ideas across six stages.
+The same product can be discussed through its customer journey, service operations and explicit current/target comparison:
 
-![Customer journey map — bicycle repair service, English](examples/bicycle-service-en/cjm-preview.png)
+![AS IS / TO BE customer journeys — English, Classic](docs/releases/v0.6.1/comparison-classic-en.png)
 
-### 2. Service blueprint
+[Explore all eight screenshots and usage examples](docs/releases/v0.6.1.en.md) · [Download comparison HTML](https://github.com/shelasmax/cx-impact/releases/download/v0.6.1/comparison-en.html) · [Download funnel HTML](https://github.com/shelasmax/cx-impact/releases/download/v0.6.1/funnel-en.html)
 
-Customer-facing interactions, backstage work and supporting systems, aligned to the same journey.
+Choose **Classic**, **Graphite**, **Workshop** or **Signal**, independently of Light, Dark or System mode. Sources and calculations open by click or keyboard. Use 100% for reading and Fit for an overview; dense maps scroll inside the canvas. Optional path walkthroughs pause at branches and support reduced motion. SVG preserves the chosen appearance and the embedded CX Impact logo.
 
-![Service blueprint — bicycle repair service, English](examples/bicycle-service-en/blueprint-preview.png)
+## From source material to a useful discussion
 
-### 3. Experience-process map
+1. **Provide the material.** Describe the task, audience and current or target state. Attach source documents; for funnels, include counts, cohort dates, conversion window and counting rules.
+2. **Create and inspect the result.** Ask for the views you need, open the HTML, and follow claims back to their sources. Requirements, observations, hypotheses, proposals and unknowns retain their meaning across views.
+3. **Share or update it.** Share the HTML or export SVG/CSV. To revise a map, supply the previous JSON and new material. The agent keeps unchanged IDs and delivers a separate bundle with changes and unresolved contradictions, preserving the previous version.
 
-Customer, service advisor and mechanic: handoffs, repair approval, and the alternative path when the estimate is declined.
-
-![Experience-process map — bicycle repair service, English](examples/bicycle-service-en/process-preview.png)
-
-[Download the English interactive demo](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/bicycle-service-demo-en.html) · [Editable JSON](examples/bicycle-service-en/map.json) · [Russian example](README.ru.md#веломастерская-три-карты-одного-сценария)
+[Three worked first-use examples](skills/cx-impact/references/quickstart.md) · [Map revision workflow](skills/cx-impact/references/maps.md#revising-a-map)
 
 ## Quick start
 
-**You need:** a coding agent with file and shell access, and Node.js 18+ for rendering. The renderer uses only built-in Node APIs. Viewing the generated HTML needs only a browser.
+You need a coding agent with file and shell access, plus **Node.js 18+** to render or rebuild. Viewing the HTML needs only a browser.
 
-From your project directory, install with the [open Skills CLI](https://github.com/vercel-labs/skills) and choose your agent:
+Install from your project directory with the [Skills CLI](https://github.com/vercel-labs/skills), then start a fresh agent session:
 
 ```sh
 npx skills add shelasmax/cx-impact --skill cx-impact
 ```
 
-Or install project-local copies for Codex, Claude Code and OpenCode in one command:
-
-```sh
-npx skills add shelasmax/cx-impact --skill cx-impact --agent codex claude-code opencode --copy --yes
-```
-
-Start a fresh agent session. Use `$cx-impact` in Codex, `/cx-impact` in Claude Code, or ask OpenCode to use the `cx-impact` skill. For example, in Codex:
+In Codex, start with a map:
 
 ```text
-$cx-impact Create a target-state CJM, service blueprint and experience-process
-map for booking and attending a class. Use this project's product documents.
-Keep requirements separate from assumptions. Show barriers, recovery paths
-and open questions. Save an interactive HTML map and its rebuildable sources.
+$cx-impact Map this service from the attached product documents.
+Create a CJM, service blueprint and experience-process map in English.
+Keep observations, requirements, hypotheses and unknowns distinct.
+Show decision conditions and recovery paths. Save standalone HTML and sources.
 ```
 
-You can start with a description alone:
+Or provide measurement data for a funnel:
 
 ```text
-$cx-impact Map a bicycle repair service from the repair request to collection.
-Create a clearly labelled fictional example. Show the customer journey and
-how staff support it. Keep unknown experience claims explicit.
+$cx-impact Build an online-sales funnel from the attached counts and definitions.
+Show stage counts, conversion and people who did not progress within the window.
+Use only supplied transitions for recovery flows and explicitly classified losses.
+Keep repeat purchase on its own mature denominator. Save HTML, JSON and CSV.
 ```
 
-Prefer a manual install? Extract [cx-impact-0.6.0.zip](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/cx-impact-0.6.0.zip) and copy the whole skill directory to your agent's skill location. `npx` needs npm and network access to run the third-party installer; CX Impact does not need its own npm package.
+For comparison, provide both scenarios and explicit correspondences and ask to enable **Compare AS IS / TO BE**. Viewer labels support English and Russian; author the content in the desired language too.
+
+Prefer manual installation? Extract the [skill package](https://github.com/shelasmax/cx-impact/releases/download/v0.6.1/cx-impact-0.6.1.zip) and copy the entire `cx-impact/` directory to your agent’s skill location. The renderer uses built-in Node APIs and needs no runtime packages, server, account or external rendering service. `npx` uses npm/network access for the third-party installer; model access is configured in your agent.
 
 | Agent | Support scope |
 |---|---|
-| Codex | Tested local target; project installation via `.agents/skills/`. |
-| Claude Code | Installation and `/cx-impact` invocation follow the official documentation; no model-driven end-to-end test. |
+| Codex | Tested local target; invoke `$cx-impact`. |
+| Claude Code | Installation and `/cx-impact` invocation documented; no model-driven end-to-end test. |
 | OpenCode | Local skill discovery checked; no model-driven end-to-end test. |
 | DeepSeek Harness | Filesystem skill support documented; harness runtime not tested. |
 
-[Agent-specific installation, DeepSeek Harness, upgrades and troubleshooting →](docs/installation.md) · [Русская инструкция](docs/installation.ru.md)
+[Installation, upgrades and troubleshooting](docs/installation.md) · [Инструкция на русском](docs/installation.ru.md)
 
-## Try the output without an agent
+## Try it without an agent
 
-Download the [interactive bicycle-service demo](https://github.com/shelasmax/cx-impact/releases/download/v0.6.0/bicycle-service-demo-en.html), save it and open it in a browser. No server or account is needed to view it. GitHub's repository file viewer shows HTML source; use the downloaded file for interaction.
+Download the [offline showcase](https://github.com/shelasmax/cx-impact/releases/download/v0.6.1/cx-impact-0.6.1-showcase.zip), extract it and open `index.html`. It includes English/Russian maps, comparisons and funnels, screenshots, source bundles and the installable skill. GitHub’s file viewer displays HTML source; download the files for interaction.
 
-The viewer includes view switching, readable **100%** scale, **fit to width**, canvas scrolling, keyboard-accessible details, sources, open questions and full-view SVG export. Dense branch labels may move to a numbered list below the map; their full text is retained.
-
-To render the included source yourself, from a repository checkout:
+To render an included example from a checkout:
 
 ```sh
-node skills/cx-impact/scripts/render-map.mjs examples/bicycle-service-en/map.json examples/bicycle-service-en/map.html
+node skills/cx-impact/scripts/render-map.mjs --check skills/cx-impact/examples/funnels/online-sales.en.json
+node skills/cx-impact/scripts/render-map.mjs skills/cx-impact/examples/funnels/online-sales.en.json output/funnel.html
+node output/funnel.source/rebuild.mjs
 ```
 
-Each delivery includes:
+`--check` validates structure and geometry without writing files. Each delivery contains:
 
 ```text
-map.html          Standalone interactive map
+map.html          Standalone interactive result
 map.json          Editable source data
-map.checks.json   Structural and geometry check results
+map.checks.json   Structural and geometry diagnostics
 map.source/       Exact renderer, template and runtime snapshot
-  rebuild.mjs     Reproduce this map without the installed skill
+  rebuild.mjs     Rebuild independently of the installed skill
 ```
 
-The HTML viewer makes no network requests. Creating a map with an agent uses that agent's configured model provider; this is not a claim of offline inference.
+HTML makes no network requests. Creating a map with an agent still uses that agent’s configured model provider. Keep custom map bundles separate from the installed skill when upgrading.
 
-## Evidence before decoration
+## Evidence and practical limits
 
-A repository can show implementation, but cannot establish how customers feel, how often a problem occurs or how it affects revenue. A requirement describes intent, not proof of working behavior. CX Impact makes those boundaries visible instead of filling every cell with confident guesses.
+CX Impact is an experimental public product. It helps structure a discussion; it does not establish the truth of an authored claim. Code cannot prove customer emotions, issue frequency or revenue impact. Requirements express intent, proposals remain proposals, and automated checks do not replace source review or human judgment.
 
-It also preserves missing information: an empty process cell means a step is not described; an unknown barrier does not become a hypothesis when switching views. Improvements and proposed recovery remain proposals.
+Maps support 2–12 stages. Funnels count unique people in closed ordered cohorts, with up to 32 transition nodes and 48 edges; large scenarios may need separate maps. Aggregate checks cannot independently verify person identity or cohort maturity. The viewer is not a visual editor or a complete BPMN tool.
 
-[Data format and authoring guidance](skills/cx-impact/references/maps.md) · [Evidence rules](skills/cx-impact/references/evidence.md)
-
-## First use and map updates
-
-Version 0.5.0 includes [three worked examples](skills/cx-impact/references/quickstart.md) for product managers and analysts: target requirements, a documented current process and a map revision. Each includes fictional inputs, a request, authored JSON and limitations. The [Russian guide](skills/cx-impact/references/quickstart.ru.md) covers the same scenarios. Both guides, their JSON examples and the `--check` command are included in the release archive.
-
-Validate authored JSON without writing files with `node skills/cx-impact/scripts/render-map.mjs --check path/to/map.json`. Read the [revision workflow](skills/cx-impact/references/maps.md#revising-a-map) to preserve IDs, sources and the previous bundle when updating a map.
-
-Development is focused on independent first use and repeat use: [five-person pilot](docs/pilot.md) · [four-case comparison protocol](docs/evaluation.md). These are protocols and synthetic materials, not completed user studies or evidence of superiority over a short prompt. Invitations and human evaluations belong to the project owner.
-
-After an initial demand signal, the next priorities are a source-linked decision summary, navigation between related small maps, and expanding browser compatibility across users' environments. Isolated browser checks and four designs are now available. A visual editor, server, accounts and integrations remain outside this cycle. The pilot's 4-of-5 first-use and 3-of-5 repeat-use targets guide the next development decision; they do not establish broad demand.
-
-## Status and limitations
-
-**v0.6.0 is an experimental public preview.** One portable skill package serves all four documented agent setups. Compatibility and verification scopes are listed above; they do not imply equal model performance.
-
-- Viewer labels support English and Russian (`locale: "en"` or `"ru"`). Authored map content is not automatically translated.
-- Maps support 2–12 stages and one process node per participant lane and stage. Complex journeys may need separate maps.
-- The viewer is not a drag-and-drop editor, a complete BPMN tool or a full implementation of XP Mapping.
-- Automated checks help find geometry and data errors. They do not establish semantic correctness or universal layout quality.
-- This release does not demonstrate that the skill outperforms a short prompt.
-
-[Verification scope](docs/verification.md) · [Changelog](CHANGELOG.md) · [Regression examples](examples/regressions/README.md)
+Chrome is checked at 1366×900 and 1920×1080. Other engines and screen readers are not claimed as tested. [Verification scope](docs/verification.md) · [Map format](skills/cx-impact/references/maps.md) · [Funnel format](skills/cx-impact/references/funnels.md) · [Evidence rules](skills/cx-impact/references/evidence.md)
 
 ## Contribute
 
-Useful contributions include small synthetic reproductions of layout problems, clearer evidence handling, accessibility improvements and UI localization. Please keep private product data out of public issues.
+Useful contributions include synthetic reproductions, clearer evidence handling, accessibility improvements and UI localization. Keep private product data out of public issues. Pilot and evaluation materials are [available for contributors](docs/pilot.md), alongside the [comparison protocol](docs/evaluation.md); they are not completed user studies.
 
 ```sh
 node --test tests/*.test.mjs
@@ -198,10 +131,8 @@ python3 -B scripts/check-release.py
 python3 -B scripts/build-release.py
 ```
 
-[Contributing](CONTRIBUTING.md) · [Report a bug](https://github.com/shelasmax/cx-impact/issues/new/choose) · [Security](SECURITY.md)
+[Contributing](CONTRIBUTING.md) · [Report a bug](https://github.com/shelasmax/cx-impact/issues/new/choose) · [Changelog](CHANGELOG.md) · [Security](SECURITY.md)
 
-## License and acknowledgements
+## License and references
 
-[MIT](LICENSE). Original renderer, template, fixtures and project materials.
-
-[Archify](https://github.com/tt-a1i/archify) and [OpenDiagram](https://github.com/Itz-Agasta/OpenDiagram) inspired the care given to visual delivery. [NN/g's service blueprint guidance](https://www.nngroup.com/articles/service-blueprints-definition/) informs the layer distinctions. [XP Mapping](https://github.com/Byndyusoft/xp-mapping) is background for connecting experience and process. Their code and templates are not bundled dependencies. The project logo was created with AI assistance; see [brand assets](docs/brand/README.md).
+[MIT](LICENSE). Original renderer, fixtures and project materials. [Archify](https://github.com/tt-a1i/archify), [OpenDiagram](https://github.com/Itz-Agasta/OpenDiagram), [NN/g](https://www.nngroup.com/articles/service-blueprints-definition/) and [XP Mapping](https://github.com/Byndyusoft/xp-mapping) inform visual and conceptual choices; their code/templates are not runtime dependencies. See [brand and screenshot provenance](docs/brand/README.md).

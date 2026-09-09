@@ -39,11 +39,30 @@ def build_showcase(out: Path, version: str) -> list[Path]:
     screenshot_names = {f'{stem}-{locale}.png' for stem in SCREENSHOT_STEMS for locale in ('en', 'ru')}
     if manifest['version'] != version or len(manifest['records']) != 16 or {r['filename'] for r in manifest['records']} != screenshot_names:
         raise SystemExit('Release screenshot manifest differs from the explicit bilingual set')
+    overview = json.loads((ROOT / 'docs/brand/hero.manifest.json').read_text())
+    captures = [r for r in overview['records'] if 'view' in r]
+    compositions = [r for r in overview['records'] if 'composition' in r]
+    if overview['version'] != version or len(captures) != 8 or len(compositions) != 2:
+        raise SystemExit('Product overview manifest differs from the bilingual set')
+    if {(r['locale'], r['view']) for r in captures} != {(locale, view) for locale in ('en', 'ru') for view in ('cjm', 'blueprint', 'process', 'stages')}:
+        raise SystemExit('Product overview captures are incomplete')
+    if any(r['kind'] != ('funnel' if r['view'] == 'stages' else 'comparison') for r in captures):
+        raise SystemExit('Unexpected product overview document kind')
+    if {(r['locale'], r['composition']) for r in compositions} != {('en', 'hero.png'), ('ru', 'hero.ru.png')}:
+        raise SystemExit('Unexpected product overview composition')
     assets = []
     with tempfile.TemporaryDirectory(prefix='cx-impact-showcase-') as tmp:
         stage = Path(tmp) / 'showcase'
         stage.mkdir()
         (stage / 'screenshots').mkdir()
+        for record in compositions:
+            source = ROOT / 'docs/brand' / record['composition']
+            if source.is_symlink() or hashlib.sha256(source.read_bytes()).hexdigest() != record['sha256']:
+                raise SystemExit('Product overview hash mismatch')
+            name = f"product-{record['locale']}.png"
+            shutil.copyfile(source, stage / name)
+            shutil.copyfile(source, out / name)
+            assets.append(out / name)
         for record in manifest['records']:
             source = gallery / record['filename']
             if source.is_symlink() or hashlib.sha256(source.read_bytes()).hexdigest() != record['sha256']:
@@ -60,18 +79,18 @@ def build_showcase(out: Path, version: str) -> list[Path]:
                 subprocess.run(['node', str(ROOT / 'skills/cx-impact/scripts/render-map.mjs'), str(source), str(result)], check=True, stdout=subprocess.DEVNULL)
                 if result.with_suffix('.json').read_bytes() != source.read_bytes():
                     raise SystemExit('Showcase input bytes changed')
-                for record in manifest['records']:
+                for record in [*manifest['records'], *captures]:
                     if record['kind'] == kind and record['locale'] == locale:
                         if record['sourceSha256'] != hashlib.sha256(source.read_bytes()).hexdigest() or record['htmlSha256'] != hashlib.sha256(result.read_bytes()).hexdigest():
-                            raise SystemExit('Release screenshots are stale relative to the current source/runtime')
+                            raise SystemExit('Release screenshots or overview are stale relative to the current source/runtime')
                 for suffix in ('.html', '.json'):
                     shutil.copyfile(result.with_suffix(suffix), out / result.with_suffix(suffix).name)
                     assets.append(out / result.with_suffix(suffix).name)
         package = out / f'cx-impact-{version}.zip'
         shutil.copyfile(package, stage / package.name)
         labels = {
-            'en': ('Explore the release', 'Compare AS IS / TO BE', 'Sales funnel', 'Full guide', 'Synthetic examples. Open HTML in a browser; Node.js 18+ is needed only to rebuild.', 'Installable skill package'),
-            'ru': ('Посмотреть релиз', 'Сравнение AS IS / TO BE', 'Воронка продаж', 'Полное описание', 'Синтетические примеры. Откройте HTML в браузере; Node.js 18+ нужен только для пересборки.', 'Пакет скилла для установки'),
+            'en': ('Explore CX Impact', 'Maps & AS IS / TO BE', 'Sales funnel', 'Product guide', 'Synthetic examples. Open HTML in a browser; Node.js 18+ is needed only to rebuild.', 'Installable skill package'),
+            'ru': ('Посмотреть CX Impact', 'Карты и AS IS / TO BE', 'Воронка продаж', 'Описание продукта', 'Синтетические примеры. Откройте HTML в браузере; Node.js 18+ нужен только для пересборки.', 'Пакет скилла для установки'),
         }
         captions = {
             'en': ['Classic: paired customer journey', 'Graphite: paired service blueprint', 'Workshop: paired process', 'Signal: dark process interface', 'Signal: stages and conversion', 'Signal: payment recovery flows', 'Graphite: numerical table', 'Workshop: funnel interface'],
@@ -80,7 +99,7 @@ def build_showcase(out: Path, version: str) -> list[Path]:
         sections = []
         for locale, (title, comparison, funnel, guide, note, install) in labels.items():
             pictures = ''.join(f'<figure><img loading="lazy" src="screenshots/{stem}-{locale}.png" alt="{html_module.escape(caption)}"><figcaption>{html_module.escape(caption)}</figcaption></figure>' for stem, caption in zip(SCREENSHOT_STEMS, captions[locale]))
-            sections.append(f'<section id="{locale}" lang="{locale}"><h2>{title}</h2><p>{note}</p><nav><a href="comparison-{locale}.html">{comparison}</a><a href="funnel-{locale}.html">{funnel}</a><a href="README.{locale}.md">{guide}</a><a href="{package.name}">{install}</a></nav><details><summary>{"Screenshots" if locale == "en" else "Скриншоты"}</summary>{pictures}</details></section>')
+            sections.append(f'<section id="{locale}" lang="{locale}"><h2>{title}</h2><img src="product-{locale}.png" alt="CX Impact"><p>{note}</p><nav><a href="comparison-{locale}.html">{comparison}</a><a href="funnel-{locale}.html">{funnel}</a><a href="README.{locale}.md">{guide}</a><a href="{package.name}">{install}</a></nav><details><summary>{"Screenshots" if locale == "en" else "Скриншоты"}</summary>{pictures}</details></section>')
         (stage / 'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CX Impact ' + version + '</title><style>body{margin:40px auto;max-width:1120px;padding:0 24px;background:#f5f3ed;color:#203a34;font:18px/1.6 system-ui}h1{font-size:48px}nav{display:flex;flex-wrap:wrap;gap:12px}a{color:#24695a}nav a{padding:12px;background:white;border:1px solid #bbb;border-radius:8px}section{margin:40px 0}figure{margin:24px 0}img{max-width:100%;height:auto}summary{cursor:pointer;margin:24px 0}</style><h1>CX Impact ' + version + '</h1><nav><a href="#en">English</a><a href="#ru">Русский</a></nav>' + ''.join(sections) + '</html>')
         archive = out / f'cx-impact-{version}-showcase.zip'
         with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
@@ -109,7 +128,7 @@ def build_showcase(out: Path, version: str) -> list[Path]:
             if target.read_bytes() != before:
                 raise SystemExit('Extracted showcase did not rebuild exactly')
         assets.append(archive)
-    print('Showcase: 16 screenshot hashes, exact archive contents, local links and four extracted rebuilds passed.')
+    print('Showcase: 16 screenshots and two product overview hashes, exact archive contents, local links and four extracted rebuilds passed.')
     return assets
 
 def build() -> None:

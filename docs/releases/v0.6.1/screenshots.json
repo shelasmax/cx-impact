@@ -1,0 +1,262 @@
+{
+  "version": "0.6.1",
+  "chrome": "152.0.7977.83",
+  "records": [
+    {
+      "filename": "comparison-classic-en.png",
+      "locale": "en",
+      "kind": "comparison",
+      "view": "cjm",
+      "design": "classic",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "f20855c85e2083691c0e4239b36c439e949d5bf20b315b552a352a53a9047cdd",
+      "htmlSha256": "e4fb0d20191f0b17970f1df8026d4ac8b7e16fa804b610fc270089fcbad13c5c",
+      "sha256": "6492b60bbd3d11d88a2aff295b8c16da5a4d883e4144e8cc824e80d1cf4ff5a2"
+    },
+    {
+      "filename": "comparison-graphite-en.png",
+      "locale": "en",
+      "kind": "comparison",
+      "view": "blueprint",
+      "design": "graphite",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "f20855c85e2083691c0e4239b36c439e949d5bf20b315b552a352a53a9047cdd",
+      "htmlSha256": "e4fb0d20191f0b17970f1df8026d4ac8b7e16fa804b610fc270089fcbad13c5c",
+      "sha256": "7eeb28ae9d0ac882a8d19c5cdc8bf62a895623d8c43e3594691312233a0c9028"
+    },
+    {
+      "filename": "comparison-workshop-en.png",
+      "locale": "en",
+      "kind": "comparison",
+      "view": "process",
+      "design": "workshop",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "f20855c85e2083691c0e4239b36c439e949d5bf20b315b552a352a53a9047cdd",
+      "htmlSha256": "e4fb0d20191f0b17970f1df8026d4ac8b7e16fa804b610fc270089fcbad13c5c",
+      "sha256": "9054876d744fdca8729dbed7b9eb133b1fab32664d3360657e026c2016096618"
+    },
+    {
+      "filename": "comparison-signal-en.png",
+      "locale": "en",
+      "kind": "comparison",
+      "view": "process",
+      "design": "signal",
+      "theme": "dark",
+      "capture": "interface",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "f20855c85e2083691c0e4239b36c439e949d5bf20b315b552a352a53a9047cdd",
+      "htmlSha256": "e4fb0d20191f0b17970f1df8026d4ac8b7e16fa804b610fc270089fcbad13c5c",
+      "sha256": "95615fc0905cdabe22470bf259d67341ed84f9180f28456b3d72191421da8c60"
+    },
+    {
+      "filename": "funnel-stages-en.png",
+      "locale": "en",
+      "kind": "funnel",
+      "view": "stages",
+      "design": "signal",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "c32aba98efe0edafef942bc9f34ea8c757777ff50600dddc5b0848d608739c47",
+      "htmlSha256": "d25e6f119c826aed48cef3b670b56ea65232befec70d85d927d9571862300c0e",
+      "sha256": "a159ddc48c983a0052ea1eff45c8a265af0b40b5e4a2a013ed92766eb2bbac8b"
+    },
+    {
+      "filename": "funnel-flows-en.png",
+      "locale": "en",
+      "kind": "funnel",
+      "view": "flows",
+      "design": "signal",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "c32aba98efe0edafef942bc9f34ea8c757777ff50600dddc5b0848d608739c47",
+      "htmlSha256": "d25e6f119c826aed48cef3b670b56ea65232befec70d85d927d9571862300c0e",
+      "sha256": "cd4f5b25d7076a73d034dbbde10e068dd293a48aa1fbeb631ca49a4c8ad7d590"
+    },
+    {
+      "filename": "funnel-table-en.png",
+      "locale": "en",
+      "kind": "funnel",
+      "view": "table",
+      "design": "graphite",
+      "theme": "light",
+      "capture": "interface",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "c32aba98efe0edafef942bc9f34ea8c757777ff50600dddc5b0848d608739c47",
+      "htmlSha256": "d25e6f119c826aed48cef3b670b56ea65232befec70d85d927d9571862300c0e",
+      "sha256": "d4672b2ec472da558402cf1e12ec80a84c2f5bacaf8c9e4a96e3c9aeec5b74a3"
+    },
+    {
+      "filename": "funnel-workshop-en.png",
+      "locale": "en",
+      "kind": "funnel",
+      "view": "stages",
+      "design": "workshop",
+      "theme": "light",
+      "capture": "interface",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "c32aba98efe0edafef942bc9f34ea8c757777ff50600dddc5b0848d608739c47",
+      "htmlSha256": "d25e6f119c826aed48cef3b670b56ea65232befec70d85d927d9571862300c0e",
+      "sha256": "61736d37f91a5db3e8b11df9b6e4ae7c8c655431648f2ac763c4a4f076e59447"
+    },
+    {
+      "filename": "comparison-classic-ru.png",
+      "locale": "ru",
+      "kind": "comparison",
+      "view": "cjm",
+      "design": "classic",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "a91bc6e83ba3fa40be33d5febaf27ca1ffbaa4da350d9323ff9b5055834e80cc",
+      "htmlSha256": "a5a3329424d7d95e66021d926c4884324dea62d2f89f907ed41f41017c8cf4b6",
+      "sha256": "aeeb0cd14069aa2ab856b0ebb91c571083a1d69837432706a74b87448358054d"
+    },
+    {
+      "filename": "comparison-graphite-ru.png",
+      "locale": "ru",
+      "kind": "comparison",
+      "view": "blueprint",
+      "design": "graphite",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "a91bc6e83ba3fa40be33d5febaf27ca1ffbaa4da350d9323ff9b5055834e80cc",
+      "htmlSha256": "a5a3329424d7d95e66021d926c4884324dea62d2f89f907ed41f41017c8cf4b6",
+      "sha256": "7c578ed915cb3554bc322395c963fbd54ba1c1cac0e998323d9e6e3bc428a1b1"
+    },
+    {
+      "filename": "comparison-workshop-ru.png",
+      "locale": "ru",
+      "kind": "comparison",
+      "view": "process",
+      "design": "workshop",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "a91bc6e83ba3fa40be33d5febaf27ca1ffbaa4da350d9323ff9b5055834e80cc",
+      "htmlSha256": "a5a3329424d7d95e66021d926c4884324dea62d2f89f907ed41f41017c8cf4b6",
+      "sha256": "ac620a5e4fab2cd7ee1bfd734375009b98e1743e4ef7d8bd68f53c61962e30e9"
+    },
+    {
+      "filename": "comparison-signal-ru.png",
+      "locale": "ru",
+      "kind": "comparison",
+      "view": "process",
+      "design": "signal",
+      "theme": "dark",
+      "capture": "interface",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "a91bc6e83ba3fa40be33d5febaf27ca1ffbaa4da350d9323ff9b5055834e80cc",
+      "htmlSha256": "a5a3329424d7d95e66021d926c4884324dea62d2f89f907ed41f41017c8cf4b6",
+      "sha256": "0a9d1597d47827e36618aa17df0d208247192998196e96df19d51d0c11ea3126"
+    },
+    {
+      "filename": "funnel-stages-ru.png",
+      "locale": "ru",
+      "kind": "funnel",
+      "view": "stages",
+      "design": "signal",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "df9870ed46afe90fdbd2e60abf2fac03f48d600e9dedcf1c16789c607f228dbb",
+      "htmlSha256": "008638a14c1ec3ed0fd036e4f3c6b89a6a4ad03ee7f76f5774ac7ccef0dd83c8",
+      "sha256": "2b1bb48c4be5677d9dc1d2b04f260d0a8f4dab65432ae7e1b255d96b360b2d9a"
+    },
+    {
+      "filename": "funnel-flows-ru.png",
+      "locale": "ru",
+      "kind": "funnel",
+      "view": "flows",
+      "design": "signal",
+      "theme": "light",
+      "capture": "export",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "df9870ed46afe90fdbd2e60abf2fac03f48d600e9dedcf1c16789c607f228dbb",
+      "htmlSha256": "008638a14c1ec3ed0fd036e4f3c6b89a6a4ad03ee7f76f5774ac7ccef0dd83c8",
+      "sha256": "d5ba0123ba8d91765107cbc8e467985f867fd5d944cea49d23054d794da5da7e"
+    },
+    {
+      "filename": "funnel-table-ru.png",
+      "locale": "ru",
+      "kind": "funnel",
+      "view": "table",
+      "design": "graphite",
+      "theme": "light",
+      "capture": "interface",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "df9870ed46afe90fdbd2e60abf2fac03f48d600e9dedcf1c16789c607f228dbb",
+      "htmlSha256": "008638a14c1ec3ed0fd036e4f3c6b89a6a4ad03ee7f76f5774ac7ccef0dd83c8",
+      "sha256": "96b8512c0973ea78df72fa44318c0b35e90439c2d45906daceedd6116e0804ed"
+    },
+    {
+      "filename": "funnel-workshop-ru.png",
+      "locale": "ru",
+      "kind": "funnel",
+      "view": "stages",
+      "design": "workshop",
+      "theme": "light",
+      "capture": "interface",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sourceSha256": "df9870ed46afe90fdbd2e60abf2fac03f48d600e9dedcf1c16789c607f228dbb",
+      "htmlSha256": "008638a14c1ec3ed0fd036e4f3c6b89a6a4ad03ee7f76f5774ac7ccef0dd83c8",
+      "sha256": "0f1e3108c92d8c194166726343b2e1359c86a74deaf5c7ddf9e7fc2ca5453f77"
+    }
+  ]
+}
